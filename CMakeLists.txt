@@ -9,6 +9,10 @@ add_executable(${PROJECT_NAME}
 	src/Loader/Window.h
 	src/Loader/GLLoad.cpp
 	src/Loader/GLLoad.h
+	src/Resources/ResourceManager.cpp
+	src/Resources/ResourceManager.h
+	src/Resources/ShaderProgram.h
+	src/Resources/ShaderProgram.cpp
 	)
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
@@ -28,3 +32,7 @@ add_subdirectory(external/glm)
 target_link_libraries(${PROJECT_NAME} glm)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/)
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+	COMMAND ${CMAKE_COMMAND} -E copy_directory
+	${CMAKE_SOURCE_DIR}/res $<TARGET_FILE_DIR:${PROJECT_NAME}>/res)

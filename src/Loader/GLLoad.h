@@ -2,7 +2,7 @@
 
 namespace Loader
 {
-	static class GLLoad
+	class GLLoad
 	{
 	public:
 		static bool glfw_init();

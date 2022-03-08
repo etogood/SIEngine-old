@@ -9,21 +9,23 @@ namespace Loader
 {
 	bool GLLoad::glfw_init()
 	{
-		if (glfwInit())
-			return true;
-		std::cerr << "glfwInit failed!";
-		return false;
+		if (!glfwInit())
+		{
+			std::cerr << "glfwInit failed!";
+			return false;
+		}
+		return true;
 	}
 	bool GLLoad::glad_init()
 	{
-		if (gladLoadGL())
+		if (!gladLoadGL())
 		{
-			std::cout << "Renderer : " << glGetString(GL_RENDERER) << std::endl;
-			std::cout << "OpenGL version : " << glGetString(GL_VERSION) << std::endl;
-			return true;
+			std::cout << "Can't load GLAD!" << std::endl;
+			return false;
 		}
-		std::cout << "Can't load GLAD!" << std::endl;
-		return false;
+		std::cout << "Renderer : " << glGetString(GL_RENDERER) << std::endl;
+		std::cout << "OpenGL version : " << glGetString(GL_VERSION) << std::endl;
+		return true;
 	}
 
 }
