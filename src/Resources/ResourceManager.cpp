@@ -4,7 +4,7 @@
 #include <iostream>
 #include <sstream>
 
-#include "ShaderProgram.h"
+#include "../Render/ShaderProgram.h"
 
 namespace Resources
 {
@@ -38,7 +38,7 @@ namespace Resources
 		m_shader_programs_.clear();
 	}
 
-	std::shared_ptr<Renderer::ShaderProgram> ResourceManager::get_shader_program(const std::string& shader_name)
+	std::shared_ptr<Render::ShaderProgram> ResourceManager::get_shader_program(const std::string& shader_name)
 	{
 		shader_program_map::const_iterator it = m_shader_programs_.find(shader_name);
 		if (it == m_shader_programs_.end())
@@ -49,7 +49,7 @@ namespace Resources
 		return it->second;
 	}
 
-	std::shared_ptr<Renderer::ShaderProgram> ResourceManager::load_shaders(const std::string& shader_name, const std::string& vertex_path, const std::string& fragment_path)
+	std::shared_ptr<Render::ShaderProgram> ResourceManager::load_shaders(const std::string& shader_name, const std::string& vertex_path, const std::string& fragment_path)
 	{
 		std::string vertex_string = get_file_string(vertex_path);
 		if (vertex_string.empty())
@@ -65,7 +65,7 @@ namespace Resources
 			return nullptr;
 		}
 
-		std::shared_ptr<Renderer::ShaderProgram>& new_shader = m_shader_programs_.emplace(shader_name, std::make_shared<Renderer::ShaderProgram>(vertex_string, fragment_string)).first->second;
+		std::shared_ptr<Render::ShaderProgram>& new_shader = m_shader_programs_.emplace(shader_name, std::make_shared<Render::ShaderProgram>(vertex_string, fragment_string)).first->second;
 		if (!new_shader->is_compiled())
 		{
 			std::cerr

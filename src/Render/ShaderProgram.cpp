@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-namespace Renderer
+namespace Render
 {
 	ShaderProgram::ShaderProgram(const std::string& vertex_shader, const std::string& fragment_shader)
 	{

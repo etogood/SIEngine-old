@@ -11,8 +11,14 @@ add_executable(${PROJECT_NAME}
 	src/Loader/GLLoad.h
 	src/Resources/ResourceManager.cpp
 	src/Resources/ResourceManager.h
-	src/Resources/ShaderProgram.h
-	src/Resources/ShaderProgram.cpp
+	src/Render/ShaderProgram.h
+	src/Render/ShaderProgram.cpp
+	src/Render/VertexArray.h
+	src/Render/VertexArray.cpp
+	src/Render/VertexBuffer.h
+	src/Render/VertexBuffer.cpp
+	src/Render/VertexBufferLayout.cpp
+	src/Render/VertexBufferLayout.h
 	)
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
