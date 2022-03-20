@@ -15,7 +15,7 @@ namespace Render
 			return;
 		}
 		GLuint fragment_shader_id;
-		if (!create_shader(fragment_shader, GL_VERTEX_SHADER, fragment_shader_id))
+		if (!create_shader(fragment_shader, GL_FRAGMENT_SHADER, fragment_shader_id))
 		{
 			std::cerr << "FRAGMENT SHADER compile time error!";
 			glDeleteShader(vertex_shader_id);
@@ -27,7 +27,7 @@ namespace Render
 		glLinkProgram(m_id_);
 
 		GLint success;
-		glGetProgramiv(m_id_, GL_LINK_STATUS, &success);
+		glGetShaderiv(m_id_, GL_LINK_STATUS, &success);
 		if (!success)
 		{
 			GLchar info_log[1024];

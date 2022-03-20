@@ -1,13 +1,10 @@
 #include "VertexArray.h"
 
-#include "VertexBuffer.h"
-#include "VertexBufferLayout.h"
-
 namespace Render
 {
 	VertexArray::VertexArray()
 	{
-		glCreateVertexArrays(1, &m_id_);
+		glGenVertexArrays(1, &m_id_);
 	}
 	VertexArray::~VertexArray()
 	{
@@ -41,10 +38,10 @@ namespace Render
 		for (unsigned i = 0; i < elements.size(); ++i)
 		{
 			const auto& [count, type, normalized, size] = elements[i];
-			const GLuint current_attribute_index = m_elements_count_ + i;
+			const GLuint current_attribute_index = i + m_elements_count_;
 			glEnableVertexAttribArray(current_attribute_index);
-			glVertexAttribPointer(current_attribute_index, size, type, normalized, layout.get_stride(), offset);
-			offset += size;
+			glVertexAttribPointer(current_attribute_index, count, type, normalized, layout.get_stride(), offset);
+			offset += elements.size();
 		}
 		m_elements_count_ += elements.size();
 	}

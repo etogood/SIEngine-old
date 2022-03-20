@@ -21,8 +21,13 @@ namespace Loader
 		void make_context_current() const;
 
 		GLFWwindow* get_window_pointer() const { return m_p_current_window_; };
-		
+
+		unsigned width() const { return m_width_; }
+		unsigned height() const { return m_height_; }
+
 	private:
 		GLFWwindow* m_p_current_window_;
+		unsigned m_width_ = 1080;
+		unsigned m_height_ = 720;
 	};
 }

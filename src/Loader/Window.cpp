@@ -5,7 +5,9 @@
 namespace Loader
 {
 	Window::Window(const glm::ivec2 size, const char* name, GLFWmonitor* monitor, GLFWwindow* share) :
-		m_p_current_window_(glfwCreateWindow(size.x, size.y, name, monitor, share))
+		m_p_current_window_(glfwCreateWindow(size.x, size.y, name, monitor, share)),
+		m_width_(size.x),
+		m_height_(size.y)
 	{
 	}
 

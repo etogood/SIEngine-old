@@ -11,14 +11,21 @@ add_executable(${PROJECT_NAME}
 	src/Loader/GLLoad.h
 	src/Resources/ResourceManager.cpp
 	src/Resources/ResourceManager.h
+	src/Resources/stb_image.h
 	src/Render/ShaderProgram.h
 	src/Render/ShaderProgram.cpp
 	src/Render/VertexArray.h
 	src/Render/VertexArray.cpp
 	src/Render/VertexBuffer.h
 	src/Render/VertexBuffer.cpp
+	src/Render/IndexBuffer.cpp
+	src/Render/IndexBuffer.h
 	src/Render/VertexBufferLayout.cpp
 	src/Render/VertexBufferLayout.h
+	src/Render/Sprite.cpp
+	src/Render/Sprite.h
+	src/Render/Texture2D.cpp
+	src/Render/Texture2D.h
 	)
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)

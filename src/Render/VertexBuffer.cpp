@@ -18,7 +18,7 @@ namespace Render
 
 	void VertexBuffer::init(const void* data, const unsigned size)
 	{
-		glCreateBuffers(1, &m_id_);
+		glGenBuffers(1, &m_id_);
 		glBindBuffer(GL_ARRAY_BUFFER, m_id_);
 		glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
 	}

@@ -2,6 +2,9 @@
 
 #include "glad/glad.h"
 
+#include "VertexBuffer.h"
+#include "VertexBufferLayout.h"
+
 namespace Render
 {
 	class VertexBuffer;

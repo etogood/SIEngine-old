@@ -18,8 +18,8 @@ namespace Render
 	public:
 		VertexBufferLayout();
 
-		unsigned get_stride() const;
-		const std::vector<VertexBufferLayoutElement>& get_layout_elements() const;
+		unsigned get_stride() const { return m_stride_; }
+		const std::vector<VertexBufferLayoutElement>& get_layout_elements() const { return m_layout_elements_; }
 
 		void reserve_elements(size_t count);
 		void add_element_layout_float(unsigned count, bool normalized);
