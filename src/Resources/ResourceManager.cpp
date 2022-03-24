@@ -12,6 +12,7 @@
 #include "../Render/Objects/Sprite.h"
 #include "../Render/Texture2D.h"
 #include "../Render/Objects/Scene.h"
+#include "../Render/Objects/Cube.h"
 
 namespace Resources
 {
@@ -20,6 +21,7 @@ namespace Resources
 	ResourceManager::sprites_map ResourceManager::m_sprites_;
 	ResourceManager::textures_2d_map ResourceManager::m_textures_2d_;
 	ResourceManager::scenes_map ResourceManager::m_scenes_;
+	ResourceManager::cubes_map ResourceManager::m_cubes_;
 
 	std::string ResourceManager::get_file_string(const std::string& relative_file_path)
 	{
@@ -51,6 +53,8 @@ namespace Resources
 		m_shader_programs_.clear();
 		m_sprites_.clear();
 		m_textures_2d_.clear();
+		m_scenes_.clear();
+		m_cubes_.clear();
 	}
 
 	std::shared_ptr<Render::ShaderProgram> ResourceManager::get_shader_program(const std::string& shader_name)
@@ -178,6 +182,35 @@ namespace Resources
 		if (it == m_scenes_.end())
 		{
 			std::cerr << "Can't find the scene: " << scene_name << std::endl;
+			return nullptr;
+		}
+		return it->second;
+	}
+
+	std::shared_ptr<Objects::Cube> ResourceManager::load_cube(const std::string& cube_name,
+		const std::string& texture_name, const unsigned cube_width, const unsigned cube_height, const unsigned cube_length,
+		const std::string& sub_texture_name)
+	{
+		auto p_texture = get_texture_2d(texture_name);
+		if (!p_texture)
+		{
+			std::cerr << "Can't find the texture " << texture_name << "for the sprite " << cube_name << std::endl;
+			return nullptr;
+		}
+		std::shared_ptr<Objects::Cube> new_sprite = m_cubes_
+			.emplace(texture_name, std::make_shared<Objects::Cube>(p_texture, sub_texture_name, glm::vec3(0.f), glm::vec3(cube_width, cube_height, cube_length)))
+			.first
+			->second;
+		return new_sprite;
+	}
+
+	std::shared_ptr<Objects::Cube> ResourceManager::get_cube(const std::string& cube_name)
+	{
+		if (cube_name == "default_setup") return nullptr;
+		const cubes_map::const_iterator it = m_cubes_.find(cube_name);
+		if (it == m_cubes_.end())
+		{
+			std::cerr << "Can't find the cube: " << cube_name << std::endl;
 			return nullptr;
 		}
 		return it->second;

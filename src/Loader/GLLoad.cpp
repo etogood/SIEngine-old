@@ -23,6 +23,7 @@ namespace Loader
 			std::cout << "Can't load GLAD!" << std::endl;
 			return false;
 		}
+		glEnable(GL_DEPTH_TEST);
 		std::cout << "Renderer : " << glGetString(GL_RENDERER) << std::endl;
 		std::cout << "OpenGL version : " << glGetString(GL_VERSION) << std::endl;
 		return true;

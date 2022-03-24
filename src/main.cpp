@@ -7,6 +7,7 @@
 #include "Loader/Window.h"
 #include "Loader/GLLoad.h"
 #include "Render/ShaderProgram.h"
+#include "Render/Objects/Cube.h"
 #include "Render/Objects/Sprite.h"
 #include "Render/Objects/Scene.h"
 #include "Resources/ResourceManager.h"
@@ -17,6 +18,7 @@ auto p_sprite = Resources::ResourceManager::get_sprite("default_setup");
 auto p_texture = Resources::ResourceManager::get_texture_2d("default_setup");
 auto p_shader_program = Resources::ResourceManager::get_shader_program("default_setup");
 auto p_scene = Resources::ResourceManager::get_scene("default_setup");
+auto p_cube = Resources::ResourceManager::get_cube("default_setup");
 
 void glfw_window_size_callback(GLFWwindow* pWindow, int width, int height)
 {
@@ -70,7 +72,7 @@ void main(int argc, char** argv)
 	p_window.make_context_current();
 	Loader::GLLoad::glad_init();
 
-	glClearColor(0.2f, 0.2f, 1.f, 0.5f);
+	glClearColor(0.2f, 0.2f, 1.f, 0.5f );
 	{
 		Resources::ResourceManager::set_executable_path(argv[0]);
 
@@ -91,7 +93,7 @@ void main(int argc, char** argv)
 		p_sprite = Resources::ResourceManager::load_sprite("DefaultSprite", "DefaultTexture", 16, 16);
 		if (!p_sprite)
 		{
-			std::cerr << "Can't load sprite program: " << "DefaultSprite" << std::endl;
+			std::cerr << "Can't load sprite: " << "DefaultSprite" << std::endl;
 			return;
 		}
 
@@ -102,14 +104,21 @@ void main(int argc, char** argv)
 			return;
 		}
 
+		p_cube = Resources::ResourceManager::load_cube("DefaultCube", "DefaultTexture", 10, 10, 10);
+		if (!p_cube)
+		{
+			std::cerr << "Can't load cube: " << "DefaultCube" << std::endl;
+			return;
+		}
+
 		while (!glfwWindowShouldClose(p_window.get_window_pointer()))
 		{
 			/* Render here */
-			glClear(GL_COLOR_BUFFER_BIT);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			p_scene->render();
 
-			p_sprite->draw();
-
+			//p_sprite->draw();
+			p_cube->draw();
 
 			/* Swap front and back buffers */
 			glfwSwapBuffers(p_window.get_window_pointer());

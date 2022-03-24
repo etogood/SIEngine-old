@@ -24,6 +24,7 @@ namespace Render
 				right_top_uv(1.f)
 			{}
 		};
+
 		Texture2D() = delete;
 		Texture2D(const Texture2D&) = delete;
 		Texture2D& operator=(const Texture2D&) = delete;

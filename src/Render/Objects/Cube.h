@@ -8,7 +8,7 @@ namespace Objects
 	{
 	public:
 		Cube() = delete;
-		~Cube() = delete;
+		~Cube() = default;
 		Cube(const Cube&) = delete;
 		Cube& operator=(const Cube&) = delete;
 
