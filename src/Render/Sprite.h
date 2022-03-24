@@ -35,11 +35,20 @@ namespace Render
 		void set_size(const glm::vec2& size);
 		void set_rotation(float rotation);
 
+		void set_camera_x(float camera_x);
+		void set_camera_y(float camera_y);
+		void set_camera_z(float camera_z);
+
 	private:
 		std::shared_ptr<Texture2D> m_p_texture_2d_;
 		std::shared_ptr<ShaderProgram> m_p_shader_program_;
 
 		glm::vec2 m_position_;
+
+		float m_camera_x_ = 1.f;
+		float m_camera_y_ = 1.f;
+		float m_camera_z_ = 1.f;
+
 		glm::vec2 m_size_;
 		float m_rotation_;
 

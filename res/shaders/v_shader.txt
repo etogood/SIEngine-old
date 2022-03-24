@@ -4,11 +4,9 @@ layout(location = 1) in vec2 texture_coords;
 
 out vec2 texCoords;
 
-uniform mat4 modelMat;
-uniform mat4 viewMat;
-uniform mat4 projectionMat;
+uniform mat4 mvp;
 
 void main() {
    texCoords = texture_coords;
-   gl_Position = projectionMat * viewMat * modelMat * vec4(vertex_position, 1.0);
+   gl_Position = mvp * vec4(vertex_position, 1.0);
 }

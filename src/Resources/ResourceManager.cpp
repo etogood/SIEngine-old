@@ -36,6 +36,9 @@ namespace Resources
 
 	void ResourceManager::set_executable_path(const std::string& executable_path)
 	{
+		m_shader_programs_.emplace("default_setup", nullptr);
+		m_sprites_.emplace("default_setup", nullptr);
+		m_textures_2d_.emplace("default_setup", nullptr);
 		const size_t found = executable_path.find_last_of("/\\");
 		m_path_ = executable_path.substr(0, found);
 	}
@@ -50,6 +53,7 @@ namespace Resources
 
 	std::shared_ptr<Render::ShaderProgram> ResourceManager::get_shader_program(const std::string& shader_name)
 	{
+		if (shader_name == "default_setup") return nullptr;
 		const shader_programs_map::const_iterator it = m_shader_programs_.find(shader_name);
 		if (it == m_shader_programs_.end())
 		{
@@ -114,6 +118,7 @@ namespace Resources
 
 	std::shared_ptr<Render::Texture2D> ResourceManager::get_texture_2d(const std::string& texture_name)
 	{
+		if (texture_name == "default_setup") return nullptr;
 		const textures_2d_map::const_iterator it = m_textures_2d_.find(texture_name);
 		if (it == m_textures_2d_.end())
 		{
@@ -146,6 +151,7 @@ namespace Resources
 
 	std::shared_ptr<Render::Sprite> ResourceManager::get_sprite(const std::string& sprite_name)
 	{
+		if (sprite_name == "default_setup") return nullptr;
 		const sprites_map::const_iterator it = m_sprites_.find(sprite_name);
 		if (it == m_sprites_.end())
 		{

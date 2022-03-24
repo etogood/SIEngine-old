@@ -10,6 +10,16 @@
 
 namespace Render
 {
+	//Sprite::Sprite() : m_p_texture_2d_(nullptr),
+	//	m_p_shader_program_(nullptr),
+	//	m_position_(glm::vec2(0.f)),
+	//	m_camera_x_(0.f),
+	//	m_camera_y_(0.f),
+	//	m_size_(glm::vec2(1.f)),
+	//	m_rotation_(glm::radians(0.f))
+	//{
+	//}
+
 	Sprite::Sprite(std::shared_ptr<Texture2D> p_texture,
 		const std::string& initial_sub_texture,
 		std::shared_ptr<ShaderProgram> p_shader_program,
@@ -26,12 +36,12 @@ namespace Render
 
 		constexpr GLfloat vertex_coords[] =
 		{
-		//	 X	  Y
+			//	 X	  Y
 
-			0.f, 0.f,
-			0.f, 1.f,
-			1.f, 1.f,
-			1.f, 0.f,
+				0.f, 0.f,
+				0.f, 1.f,
+				1.f, 1.f,
+				1.f, 0.f,
 		};
 
 		const GLfloat texture_coords[] =
@@ -75,6 +85,21 @@ namespace Render
 		m_rotation_ = rotation;
 	}
 
+	void Sprite::set_camera_x(const float camera_x)
+	{
+		m_camera_x_ += camera_x;
+	}
+
+	void Sprite::set_camera_y(const float camera_y)
+	{
+		m_camera_y_ += camera_y;
+	}
+
+	void Sprite::set_camera_z(const float camera_z)
+	{
+		m_camera_z_ += camera_z;
+	}
+
 	void Sprite::set_size(const glm::vec2& size)
 	{
 		m_size_ = size;
@@ -83,33 +108,31 @@ namespace Render
 	void Sprite::render() const
 	{
 		m_p_shader_program_->use();
-
+	
 		glm::mat4 model(1.f);
-
-		model = translate(model, glm::vec3(m_position_, 0.f));
-		model = translate(model, glm::vec3(0.5f * m_size_.x, 0.5f * m_size_.y, 0.f));
-		model = rotate(model, glm::radians(m_rotation_), glm::vec3(1.f, 0.f, 0.f));
+	
+		//model = translate(model, glm::vec3(m_position_, 0.f));
+		//model = translate(model, glm::vec3(0.5f * m_size_.x, 0.5f * m_size_.y, 0.f));
+		//model = rotate(model, glm::radians(m_rotation_), glm::vec3(1.f, 0.f, 0.f));
 		//model = translate(model, glm::vec3(-0.5f * m_size_.x, -0.5f * m_size_.y, 0.f));
-		model = scale(model, glm::vec3(m_size_, 1.f));
-		
-		model = rotate(model, glm::radians(-55.f), glm::vec3(1.f, 0.f, 0.f));
-
-		glm::mat4 view(1.f);
-		view = translate(view, glm::vec3(0.f, 0.f, -3.f));
-
-		glm::mat4 projection = glm::perspective(glm::radians(45.f), 800.f / 600.f, 0.1f, 100.f);
-
-
+		//model = scale(model, glm::vec3(m_size_, 1.f));
+	
+		//model = rotate(model, glm::radians(-55.f), glm::vec3(1.f, 0.f, 0.f));
+	
+		const glm::mat4 view = lookAt(glm::vec3(m_camera_x_, m_camera_y_, m_camera_z_), glm::vec3(0.5f, 0.5f, 0.f), glm::vec3(0.f, 1.f, 0.f));
+	
+		const glm::mat4 projection = glm::perspective(glm::radians(30.f), 4.f / 3.f, 0.1f, 100.f);
+	
+		const glm::mat4 mvp = projection * view * model;
+	
 		m_vertex_array_.bind();
-
-		m_p_shader_program_->set_matrix4("modelMat", model);
-		m_p_shader_program_->set_matrix4("viewMat", view);
-		m_p_shader_program_->set_matrix4("projectionMat", projection);
-
+	
+		m_p_shader_program_->set_matrix4("mvp", mvp);
+	
 		glActiveTexture(GL_TEXTURE0);
 		m_p_texture_2d_->bind();
-
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+	
+		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 		VertexArray::unbind();
 	}
 }
