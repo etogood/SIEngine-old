@@ -5,9 +5,14 @@
 
 namespace Render
 {
+	class Scene;
 	class Texture2D;
-	class Sprite;
 	class ShaderProgram;
+}
+
+namespace Objects
+{
+	class Sprite;
 }
 
 namespace Resources
@@ -32,12 +37,18 @@ namespace Resources
 		static std::shared_ptr<Render::Texture2D> load_texture_2d(const std::string& texture_name, const std::string& texture_path);
 		static std::shared_ptr<Render::Texture2D> get_texture_2d(const std::string& texture_name);
 
-		static std::shared_ptr<Render::Sprite> load_sprite(const std::string& sprite_name, const std::string& texture_name, const std::string& shader_name, unsigned sprite_width, unsigned sprite_height, const std::string& sub_texture_name = "default");
-		static std::shared_ptr<Render::Sprite> get_sprite(const std::string& sprite_name);
+		static std::shared_ptr<Objects::Sprite> load_sprite(const std::string& sprite_name, const std::string& texture_name, unsigned sprite_width, unsigned sprite_height, const std::string& sub_texture_name = "default");
+		static std::shared_ptr<Objects::Sprite> get_sprite(const std::string& sprite_name);
+
+		static std::shared_ptr<Render::Scene> load_scene(const std::string& scene_name, const std::string& shader_name);
+		static std::shared_ptr<Render::Scene> get_scene(const std::string& scene_name);
 	private:
 		static std::string m_path_;
 
 		static std::string get_file_string(const std::string& relative_file_path);
+
+		typedef std::map<const std::string, std::shared_ptr<Render::Scene>> scenes_map;
+		static scenes_map m_scenes_;
 
 		typedef std::map<const std::string, std::shared_ptr<Render::ShaderProgram>> shader_programs_map;
 		static shader_programs_map m_shader_programs_;
@@ -45,7 +56,7 @@ namespace Resources
 		typedef std::map<const std::string, std::shared_ptr<Render::Texture2D>> textures_2d_map;
 		static textures_2d_map m_textures_2d_;
 
-		typedef std::map<const std::string, std::shared_ptr<Render::Sprite>> sprites_map;
+		typedef std::map<const std::string, std::shared_ptr<Objects::Sprite>> sprites_map;
 		static sprites_map m_sprites_;
 	};
 }

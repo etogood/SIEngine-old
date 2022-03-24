@@ -9,8 +9,9 @@
 #include "stb_image.h"
 
 #include "../Render/ShaderProgram.h"
-#include "../Render/Sprite.h"
+#include "../Render/Objects/Sprite.h"
 #include "../Render/Texture2D.h"
+#include "../Render/Objects/Scene.h"
 
 namespace Resources
 {
@@ -18,6 +19,7 @@ namespace Resources
 	ResourceManager::shader_programs_map ResourceManager::m_shader_programs_;
 	ResourceManager::sprites_map ResourceManager::m_sprites_;
 	ResourceManager::textures_2d_map ResourceManager::m_textures_2d_;
+	ResourceManager::scenes_map ResourceManager::m_scenes_;
 
 	std::string ResourceManager::get_file_string(const std::string& relative_file_path)
 	{
@@ -128,7 +130,7 @@ namespace Resources
 		return it->second;
 	}
 
-	std::shared_ptr<Render::Sprite> ResourceManager::load_sprite(const std::string& sprite_name, const std::string& texture_name, const std::string& shader_name, const unsigned sprite_width, const unsigned sprite_height, const std::string& sub_texture_name)
+	std::shared_ptr<Objects::Sprite> ResourceManager::load_sprite(const std::string& sprite_name, const std::string& texture_name, const unsigned sprite_width, const unsigned sprite_height, const std::string& sub_texture_name)
 	{
 		auto p_texture = get_texture_2d(texture_name);
 		if (!p_texture)
@@ -136,26 +138,46 @@ namespace Resources
 			std::cerr << "Can't find the texture " << texture_name << "for the sprite " << sprite_name << std::endl;
 			return nullptr;
 		}
-		auto p_shader = get_shader_program(shader_name);
-		if (!p_shader)
-		{
-			std::cerr << "Can't find the shader program" << shader_name << "for the sprite " << sprite_name << std::endl;
-			return nullptr;
-		}
-		std::shared_ptr<Render::Sprite> new_sprite = m_sprites_
-			.emplace(texture_name, std::make_shared<Render::Sprite>(p_texture, sub_texture_name, p_shader, glm::vec2(0.f), glm::vec2(sprite_width, sprite_height)))
+		std::shared_ptr<Objects::Sprite> new_sprite = m_sprites_
+			.emplace(texture_name, std::make_shared<Objects::Sprite>(p_texture, sub_texture_name, glm::vec3(0.f), glm::vec2(sprite_width, sprite_height)))
 			.first
 			->second;
 		return new_sprite;
 	}
 
-	std::shared_ptr<Render::Sprite> ResourceManager::get_sprite(const std::string& sprite_name)
+	std::shared_ptr<Objects::Sprite> ResourceManager::get_sprite(const std::string& sprite_name)
 	{
 		if (sprite_name == "default_setup") return nullptr;
 		const sprites_map::const_iterator it = m_sprites_.find(sprite_name);
 		if (it == m_sprites_.end())
 		{
 			std::cerr << "Can't find the sprite: " << sprite_name << std::endl;
+			return nullptr;
+		}
+		return it->second;
+	}
+
+	std::shared_ptr<Render::Scene> ResourceManager::load_scene(const std::string& scene_name, const std::string& shader_name)
+	{
+		auto p_shader_program = get_shader_program(shader_name);
+		if (!p_shader_program)
+		{
+			std::cerr << "Can't find the shader program " << shader_name << "for the scene " << scene_name << std::endl;
+			return nullptr;
+		}
+		std::shared_ptr<Render::Scene> new_scene = m_scenes_.emplace(scene_name, std::make_shared<Render::Scene>(p_shader_program))
+		.first
+		->second;
+		return new_scene;
+	}
+
+	std::shared_ptr<Render::Scene> ResourceManager::get_scene(const std::string& scene_name)
+	{
+		if (scene_name == "default_setup") return nullptr;
+		const scenes_map::const_iterator it = m_scenes_.find(scene_name);
+		if (it == m_scenes_.end())
+		{
+			std::cerr << "Can't find the scene: " << scene_name << std::endl;
 			return nullptr;
 		}
 		return it->second;

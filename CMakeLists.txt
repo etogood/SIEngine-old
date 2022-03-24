@@ -22,10 +22,14 @@ add_executable(${PROJECT_NAME}
 	src/Render/IndexBuffer.h
 	src/Render/VertexBufferLayout.cpp
 	src/Render/VertexBufferLayout.h
-	src/Render/Sprite.cpp
-	src/Render/Sprite.h
+	src/Render/Objects/Scene.cpp
+	src/Render/Objects/Scene.h
+	src/Render/Objects/Sprite.cpp
+	src/Render/Objects/Sprite.h
 	src/Render/Texture2D.cpp
 	src/Render/Texture2D.h
+	src/Render/Objects/Cube.h
+	src/Render/Objects/Cube.cpp
 	)
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)

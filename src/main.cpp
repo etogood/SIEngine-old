@@ -1,5 +1,4 @@
 #include <iostream>
-#include <vector>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/vec2.hpp>
@@ -8,8 +7,8 @@
 #include "Loader/Window.h"
 #include "Loader/GLLoad.h"
 #include "Render/ShaderProgram.h"
-#include "Render/Sprite.h"
-#include "Render/Texture2D.h"
+#include "Render/Objects/Sprite.h"
+#include "Render/Objects/Scene.h"
 #include "Resources/ResourceManager.h"
 
 glm::ivec2 default_window_size(800, 600);
@@ -17,6 +16,7 @@ glm::ivec2 default_window_size(800, 600);
 auto p_sprite = Resources::ResourceManager::get_sprite("default_setup");
 auto p_texture = Resources::ResourceManager::get_texture_2d("default_setup");
 auto p_shader_program = Resources::ResourceManager::get_shader_program("default_setup");
+auto p_scene = Resources::ResourceManager::get_scene("default_setup");
 
 void glfw_window_size_callback(GLFWwindow* pWindow, int width, int height)
 {
@@ -31,37 +31,32 @@ void glfw_key_callback(GLFWwindow* pWindow, int key, int scancode, int action, i
 	{
 		glfwSetWindowShouldClose(pWindow, GL_TRUE);
 	}
-	if (key == GLFW_KEY_UP)
-	{
-		p_sprite->set_camera_x(0.01f);
-	}
 	switch (key)
 	{
 	case GLFW_KEY_UP:
 		if (mode == GLFW_MOD_SHIFT)
 		{
-			p_sprite->set_camera_z(0.01f);
+			p_scene->set_camera_z(-0.1f);
 			break;
 		}
-		p_sprite->set_camera_y(0.01f);
+		p_scene->set_camera_y(0.1f);
 		break;
 	case GLFW_KEY_DOWN:
 		if (mode == GLFW_MOD_SHIFT)
 		{
-			p_sprite->set_camera_z(-0.01f);
+			p_scene->set_camera_z(0.1f);
 			break;
 		}
-		p_sprite->set_camera_y(-0.01f);
+		p_scene->set_camera_y(-0.1f);
 		break;
 	case GLFW_KEY_LEFT:
-		p_sprite->set_camera_x(-0.01f);
+		p_scene->set_camera_x(-0.1f);
 		break;
 	case GLFW_KEY_RIGHT:
-		p_sprite->set_camera_x(0.01f);
+		p_scene->set_camera_x(0.1f);
 		break;
 	}
 }
-
 
 void main(int argc, char** argv)
 {
@@ -79,10 +74,6 @@ void main(int argc, char** argv)
 	{
 		Resources::ResourceManager::set_executable_path(argv[0]);
 
-
-
-
-
 		p_shader_program = Resources::ResourceManager::load_shaders("DefaultShader", "res/shaders/v_shader.txt", "res/shaders/f_shader.txt");
 		if (!p_shader_program)
 		{
@@ -97,51 +88,35 @@ void main(int argc, char** argv)
 			return;
 		}
 
-		p_sprite = Resources::ResourceManager::load_sprite("DefaultSprite", "DefaultTexture", "DefaultShader", 16, 16);
+		p_sprite = Resources::ResourceManager::load_sprite("DefaultSprite", "DefaultTexture", 16, 16);
 		if (!p_sprite)
 		{
 			std::cerr << "Can't load sprite program: " << "DefaultSprite" << std::endl;
 			return;
 		}
 
+		p_scene = Resources::ResourceManager::load_scene("DefaultScene", "DefaultShader");
+		if (!p_scene)
+		{
+			std::cerr << "Can't loat scene: " << "DefaultScene" << std::endl;
+			return;
+		}
 
-
-
-		//p_sprite->set_position(glm::vec2(100));
-		p_sprite->set_size(glm::vec2(400));
-
-		const glm::mat4 projection_matrix = glm::ortho(0.f, static_cast<float>(p_window.width()), 0.f, static_cast<float>(p_window.height()), -100.f, 100.f);
-
-		p_shader_program->use();
-		p_shader_program->set_int("tex", 0);
-		p_shader_program->set_matrix4("projectionMat", projection_matrix);
-
-
-
-
-
-
-
-
-
-
-		
 		while (!glfwWindowShouldClose(p_window.get_window_pointer()))
 		{
 			/* Render here */
 			glClear(GL_COLOR_BUFFER_BIT);
-			p_sprite->render();
+			p_scene->render();
+
+			p_sprite->draw();
+
+
 			/* Swap front and back buffers */
 			glfwSwapBuffers(p_window.get_window_pointer());
+
 			/* Poll for and process events */
 			glfwPollEvents();
 		}
-
-
-
-
-
-
 
 		Resources::ResourceManager::unload_all_resources();
 	}
