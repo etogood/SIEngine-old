@@ -119,6 +119,7 @@ void main(int argc, char** argv)
 
 			//p_sprite->draw();
 			p_cube->draw();
+			//p_sprite->draw();
 
 			/* Swap front and back buffers */
 			glfwSwapBuffers(p_window.get_window_pointer());

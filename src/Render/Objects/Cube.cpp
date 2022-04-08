@@ -11,100 +11,132 @@ namespace Objects
 		m_size_(size),
 		m_rotation_(rotation)
 	{
-		const auto sub_texture = m_p_texture_2d_->get_sub_texture(initial_sub_texture);
+		const auto &sub_texture = m_p_texture_2d_->get_sub_texture(initial_sub_texture);
 
 		constexpr GLfloat vertex_coords[] = {
-		//	 X	  Y	   Z
+			//	 X	  Y	   Z
+
+			//0.f, 0.f, 0.f, //near side
+			//0.f, 1.f, 0.f,
+			//1.f, 1.f, 0.f,
+			//1.f, 0.f, 0.f, 
+			//
+			//1.f, 0.f, 0.f, //right side
+			//1.f, 1.f, 0.f,
+			//1.f, 1.f, 1.f, 
+			//1.f, 0.f, 1.f,
+			//
+			//1.f, 1.f, 0.f, //up side
+			//0.f, 1.f, 0.f,
+			//0.f, 1.f, 1.f,
+			//1.f, 1.f, 1.f, 
+			//
+			//0.f, 0.f, 1.f, //left side
+			//0.f, 1.f, 1.f, 
+			//0.f, 1.f, 0.f,
+			//0.f, 0.f, 0.f,
+			//
+			//1.f, 0.f, 1.f, //back side
+			//0.f, 0.f, 1.f,
+			//0.f, 1.f, 1.f, 
+			//1.f, 1.f, 1.f, 
+			//
+			//0.f, 0.f, 1.f, //down side
+			//0.f, 0.f, 0.f,
+			//1.f, 0.f, 0.f,
+			//1.f, 0.f, 1.f,
 
 			0.f, 0.f, 0.f, //near side
 			0.f, 1.f, 0.f,
 			1.f, 1.f, 0.f,
 			1.f, 0.f, 0.f,
 
-			0.f, 0.f, 1.f, //left side
+			0.f, 0.f, 1.f, //near side
 			0.f, 1.f, 1.f,
-			0.f, 1.f, 0.f,
-			0.f, 0.f, 0.f,
-
-			0.f, 0.f, 1.f, //down side
-			0.f, 0.f, 0.f,
-			1.f, 0.f, 0.f,
-			1.f, 0.f, 1.f,
-
-			1.f, 0.f, 0.f, //right side
-			1.f, 1.f, 0.f,
 			1.f, 1.f, 1.f,
 			1.f, 0.f, 1.f,
-
-			1.f, 0.f, 1.f, //back side
-			1.f, 1.f, 1.f,
-			0.f, 1.f, 1.f,
-			0.f, 0.f, 1.f,
-
-			0.f, 1.f, 0.f, //up side
-			0.f, 1.f, 1.f,
-			1.f, 1.f, 1.f,
-			1.f, 1.f, 0.f,
 		};
 
 		const GLfloat texture_coords[] = {
 			sub_texture.left_bottom_uv.x, sub_texture.left_bottom_uv.y,
-			sub_texture.right_top_uv.x, sub_texture.left_bottom_uv.y,
 			sub_texture.right_top_uv.x, sub_texture.right_top_uv.y,
 			sub_texture.left_bottom_uv.x, sub_texture.right_top_uv.y,
+			sub_texture.right_top_uv.x, sub_texture.left_bottom_uv.y,
 
 			sub_texture.left_bottom_uv.x, sub_texture.left_bottom_uv.y,
-			sub_texture.right_top_uv.x, sub_texture.left_bottom_uv.y,
 			sub_texture.right_top_uv.x, sub_texture.right_top_uv.y,
 			sub_texture.left_bottom_uv.x, sub_texture.right_top_uv.y,
+			sub_texture.right_top_uv.x, sub_texture.left_bottom_uv.y,sub_texture.left_bottom_uv.x, sub_texture.left_bottom_uv.y,
+			sub_texture.right_top_uv.x, sub_texture.right_top_uv.y,
+			sub_texture.left_bottom_uv.x, sub_texture.right_top_uv.y,
+			sub_texture.right_top_uv.x, sub_texture.left_bottom_uv.y,sub_texture.left_bottom_uv.x, sub_texture.left_bottom_uv.y,
+			sub_texture.right_top_uv.x, sub_texture.right_top_uv.y,
+			sub_texture.left_bottom_uv.x, sub_texture.right_top_uv.y,
+			sub_texture.right_top_uv.x, sub_texture.left_bottom_uv.y,sub_texture.left_bottom_uv.x, sub_texture.left_bottom_uv.y,
+			sub_texture.right_top_uv.x, sub_texture.right_top_uv.y,
+			sub_texture.left_bottom_uv.x, sub_texture.right_top_uv.y,
+			sub_texture.right_top_uv.x, sub_texture.left_bottom_uv.y,sub_texture.left_bottom_uv.x, sub_texture.left_bottom_uv.y,
+			sub_texture.right_top_uv.x, sub_texture.right_top_uv.y,
+			sub_texture.left_bottom_uv.x, sub_texture.right_top_uv.y,
+			sub_texture.right_top_uv.x, sub_texture.left_bottom_uv.y,sub_texture.left_bottom_uv.x, sub_texture.left_bottom_uv.y,
+			sub_texture.right_top_uv.x, sub_texture.right_top_uv.y,
+			sub_texture.left_bottom_uv.x, sub_texture.right_top_uv.y,
+			sub_texture.right_top_uv.x, sub_texture.left_bottom_uv.y,sub_texture.left_bottom_uv.x, sub_texture.left_bottom_uv.y,
+			sub_texture.right_top_uv.x, sub_texture.right_top_uv.y,
+			sub_texture.left_bottom_uv.x, sub_texture.right_top_uv.y,
+			sub_texture.right_top_uv.x, sub_texture.left_bottom_uv.y,sub_texture.left_bottom_uv.x, sub_texture.left_bottom_uv.y,
+			sub_texture.right_top_uv.x, sub_texture.right_top_uv.y,
+			sub_texture.left_bottom_uv.x, sub_texture.right_top_uv.y,
+			sub_texture.right_top_uv.x, sub_texture.left_bottom_uv.y,
 
-			sub_texture.left_bottom_uv.x, sub_texture.left_bottom_uv.y,
-			sub_texture.right_top_uv.x, sub_texture.left_bottom_uv.y,
-			sub_texture.right_top_uv.x, sub_texture.right_top_uv.y,
-			sub_texture.left_bottom_uv.x, sub_texture.right_top_uv.y,
 
-			sub_texture.left_bottom_uv.x, sub_texture.left_bottom_uv.y,
-			sub_texture.right_top_uv.x, sub_texture.left_bottom_uv.y,
-			sub_texture.right_top_uv.x, sub_texture.right_top_uv.y,
-			sub_texture.left_bottom_uv.x, sub_texture.right_top_uv.y,
-
-			sub_texture.left_bottom_uv.x, sub_texture.left_bottom_uv.y,
-			sub_texture.right_top_uv.x, sub_texture.left_bottom_uv.y,
-			sub_texture.right_top_uv.x, sub_texture.right_top_uv.y,
-			sub_texture.left_bottom_uv.x, sub_texture.right_top_uv.y,
-
-			sub_texture.left_bottom_uv.x, sub_texture.left_bottom_uv.y,
-			sub_texture.right_top_uv.x, sub_texture.left_bottom_uv.y,
-			sub_texture.right_top_uv.x, sub_texture.right_top_uv.y,
-			sub_texture.left_bottom_uv.x, sub_texture.right_top_uv.y,
 		};
 
-		const GLuint indices[] = {
-			0, 1, 2,
-			2, 3, 0,
+		constexpr GLuint indices[] = {
+			//0, 1, 2,
+			//2, 3, 0,
+			//
+			//4, 5, 6,
+			//6, 7, 4,
+			//
+			//8, 9, 10,
+			//10, 11, 8,
+			//
+			//12, 13, 14,
+			//14, 15, 12,
+			//
+			//16, 17, 18,
+			//18, 19, 16,
+			//
+			//20, 21, 22,
+			//22, 23, 20,
+				0U, 1U, 2U,
+				2U, 3U, 0U,
+				
+				3U, 2U, 6U,
+				6U, 7U, 3U,
+				
+				6U, 2U, 1U,
+				1U, 5U, 6U,
+				
+				4U, 5U, 1U,
+				1U, 0U, 4U,
+				
+				4U, 5U, 6U,
+				6U, 7U, 4U,
+				
+				4U, 7U, 3U,
+				3U, 0U, 4U,
 
-			0, 1, 2,
-			2, 3, 0,
 
-			0, 1, 2,
-			2, 3, 0,
-
-			0, 1, 2,
-			2, 3, 0,
-
-			0, 1, 2,
-			2, 3, 0,
-
-			0, 1, 2,
-			2, 3, 0,
 		};
 
-		m_vertex_coords_buffer_.init(vertex_coords, 6 * 6 * 3 * sizeof GLfloat);
+		m_vertex_coords_buffer_.init(vertex_coords, 3 * 6 * 6 * sizeof GLfloat);
 		Render::VertexBufferLayout vertex_coords_layout;
 		vertex_coords_layout.add_element_layout_float(3, false);
 		m_vertex_array_.add_buffer(m_vertex_coords_buffer_, vertex_coords_layout);
 
-		m_texture_coords_buffer_.init(texture_coords, 6 * 6 * 3 * sizeof GLfloat);
+		m_texture_coords_buffer_.init(texture_coords, 3 * 6 * 6 * sizeof GLfloat);
 		Render::VertexBufferLayout texture_coords_layout;
 		texture_coords_layout.add_element_layout_float(3, false);
 		m_vertex_array_.add_buffer(m_texture_coords_buffer_, texture_coords_layout);
@@ -137,8 +169,7 @@ namespace Objects
 		glActiveTexture(GL_TEXTURE0);
 		m_p_texture_2d_->bind();
 
-		glDrawArrays(GL_TRIANGLES, 0, 36);
-		//glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);
 		Render::VertexArray::unbind();
 	}
 }
