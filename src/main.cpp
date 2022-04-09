@@ -83,7 +83,7 @@ void main(int argc, char** argv)
 			return;
 		}
 
-		p_texture = Resources::ResourceManager::load_texture_2d("DefaultTexture", "res/textures_2d/container.png");
+		p_texture = Resources::ResourceManager::load_texture_2d("DefaultTexture", "res/textures_2d/tesak.jpg");
 		if (!p_texture)
 		{
 			std::cerr << "Can't load texture: " << "DefaultTexture" << std::endl;
