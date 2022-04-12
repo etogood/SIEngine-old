@@ -1,35 +1,32 @@
 #pragma once
 
-#include "Sprite.h"
+#include <memory>
+#include <string>
 
-namespace Objects
-{
-	class Cube
-	{
+#include "NullObject.h"
+#include "../Texture2D.h"
+#include "../ShaderProgram.h"
+
+namespace Objects {
+	class Cube : public NullObject {
 	public:
 		Cube() = delete;
-		~Cube() = default;
+
+		~Cube() override = default;
 		Cube(const Cube&) = delete;
 		Cube& operator=(const Cube&) = delete;
 
 		Cube(std::shared_ptr<Render::Texture2D> p_texture,
-			const std::string& initial_sub_texture,
-			const glm::vec3& position = glm::vec3(0.f),
-			const glm::vec3& size = glm::vec3(1.f),
-			float rotation = 0.f);
+			 const std::string &initial_sub_texture,
+			 const std::shared_ptr<Render::ShaderProgram>& p_shader_program);
 
-		void draw() const;
+		virtual void draw() const;
 
-		void set_position(const glm::vec3& position);
-		void set_size(const glm::vec3& size);
-		void set_rotation(float rotation);
+
 
 	private:
 		std::shared_ptr<Render::Texture2D> m_p_texture_2d_;
-
-		glm::vec3 m_position_;
-		glm::vec3 m_size_;
-		float m_rotation_;
+		std::shared_ptr<Render::ShaderProgram> m_p_shader_program;
 
 		Render::VertexBuffer m_texture_coords_buffer_;
 		Render::VertexBuffer m_vertex_coords_buffer_;

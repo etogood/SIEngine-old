@@ -2,17 +2,19 @@
 
 #include <memory>
 
-namespace Render
-{
+namespace Render {
 	class ShaderProgram;
+
 	class Texture2D;
 
-	class Scene
-	{
+	class Scene {
 	public:
 		Scene() = delete;
-		Scene(const Scene&) = delete;
-		Scene& operator=(const Scene&) = delete;
+
+		Scene(const Scene &) = delete;
+
+		Scene &operator=(const Scene &) = delete;
+
 		virtual ~Scene() = default;
 
 		Scene(std::shared_ptr<ShaderProgram> p_shader_program);
@@ -20,7 +22,9 @@ namespace Render
 		virtual void render() const;
 
 		void set_camera_x(float camera_x);
+
 		void set_camera_y(float camera_y);
+
 		void set_camera_z(float camera_z);
 
 	private:

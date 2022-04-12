@@ -5,21 +5,17 @@
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 
-namespace Loader
-{
-	bool GLLoad::glfw_init()
-	{
-		if (!glfwInit())
-		{
+namespace Loader {
+	bool GLLoad::glfw_init() {
+		if (!glfwInit()) {
 			std::cerr << "glfwInit failed!";
 			return false;
 		}
 		return true;
 	}
-	bool GLLoad::glad_init()
-	{
-		if (!gladLoadGL())
-		{
+
+	bool GLLoad::glad_init() {
+		if (!gladLoadGL()) {
 			std::cout << "Can't load GLAD!" << std::endl;
 			return false;
 		}

@@ -20,48 +20,41 @@ auto p_shader_program = Resources::ResourceManager::get_shader_program("default_
 auto p_scene = Resources::ResourceManager::get_scene("default_setup");
 auto p_cube = Resources::ResourceManager::get_cube("default_setup");
 
-void glfw_window_size_callback(GLFWwindow* pWindow, int width, int height)
-{
+void glfw_window_size_callback(GLFWwindow *pWindow, int width, int height) {
 	default_window_size.x = width;
 	default_window_size.y = height;
 	glViewport(0, 0, default_window_size.x, default_window_size.y);
 }
 
-void glfw_key_callback(GLFWwindow* pWindow, int key, int scancode, int action, int mode)
-{
-	if (key == GLFW_KEY_ESCAPE)
-	{
+void glfw_key_callback(GLFWwindow *pWindow, int key, int scancode, int action, int mode) {
+	if (key == GLFW_KEY_ESCAPE) {
 		glfwSetWindowShouldClose(pWindow, GL_TRUE);
 	}
-	switch (key)
-	{
-	case GLFW_KEY_UP:
-		if (mode == GLFW_MOD_SHIFT)
-		{
-			p_scene->set_camera_z(-0.1f);
+	switch (key) {
+		case GLFW_KEY_UP:
+			if (mode == GLFW_MOD_SHIFT) {
+				p_scene->set_camera_z(-0.1f);
+				break;
+			}
+			p_scene->set_camera_y(0.1f);
 			break;
-		}
-		p_scene->set_camera_y(0.1f);
-		break;
-	case GLFW_KEY_DOWN:
-		if (mode == GLFW_MOD_SHIFT)
-		{
-			p_scene->set_camera_z(0.1f);
+		case GLFW_KEY_DOWN:
+			if (mode == GLFW_MOD_SHIFT) {
+				p_scene->set_camera_z(0.1f);
+				break;
+			}
+			p_scene->set_camera_y(-0.1f);
 			break;
-		}
-		p_scene->set_camera_y(-0.1f);
-		break;
-	case GLFW_KEY_LEFT:
-		p_scene->set_camera_x(-0.1f);
-		break;
-	case GLFW_KEY_RIGHT:
-		p_scene->set_camera_x(0.1f);
-		break;
+		case GLFW_KEY_LEFT:
+			p_scene->set_camera_x(-0.1f);
+			break;
+		case GLFW_KEY_RIGHT:
+			p_scene->set_camera_x(0.1f);
+			break;
 	}
 }
 
-void main(int argc, char** argv)
-{
+void main(int argc, char **argv) {
 	Loader::GLLoad::glfw_init();
 	const auto p_window = Loader::Window(default_window_size, "SIEngine", nullptr, nullptr);
 
@@ -72,47 +65,42 @@ void main(int argc, char** argv)
 	p_window.make_context_current();
 	Loader::GLLoad::glad_init();
 
-	glClearColor(0.2f, 0.2f, 1.f, 0.5f );
+	glClearColor(0.2f, 0.2f, 1.f, 0.5f);
 	{
 		Resources::ResourceManager::set_executable_path(argv[0]);
 
-		p_shader_program = Resources::ResourceManager::load_shaders("DefaultShader", "res/shaders/v_shader.txt", "res/shaders/f_shader.txt");
-		if (!p_shader_program)
-		{
+		p_shader_program = Resources::ResourceManager::load_shaders("DefaultShader", "res/shaders/v_shader.txt",
+																	"res/shaders/f_shader.txt");
+		if (!p_shader_program) {
 			std::cerr << "Can't load shader program: " << "DefaultShader" << std::endl;
 			return;
 		}
 
 		p_texture = Resources::ResourceManager::load_texture_2d("DefaultTexture", "res/textures_2d/tesak.jpg");
-		if (!p_texture)
-		{
+		if (!p_texture) {
 			std::cerr << "Can't load texture: " << "DefaultTexture" << std::endl;
 			return;
 		}
 
 		p_sprite = Resources::ResourceManager::load_sprite("DefaultSprite", "DefaultTexture", 16, 16);
-		if (!p_sprite)
-		{
+		if (!p_sprite) {
 			std::cerr << "Can't load sprite: " << "DefaultSprite" << std::endl;
 			return;
 		}
 
 		p_scene = Resources::ResourceManager::load_scene("DefaultScene", "DefaultShader");
-		if (!p_scene)
-		{
+		if (!p_scene) {
 			std::cerr << "Can't loat scene: " << "DefaultScene" << std::endl;
 			return;
 		}
 
-		p_cube = Resources::ResourceManager::load_cube("DefaultCube", "DefaultTexture", 10, 10, 10);
-		if (!p_cube)
-		{
+		p_cube = Resources::ResourceManager::load_cube("DefaultCube", "DefaultTexture", "DefaultShader", 100, 100, 100);
+		if (!p_cube) {
 			std::cerr << "Can't load cube: " << "DefaultCube" << std::endl;
 			return;
 		}
 
-		while (!glfwWindowShouldClose(p_window.get_window_pointer()))
-		{
+		while (!glfwWindowShouldClose(p_window.get_window_pointer())) {
 			/* Render here */
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			p_scene->render();

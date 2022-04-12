@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.22.2 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.21.1 FATAL_ERROR)
 
 set(PROJECT_NAME SIEngine)
 project(${PROJECT_NAME} VERSION 0.1.0 LANGUAGES CXX C)
@@ -30,7 +30,7 @@ add_executable(${PROJECT_NAME}
 	src/Render/Texture2D.h
 	src/Render/Objects/Cube.h
 	src/Render/Objects/Cube.cpp
-	)
+		src/Render/Objects/NullObject.cpp src/Render/Objects/NullObject.h)
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 

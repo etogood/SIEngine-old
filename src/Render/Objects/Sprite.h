@@ -11,26 +11,29 @@
 #include "../IndexBuffer.h"
 #include "../Texture2D.h"
 
-namespace Objects
-{
-	class Sprite
-	{
+namespace Objects {
+	class Sprite {
 	public:
 		Sprite() = delete;
-		Sprite(const Sprite&) = delete;
-		Sprite& operator=(const Sprite&) = delete;
+
+		Sprite(const Sprite &) = delete;
+
+		Sprite &operator=(const Sprite &) = delete;
+
 		virtual ~Sprite() = default;
 
 		Sprite(std::shared_ptr<Render::Texture2D> p_texture,
-			const std::string& initial_sub_texture,
-			const glm::vec3& position = glm::vec3(0.f),
-			const glm::vec2& size = glm::vec2(1.f),
-			float rotation = 0.f);
+			   const std::string &initial_sub_texture,
+			   const glm::vec3 &position = glm::vec3(0.f),
+			   const glm::vec2 &size = glm::vec2(1.f),
+			   float rotation = 0.f);
 
 		virtual void draw() const;
 
-		void set_position(const glm::vec3& position);
-		void set_size(const glm::vec2& size);
+		void set_position(const glm::vec3 &position);
+
+		void set_size(const glm::vec2 &size);
+
 		void set_rotation(float rotation);
 
 	private:

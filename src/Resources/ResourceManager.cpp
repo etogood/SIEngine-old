@@ -14,8 +14,7 @@
 #include "../Render/Objects/Scene.h"
 #include "../Render/Objects/Cube.h"
 
-namespace Resources
-{
+namespace Resources {
 	std::string ResourceManager::m_path_;
 	ResourceManager::shader_programs_map ResourceManager::m_shader_programs_;
 	ResourceManager::sprites_map ResourceManager::m_sprites_;
@@ -23,13 +22,11 @@ namespace Resources
 	ResourceManager::scenes_map ResourceManager::m_scenes_;
 	ResourceManager::cubes_map ResourceManager::m_cubes_;
 
-	std::string ResourceManager::get_file_string(const std::string& relative_file_path)
-	{
+	std::string ResourceManager::get_file_string(const std::string &relative_file_path) {
 		std::ifstream f;
 
 		f.open(m_path_ + "/" + relative_file_path, std::ios::in | std::ios::binary);
-		if (!f.is_open())
-		{
+		if (!f.is_open()) {
 			std::cerr << "Failed to open file: " << relative_file_path << std::endl;
 			return std::string{};
 		}
@@ -38,8 +35,7 @@ namespace Resources
 		return buffer.str();
 	}
 
-	void ResourceManager::set_executable_path(const std::string& executable_path)
-	{
+	void ResourceManager::set_executable_path(const std::string &executable_path) {
 		m_shader_programs_.emplace("default_setup", nullptr);
 		m_sprites_.emplace("default_setup", nullptr);
 		m_textures_2d_.emplace("default_setup", nullptr);
@@ -47,8 +43,7 @@ namespace Resources
 		m_path_ = executable_path.substr(0, found);
 	}
 
-	void ResourceManager::unload_all_resources()
-	{
+	void ResourceManager::unload_all_resources() {
 		m_path_.clear();
 		m_shader_programs_.clear();
 		m_sprites_.clear();
@@ -57,159 +52,161 @@ namespace Resources
 		m_cubes_.clear();
 	}
 
-	std::shared_ptr<Render::ShaderProgram> ResourceManager::get_shader_program(const std::string& shader_name)
-	{
+	std::shared_ptr<Render::ShaderProgram> ResourceManager::get_shader_program(const std::string &shader_name) {
 		if (shader_name == "default_setup") return nullptr;
 		const shader_programs_map::const_iterator it = m_shader_programs_.find(shader_name);
-		if (it == m_shader_programs_.end())
-		{
+		if (it == m_shader_programs_.end()) {
 			std::cerr << "Can't find shader program: " << shader_name << std::endl;
 			return nullptr;
 		}
 		return it->second;
 	}
 
-	std::shared_ptr<Render::ShaderProgram> ResourceManager::load_shaders(const std::string& shader_name, const std::string& vertex_path, const std::string& fragment_path)
-	{
+	std::shared_ptr<Render::ShaderProgram>
+	ResourceManager::load_shaders(const std::string &shader_name, const std::string &vertex_path,
+								  const std::string &fragment_path) {
 		std::string vertex_string = get_file_string(vertex_path);
-		if (vertex_string.empty())
-		{
+		if (vertex_string.empty()) {
 			std::cerr << "No vertex shader!" << std::endl;
 			return nullptr;
 		}
 
 		std::string fragment_string = get_file_string(fragment_path);
-		if (fragment_string.empty())
-		{
+		if (fragment_string.empty()) {
 			std::cerr << "No fragment shader!" << std::endl;
 			return nullptr;
 		}
 
-		std::shared_ptr<Render::ShaderProgram>& new_shader = m_shader_programs_.emplace(shader_name, std::make_shared<Render::ShaderProgram>(vertex_string, fragment_string)).first->second;
-		if (!new_shader->is_compiled())
-		{
+		std::shared_ptr<Render::ShaderProgram> &new_shader = m_shader_programs_.emplace(shader_name,
+																						std::make_shared<Render::ShaderProgram>(
+																								vertex_string,
+																								fragment_string)).first->second;
+		if (!new_shader->is_compiled()) {
 			std::cerr
-				<< "Can't load shader programs:\nVertex: "
-				<< vertex_path
-				<< "\nFragment: "
-				<< fragment_path
-				<< std::endl;
+					<< "Can't load shader programs:\nVertex: "
+					<< vertex_path
+					<< "\nFragment: "
+					<< fragment_path
+					<< std::endl;
 			return nullptr;
 		}
 		return new_shader;
 	}
 
-	std::shared_ptr<Render::Texture2D> ResourceManager::load_texture_2d(const std::string& texture_name, const std::string& texture_path)
-	{
+	std::shared_ptr<Render::Texture2D>
+	ResourceManager::load_texture_2d(const std::string &texture_name, const std::string &texture_path) {
 		int channels = 0;
 		int width = 0;
 		int height = 0;
 
 		stbi_set_flip_vertically_on_load(true);
-		unsigned char* pixels = stbi_load(std::string(m_path_ + "/" + texture_path).c_str(), &width, &height, &channels, STBI_rgb_alpha);
+		unsigned char *pixels = stbi_load(std::string(m_path_ + "/" + texture_path).c_str(), &width, &height, &channels,
+										  STBI_rgb_alpha);
 
-		if (!pixels)
-		{
+		if (!pixels) {
 			std::cerr << "Can't load image: " << texture_path << std::endl;
 			return nullptr;
 		}
 
 		std::shared_ptr<Render::Texture2D> new_texture = m_textures_2d_
-			.emplace(texture_name, std::make_shared<Render::Texture2D>(width, height, pixels, GL_NEAREST, GL_CLAMP_TO_EDGE))
-			.first
-			->second;
+				.emplace(texture_name,
+						 std::make_shared<Render::Texture2D>(width, height, pixels, GL_NEAREST, GL_CLAMP_TO_EDGE))
+				.first
+				->second;
 		stbi_image_free(pixels);
 		return new_texture;
 	}
 
-	std::shared_ptr<Render::Texture2D> ResourceManager::get_texture_2d(const std::string& texture_name)
-	{
+	std::shared_ptr<Render::Texture2D> ResourceManager::get_texture_2d(const std::string &texture_name) {
 		if (texture_name == "default_setup") return nullptr;
 		const textures_2d_map::const_iterator it = m_textures_2d_.find(texture_name);
-		if (it == m_textures_2d_.end())
-		{
+		if (it == m_textures_2d_.end()) {
 			std::cerr << "Can't find the texture: " << texture_name << std::endl;
 			return nullptr;
 		}
 		return it->second;
 	}
 
-	std::shared_ptr<Objects::Sprite> ResourceManager::load_sprite(const std::string& sprite_name, const std::string& texture_name, const unsigned sprite_width, const unsigned sprite_height, const std::string& sub_texture_name)
-	{
+	std::shared_ptr<Objects::Sprite>
+	ResourceManager::load_sprite(const std::string &sprite_name, const std::string &texture_name,
+								 const unsigned sprite_width, const unsigned sprite_height,
+								 const std::string &sub_texture_name) {
 		auto p_texture = get_texture_2d(texture_name);
-		if (!p_texture)
-		{
+		if (!p_texture) {
 			std::cerr << "Can't find the texture " << texture_name << "for the sprite " << sprite_name << std::endl;
 			return nullptr;
 		}
 		std::shared_ptr<Objects::Sprite> new_sprite = m_sprites_
-			.emplace(texture_name, std::make_shared<Objects::Sprite>(p_texture, sub_texture_name, glm::vec3(0.f), glm::vec2(sprite_width, sprite_height)))
-			.first
-			->second;
+				.emplace(texture_name, std::make_shared<Objects::Sprite>(p_texture, sub_texture_name, glm::vec3(0.f),
+																		 glm::vec2(sprite_width, sprite_height)))
+				.first
+				->second;
 		return new_sprite;
 	}
 
-	std::shared_ptr<Objects::Sprite> ResourceManager::get_sprite(const std::string& sprite_name)
-	{
+	std::shared_ptr<Objects::Sprite> ResourceManager::get_sprite(const std::string &sprite_name) {
 		if (sprite_name == "default_setup") return nullptr;
 		const sprites_map::const_iterator it = m_sprites_.find(sprite_name);
-		if (it == m_sprites_.end())
-		{
+		if (it == m_sprites_.end()) {
 			std::cerr << "Can't find the sprite: " << sprite_name << std::endl;
 			return nullptr;
 		}
 		return it->second;
 	}
 
-	std::shared_ptr<Render::Scene> ResourceManager::load_scene(const std::string& scene_name, const std::string& shader_name)
-	{
+	std::shared_ptr<Render::Scene>
+	ResourceManager::load_scene(const std::string &scene_name, const std::string &shader_name) {
 		auto p_shader_program = get_shader_program(shader_name);
-		if (!p_shader_program)
-		{
+		if (!p_shader_program) {
 			std::cerr << "Can't find the shader program " << shader_name << "for the scene " << scene_name << std::endl;
 			return nullptr;
 		}
-		std::shared_ptr<Render::Scene> new_scene = m_scenes_.emplace(scene_name, std::make_shared<Render::Scene>(p_shader_program))
-		.first
-		->second;
+		std::shared_ptr<Render::Scene> new_scene = m_scenes_.emplace(scene_name,
+																	 std::make_shared<Render::Scene>(p_shader_program))
+				.first
+				->second;
 		return new_scene;
 	}
 
-	std::shared_ptr<Render::Scene> ResourceManager::get_scene(const std::string& scene_name)
-	{
+	std::shared_ptr<Render::Scene> ResourceManager::get_scene(const std::string &scene_name) {
 		if (scene_name == "default_setup") return nullptr;
 		const scenes_map::const_iterator it = m_scenes_.find(scene_name);
-		if (it == m_scenes_.end())
-		{
+		if (it == m_scenes_.end()) {
 			std::cerr << "Can't find the scene: " << scene_name << std::endl;
 			return nullptr;
 		}
 		return it->second;
 	}
 
-	std::shared_ptr<Objects::Cube> ResourceManager::load_cube(const std::string& cube_name,
-		const std::string& texture_name, const unsigned cube_width, const unsigned cube_height, const unsigned cube_length,
-		const std::string& sub_texture_name)
-	{
+	std::shared_ptr<Objects::Cube> ResourceManager::load_cube(const std::string &cube_name,
+															  const std::string &texture_name,
+															  const std::string &shader_program_name,
+															  const unsigned cube_width, const unsigned cube_height,
+															  const unsigned cube_length,
+															  const std::string &sub_texture_name) {
 		auto p_texture = get_texture_2d(texture_name);
-		if (!p_texture)
-		{
+		if (!p_texture) {
 			std::cerr << "Can't find the texture " << texture_name << "for the sprite " << cube_name << std::endl;
 			return nullptr;
 		}
-		std::shared_ptr<Objects::Cube> new_sprite = m_cubes_
-			.emplace(texture_name, std::make_shared<Objects::Cube>(p_texture, sub_texture_name, glm::vec3(0.f), glm::vec3(cube_width, cube_height, cube_length)))
-			.first
-			->second;
-		return new_sprite;
+		auto p_shader_program = get_shader_program(shader_program_name);
+		if (!p_shader_program) {
+			std::cerr << "Can't find the texture " << shader_program_name << "for the sprite " << cube_name
+					  << std::endl;
+			return nullptr;
+		}
+		std::shared_ptr<Objects::Cube> new_cube = m_cubes_
+				.emplace(texture_name, std::make_shared<Objects::Cube>(p_texture, sub_texture_name, p_shader_program))
+				.first
+				->second;
+		new_cube->set_size(glm::vec3(cube_width, cube_height, cube_length));
+		return new_cube;
 	}
 
-	std::shared_ptr<Objects::Cube> ResourceManager::get_cube(const std::string& cube_name)
-	{
+	std::shared_ptr<Objects::Cube> ResourceManager::get_cube(const std::string &cube_name) {
 		if (cube_name == "default_setup") return nullptr;
 		const cubes_map::const_iterator it = m_cubes_.find(cube_name);
-		if (it == m_cubes_.end())
-		{
+		if (it == m_cubes_.end()) {
 			std::cerr << "Can't find the cube: " << cube_name << std::endl;
 			return nullptr;
 		}
