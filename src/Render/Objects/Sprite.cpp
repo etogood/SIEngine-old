@@ -42,17 +42,17 @@ namespace Objects {
 						2, 3, 0
 				};
 
-		m_vertex_coords_buffer_.init(vertex_coords, 4 * 2 * sizeof GLfloat);
+		m_vertex_coords_buffer_.init(vertex_coords, 4 * 2 * sizeof(GLfloat));
 		Render::VertexBufferLayout vertex_coords_layout;
 		vertex_coords_layout.add_element_layout_float(2, false);
 		m_vertex_array_.add_buffer(m_vertex_coords_buffer_, vertex_coords_layout);
 
-		m_texture_coords_buffer_.init(texture_coords, 4 * 2 * sizeof GLfloat);
+		m_texture_coords_buffer_.init(texture_coords, 4 * 2 * sizeof(GLfloat));
 		Render::VertexBufferLayout texture_coords_layout;
 		texture_coords_layout.add_element_layout_float(2, false);
 		m_vertex_array_.add_buffer(m_texture_coords_buffer_, texture_coords_layout);
 
-		m_index_buffer_.init(indices, 2 * 3 * sizeof GLuint);
+		m_index_buffer_.init(indices, 2 * 3 * sizeof(GLuint));
 
 		Render::VertexArray::unbind();
 		Render::IndexBuffer::unbind();

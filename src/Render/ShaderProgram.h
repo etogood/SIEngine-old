@@ -2,6 +2,7 @@
 
 #include <string>
 #include <glad/glad.h>
+
 #include <glm/mat4x4.hpp>
 
 namespace Render {

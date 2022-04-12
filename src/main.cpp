@@ -1,9 +1,8 @@
-#include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/vec2.hpp>
 #include <glm/ext/matrix_clip_space.hpp>
-
+#include <iostream>
 #include "Loader/Window.h"
 #include "Loader/GLLoad.h"
 #include "Render/ShaderProgram.h"
@@ -12,7 +11,7 @@
 #include "Render/Objects/Scene.h"
 #include "Resources/ResourceManager.h"
 
-glm::ivec2 default_window_size(800, 600);
+glm::ivec2 default_window_size(1080, 720);
 
 auto p_sprite = Resources::ResourceManager::get_sprite("default_setup");
 auto p_texture = Resources::ResourceManager::get_texture_2d("default_setup");
@@ -54,12 +53,12 @@ void glfw_key_callback(GLFWwindow *pWindow, int key, int scancode, int action, i
 	}
 }
 
-void main(int argc, char **argv) {
+int main(int argc, char **argv) {
 	Loader::GLLoad::glfw_init();
 	const auto p_window = Loader::Window(default_window_size, "SIEngine", nullptr, nullptr);
 
 	if (!p_window.init())
-		return;
+		return -1;
 	p_window.set_window_size_call_back(glfw_window_size_callback);
 	p_window.set_key_call_back(glfw_key_callback);
 	p_window.make_context_current();
@@ -69,41 +68,41 @@ void main(int argc, char **argv) {
 	{
 		Resources::ResourceManager::set_executable_path(argv[0]);
 
-		p_shader_program = Resources::ResourceManager::load_shaders("DefaultShader", "res/shaders/v_shader.txt",
-																	"res/shaders/f_shader.txt");
+		p_shader_program = Resources::ResourceManager::load_shaders("DefaultShader", "res/shaders/v_shader.vs",
+																	"res/shaders/f_shader.fs");
 		if (!p_shader_program) {
 			std::cerr << "Can't load shader program: " << "DefaultShader" << std::endl;
-			return;
+			return -1;
 		}
 
 		p_texture = Resources::ResourceManager::load_texture_2d("DefaultTexture", "res/textures_2d/tesak.jpg");
 		if (!p_texture) {
 			std::cerr << "Can't load texture: " << "DefaultTexture" << std::endl;
-			return;
+			return -1;
 		}
 
 		p_sprite = Resources::ResourceManager::load_sprite("DefaultSprite", "DefaultTexture", 16, 16);
 		if (!p_sprite) {
 			std::cerr << "Can't load sprite: " << "DefaultSprite" << std::endl;
-			return;
+			return -1;
 		}
 
 		p_scene = Resources::ResourceManager::load_scene("DefaultScene", "DefaultShader");
 		if (!p_scene) {
 			std::cerr << "Can't loat scene: " << "DefaultScene" << std::endl;
-			return;
+			return -1;
 		}
 
 		p_cube = Resources::ResourceManager::load_cube("DefaultCube", "DefaultTexture", "DefaultShader", 100, 100, 100);
 		if (!p_cube) {
 			std::cerr << "Can't load cube: " << "DefaultCube" << std::endl;
-			return;
+			return -1;
 		}
 
 		while (!glfwWindowShouldClose(p_window.get_window_pointer())) {
 			/* Render here */
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			p_scene->render();
+			p_scene->render(p_window.get_window_pointer());
 
 			//p_sprite->draw();
 			p_cube->draw();

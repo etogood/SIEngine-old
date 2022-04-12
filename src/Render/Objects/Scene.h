@@ -1,6 +1,8 @@
 #pragma once
 
 #include <memory>
+#include "../ShaderProgram.h"
+#include "GLFW/glfw3.h"
 
 namespace Render {
 	class ShaderProgram;
@@ -15,11 +17,11 @@ namespace Render {
 
 		Scene &operator=(const Scene &) = delete;
 
-		virtual ~Scene() = default;
+		~Scene() = default;
 
 		Scene(std::shared_ptr<ShaderProgram> p_shader_program);
 
-		virtual void render() const;
+		void render(GLFWwindow *p_window) const;
 
 		void set_camera_x(float camera_x);
 
