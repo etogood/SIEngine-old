@@ -17,16 +17,12 @@ namespace Objects {
 		Cube& operator=(const Cube&) = delete;
 
 		Cube(std::shared_ptr<Render::Texture2D> p_texture,
-             const std::string &initial_sub_texture,
-             std::shared_ptr<Render::ShaderProgram> p_shader_program);
+             const std::string &initial_sub_texture);
 
-		virtual void draw() const;
-
-
+		void draw() const override;
 
 	private:
 		std::shared_ptr<Render::Texture2D> m_p_texture_2d_;
-		std::shared_ptr<Render::ShaderProgram> m_p_shader_program;
 
 		Render::VertexBuffer m_texture_coords_buffer_;
 		Render::VertexBuffer m_vertex_coords_buffer_;

@@ -3,6 +3,8 @@
 #include <map>
 #include <memory>
 #include <string>
+#include "glm/vec3.hpp"
+#include "glm/vec2.hpp"
 
 namespace Render {
 	class Scene;
@@ -53,16 +55,15 @@ namespace Resources {
 		static std::shared_ptr<Render::Scene> get_scene(const std::string &scene_name);
 
 		static std::shared_ptr<Objects::Cube>
-		load_cube(const std::string &cube_name, const std::string &texture_name, const std::string &shader_program_name,
-				  unsigned cube_width,
-				  unsigned cube_height, unsigned cube_length,
+		load_cube(const std::string &cube_name, const std::string &texture_name,
+				  glm::vec3 xyz = glm::vec3(1.f),
 				  const std::string &sub_texture_name = "default");
 
 		static std::shared_ptr<Objects::Cube> get_cube(const std::string &cube_name);
 
 		static std::shared_ptr<Objects::Sprite>
-		load_sprite(const std::string &sprite_name, const std::string &texture_name, unsigned sprite_width,
-					unsigned sprite_height, const std::string &sub_texture_name = "default");
+		load_sprite(const std::string &sprite_name, const std::string &texture_name, glm::vec2 xy = glm::vec2(1.f),
+					const std::string &sub_texture_name = "default");
 
 		static std::shared_ptr<Objects::Sprite> get_sprite(const std::string &sprite_name);
 

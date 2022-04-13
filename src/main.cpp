@@ -81,27 +81,34 @@ int main(int argc, char **argv) {
 			return -1;
 		}
 
-		p_sprite = Resources::ResourceManager::load_sprite("DefaultSprite", "DefaultTexture", 16, 16);
+		p_sprite = Resources::ResourceManager::load_sprite("DefaultSprite", "DefaultTexture", glm::uvec2(2U));
 		if (!p_sprite) {
 			std::cerr << "Can't load sprite: " << "DefaultSprite" << std::endl;
 			return -1;
 		}
 
-		p_scene = Resources::ResourceManager::load_scene("DefaultScene", "DefaultShader");
-        if (!p_scene) {
-            std::cerr << "Can't loat scene: " << "DefaultScene" << std::endl;
-            return -1;
-        }
-
-        p_cube = Resources::ResourceManager::load_cube("DefaultCube", "DefaultTexture", "DefaultShader", 100, 100, 100);
+        p_cube = Resources::ResourceManager::load_cube("DefaultCube", "DefaultTexture");
         if (!p_cube) {
             std::cerr << "Can't load cube: " << "DefaultCube" << std::endl;
             return -1;
         }
 
+		p_scene = Resources::ResourceManager::load_scene("DefaultScene", "DefaultShader");
+		if (!p_scene) {
+			std::cerr << "Can't load scene: " << "DefaultScene" << std::endl;
+			return -1;
+		}
+
         std::vector<std::shared_ptr<Objects::NullObject>> objects = {
-                p_cube
+				 p_cube, p_sprite
         };
+
+		p_sprite->set_position(glm::vec3(3.f, 0.f, 0.f));
+		p_cube->set_position(glm::vec3(0.f, 0.f, 0.f));
+
+		//TODO Bug to fix: Sprite and Cube are the same size
+		p_sprite->set_size(glm::vec3(2.f, 2.f, 1.f));
+		p_cube->set_size(glm::vec3(2.f, 2.f, 2.f));
 
         while (!glfwWindowShouldClose(p_window.get_window_pointer())) {
             /* Render here */

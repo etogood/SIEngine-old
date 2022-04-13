@@ -7,10 +7,8 @@
 
 namespace Objects {
     Cube::Cube(std::shared_ptr<Render::Texture2D> p_texture,
-               const std::string &initial_sub_texture,
-               std::shared_ptr<Render::ShaderProgram> p_shader_program) :
-            m_p_texture_2d_(std::move(p_texture)),
-            m_p_shader_program(std::move(p_shader_program)) {
+               const std::string &initial_sub_texture) :
+            m_p_texture_2d_(std::move(p_texture)) {
 
 		constexpr GLfloat vertex_coords[] = {
 				//	 X	  Y	   Z

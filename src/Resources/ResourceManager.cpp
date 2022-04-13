@@ -10,7 +10,6 @@
 
 #include "../Render/ShaderProgram.h"
 #include "../Render/Objects/Sprite.h"
-#include "../Render/Texture2D.h"
 #include "../Render/Objects/Scene.h"
 #include "../Render/Objects/Cube.h"
 
@@ -54,7 +53,7 @@ namespace Resources {
 
 	std::shared_ptr<Render::ShaderProgram> ResourceManager::get_shader_program(const std::string &shader_name) {
 		if (shader_name == "default_setup") return nullptr;
-		const shader_programs_map::const_iterator it = m_shader_programs_.find(shader_name);
+		const auto it = m_shader_programs_.find(shader_name);
 		if (it == m_shader_programs_.end()) {
 			std::cerr << "Can't find shader program: " << shader_name << std::endl;
 			return nullptr;
@@ -119,7 +118,7 @@ namespace Resources {
 
 	std::shared_ptr<Render::Texture2D> ResourceManager::get_texture_2d(const std::string &texture_name) {
 		if (texture_name == "default_setup") return nullptr;
-		const textures_2d_map::const_iterator it = m_textures_2d_.find(texture_name);
+		const auto it = m_textures_2d_.find(texture_name);
 		if (it == m_textures_2d_.end()) {
 			std::cerr << "Can't find the texture: " << texture_name << std::endl;
 			return nullptr;
@@ -129,7 +128,7 @@ namespace Resources {
 
 	std::shared_ptr<Objects::Sprite>
 	ResourceManager::load_sprite(const std::string &sprite_name, const std::string &texture_name,
-								 const unsigned sprite_width, const unsigned sprite_height,
+								 glm::vec2 xy,
 								 const std::string &sub_texture_name) {
 		auto p_texture = get_texture_2d(texture_name);
 		if (!p_texture) {
@@ -137,16 +136,16 @@ namespace Resources {
 			return nullptr;
 		}
 		std::shared_ptr<Objects::Sprite> new_sprite = m_sprites_
-				.emplace(texture_name, std::make_shared<Objects::Sprite>(p_texture, sub_texture_name, glm::vec3(0.f),
-																		 glm::vec2(sprite_width, sprite_height)))
+				.emplace(texture_name, std::make_shared<Objects::Sprite>(p_texture, sub_texture_name))
 				.first
 				->second;
+		new_sprite->set_size(glm::vec3(xy, 0.f));
 		return new_sprite;
 	}
 
 	std::shared_ptr<Objects::Sprite> ResourceManager::get_sprite(const std::string &sprite_name) {
 		if (sprite_name == "default_setup") return nullptr;
-		const sprites_map::const_iterator it = m_sprites_.find(sprite_name);
+		const auto it = m_sprites_.find(sprite_name);
 		if (it == m_sprites_.end()) {
 			std::cerr << "Can't find the sprite: " << sprite_name << std::endl;
 			return nullptr;
@@ -170,7 +169,7 @@ namespace Resources {
 
 	std::shared_ptr<Render::Scene> ResourceManager::get_scene(const std::string &scene_name) {
 		if (scene_name == "default_setup") return nullptr;
-		const scenes_map::const_iterator it = m_scenes_.find(scene_name);
+		const auto it = m_scenes_.find(scene_name);
 		if (it == m_scenes_.end()) {
 			std::cerr << "Can't find the scene: " << scene_name << std::endl;
 			return nullptr;
@@ -180,32 +179,24 @@ namespace Resources {
 
 	std::shared_ptr<Objects::Cube> ResourceManager::load_cube(const std::string &cube_name,
 															  const std::string &texture_name,
-															  const std::string &shader_program_name,
-															  const unsigned cube_width, const unsigned cube_height,
-															  const unsigned cube_length,
+															  glm::vec3 xyz,
 															  const std::string &sub_texture_name) {
 		auto p_texture = get_texture_2d(texture_name);
 		if (!p_texture) {
 			std::cerr << "Can't find the texture " << texture_name << "for the sprite " << cube_name << std::endl;
 			return nullptr;
 		}
-		auto p_shader_program = get_shader_program(shader_program_name);
-		if (!p_shader_program) {
-			std::cerr << "Can't find the texture " << shader_program_name << "for the sprite " << cube_name
-					  << std::endl;
-			return nullptr;
-		}
 		std::shared_ptr<Objects::Cube> new_cube = m_cubes_
-				.emplace(texture_name, std::make_shared<Objects::Cube>(p_texture, sub_texture_name, p_shader_program))
+				.emplace(texture_name, std::make_shared<Objects::Cube>(p_texture, sub_texture_name))
 				.first
 				->second;
-		new_cube->set_size(glm::vec3(cube_width, cube_height, cube_length));
+		new_cube->set_size(glm::vec3(xyz));
 		return new_cube;
 	}
 
 	std::shared_ptr<Objects::Cube> ResourceManager::get_cube(const std::string &cube_name) {
 		if (cube_name == "default_setup") return nullptr;
-		const cubes_map::const_iterator it = m_cubes_.find(cube_name);
+		const auto it = m_cubes_.find(cube_name);
 		if (it == m_cubes_.end()) {
 			std::cerr << "Can't find the cube: " << cube_name << std::endl;
 			return nullptr;

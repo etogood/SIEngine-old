@@ -7,14 +7,8 @@
 
 namespace Objects {
 	Sprite::Sprite(std::shared_ptr<Render::Texture2D> p_texture,
-				   const std::string &initial_sub_texture,
-				   const glm::vec3 &position,
-				   const glm::vec2 &size,
-				   const float rotation) :
-			m_p_texture_2d_(std::move(p_texture)),
-			m_position_(position),
-			m_size_(size),
-			m_rotation_(rotation) {
+				   const std::string &initial_sub_texture) :
+			m_p_texture_2d_(std::move(p_texture)){
 		auto &sub_texture = m_p_texture_2d_->get_sub_texture(initial_sub_texture);
 
 		constexpr GLfloat vertex_coords[] =
