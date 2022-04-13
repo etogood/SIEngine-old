@@ -58,18 +58,6 @@ namespace Objects {
 		Render::IndexBuffer::unbind();
 	}
 
-	void Sprite::set_position(const glm::vec3 &position) {
-		m_position_ = position;
-	}
-
-	void Sprite::set_rotation(const float rotation) {
-		m_rotation_ = rotation;
-	}
-
-	void Sprite::set_size(const glm::vec2 &size) {
-		m_size_ = size;
-	}
-
 	void Sprite::draw() const {
 		m_vertex_array_.bind();
 

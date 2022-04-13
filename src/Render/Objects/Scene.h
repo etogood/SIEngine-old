@@ -20,9 +20,9 @@ namespace Render {
 
 		~Scene() = default;
 
-		Scene(std::shared_ptr<ShaderProgram> p_shader_program);
+		explicit Scene(std::shared_ptr<ShaderProgram> p_shader_program);
 
-        void render(GLFWwindow *p_window, std::vector<std::shared_ptr<Objects::NullObject>> objects) const;
+        void render(GLFWwindow *p_window, const std::vector<std::shared_ptr<Objects::NullObject>> &objects) const;
 
 		void set_camera_x(float camera_x);
 

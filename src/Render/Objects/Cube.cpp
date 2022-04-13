@@ -1,14 +1,16 @@
 #include "Cube.h"
+
+#include <utility>
 #include "glm/ext/matrix_transform.hpp"
 #include "glm/trigonometric.hpp"
 #include "glm/ext/matrix_clip_space.hpp"
 
 namespace Objects {
-	Cube::Cube(std::shared_ptr<Render::Texture2D> p_texture,
-			   const std::string &initial_sub_texture,
-			   const std::shared_ptr<Render::ShaderProgram>& p_shader_program) :
-			m_p_texture_2d_(std::move(p_texture)),
-			m_p_shader_program(std::move(p_shader_program)){
+    Cube::Cube(std::shared_ptr<Render::Texture2D> p_texture,
+               const std::string &initial_sub_texture,
+               std::shared_ptr<Render::ShaderProgram> p_shader_program) :
+            m_p_texture_2d_(std::move(p_texture)),
+            m_p_shader_program(std::move(p_shader_program)) {
 
 		constexpr GLfloat vertex_coords[] = {
 				//	 X	  Y	   Z
