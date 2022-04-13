@@ -1,6 +1,7 @@
 #include "Cube.h"
 #include "glm/ext/matrix_transform.hpp"
 #include "glm/trigonometric.hpp"
+#include "glm/ext/matrix_clip_space.hpp"
 
 namespace Objects {
 	Cube::Cube(std::shared_ptr<Render::Texture2D> p_texture,
@@ -115,21 +116,12 @@ namespace Objects {
 	}
 
 	void Cube::draw() const {
-		m_vertex_array_.bind();
+        m_vertex_array_.bind();
 
-		m_p_shader_program->use();
-		//glm::mat4 model(1.f);
-		//model = translate(model, glm::vec3(get_position()));
-		//model = translate(model, glm::vec3(get_size().x, 0.5f * get_size().y, get_size().z));
-		//model = rotate(model, glm::radians(get_rotation()), glm::vec3(0.f, 0.f, 1.f));
-		//model = translate(model, glm::vec3(-0.5f * get_size().x, -0.5f * get_size().y, get_size().z));
-		//model = scale(model, glm::vec3(get_size()));
-		//m_p_shader_program->set_matrix4("mvp", model);
+        glActiveTexture(GL_TEXTURE0);
+        m_p_texture_2d_->bind();
+        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);
 
-		glActiveTexture(GL_TEXTURE0);
-		m_p_texture_2d_->bind();
-
-		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);
-		Render::VertexArray::unbind();
-	}
+        Render::VertexArray::unbind();
+    }
 }

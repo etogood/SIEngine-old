@@ -1,11 +1,12 @@
 #pragma once
 
 #include <memory>
+#include <vector>
 #include "../ShaderProgram.h"
+#include "NullObject.h"
 #include "GLFW/glfw3.h"
 
 namespace Render {
-	class ShaderProgram;
 
 	class Texture2D;
 
@@ -21,7 +22,7 @@ namespace Render {
 
 		Scene(std::shared_ptr<ShaderProgram> p_shader_program);
 
-		void render(GLFWwindow *p_window) const;
+        void render(GLFWwindow *p_window, std::vector<std::shared_ptr<Objects::NullObject>> objects) const;
 
 		void set_camera_x(float camera_x);
 

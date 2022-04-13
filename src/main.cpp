@@ -88,30 +88,30 @@ int main(int argc, char **argv) {
 		}
 
 		p_scene = Resources::ResourceManager::load_scene("DefaultScene", "DefaultShader");
-		if (!p_scene) {
-			std::cerr << "Can't loat scene: " << "DefaultScene" << std::endl;
-			return -1;
-		}
+        if (!p_scene) {
+            std::cerr << "Can't loat scene: " << "DefaultScene" << std::endl;
+            return -1;
+        }
 
-		p_cube = Resources::ResourceManager::load_cube("DefaultCube", "DefaultTexture", "DefaultShader", 100, 100, 100);
-		if (!p_cube) {
-			std::cerr << "Can't load cube: " << "DefaultCube" << std::endl;
-			return -1;
-		}
+        p_cube = Resources::ResourceManager::load_cube("DefaultCube", "DefaultTexture", "DefaultShader", 100, 100, 100);
+        if (!p_cube) {
+            std::cerr << "Can't load cube: " << "DefaultCube" << std::endl;
+            return -1;
+        }
 
-		while (!glfwWindowShouldClose(p_window.get_window_pointer())) {
-			/* Render here */
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			p_scene->render(p_window.get_window_pointer());
+        std::vector<std::shared_ptr<Objects::NullObject>> objects = {
+                p_cube
+        };
 
-			//p_sprite->draw();
-			p_cube->draw();
-			//p_sprite->draw();
+        while (!glfwWindowShouldClose(p_window.get_window_pointer())) {
+            /* Render here */
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            p_scene->render(p_window.get_window_pointer(), objects);
 
-			/* Swap front and back buffers */
-			glfwSwapBuffers(p_window.get_window_pointer());
+            /* Swap front and back buffers */
+            glfwSwapBuffers(p_window.get_window_pointer());
 
-			/* Poll for and process events */
+            /* Poll for and process events */
 			glfwPollEvents();
 		}
 

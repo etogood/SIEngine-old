@@ -14,24 +14,26 @@
 namespace Objects {
 	class NullObject {
 	public:
-		explicit NullObject(glm::vec3 m_position_ = glm::vec3(1.f),
-				   glm::vec3 m_size_ = glm::vec3(1.f),
-				   float m_rotation_ = 0.f);
+        explicit NullObject(glm::vec3 m_position_ = glm::vec3(1.f),
+                            glm::vec3 m_size_ = glm::vec3(1.f),
+                            float m_rotation_ = 0.f);
 
-		virtual ~NullObject() = default;
+        virtual ~NullObject() = default;
 
-		NullObject(const NullObject &) = delete;
+        NullObject(const NullObject &) = delete;
 
-		NullObject &operator=(const NullObject &) = delete;
+        NullObject &operator=(const NullObject &) = delete;
 
-		void set_position(const glm::vec3 &position);
+        virtual void draw() const {};
 
-		void set_size(const glm::vec3 &size);
+        void set_position(const glm::vec3 &position);
 
-		void set_rotation(float rotation);
+        void set_size(const glm::vec3 &size);
+
+        void set_rotation(float rotation);
 
 
-		[[nodiscard]] glm::vec3 get_position() const { return m_position_;} ;
+        [[nodiscard]] glm::vec3 get_position() const { return m_position_; };
 
 		[[nodiscard]] glm::vec3 get_size() const { return m_size_; };
 
