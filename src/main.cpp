@@ -106,9 +106,11 @@ int main(int argc, char **argv) {
 		p_sprite->set_position(glm::vec3(3.f, 0.f, 0.f));
 		p_cube->set_position(glm::vec3(0.f, 0.f, 0.f));
 
-		//TODO Bug to fix: Sprite and Cube are the same size
-		p_sprite->set_size(glm::vec3(2.f, 2.f, 1.f));
-		p_cube->set_size(glm::vec3(2.f, 2.f, 2.f));
+		p_sprite->set_size(glm::vec3(2.f, 2.f, 0.f));
+		p_cube->set_size(glm::vec3(1.f, 1.f, 1.f));
+
+		p_sprite->set_rotation(0.f, glm::vec3(1.f, 1.f, 1.f));
+		p_cube->set_rotation(90.f, glm::vec3(0.f, 0.f, 1.f));
 
         while (!glfwWindowShouldClose(p_window.get_window_pointer())) {
             /* Render here */
@@ -121,7 +123,6 @@ int main(int argc, char **argv) {
             /* Poll for and process events */
 			glfwPollEvents();
 		}
-
 		Resources::ResourceManager::unload_all_resources();
 	}
 	glfwTerminate();

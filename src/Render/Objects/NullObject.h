@@ -14,9 +14,11 @@
 namespace Objects {
 	class NullObject {
 	public:
-        explicit NullObject(glm::vec3 m_position_ = glm::vec3(1.f),
+		typedef struct {float angle; glm::vec3 orientation;} rotation_t;
+
+		explicit NullObject(glm::vec3 m_position_ = glm::vec3(1.f),
                             glm::vec3 m_size_ = glm::vec3(1.f),
-                            float m_rotation_ = 0.f);
+                            rotation_t m_rotation_ = {0.f, glm::vec3(1.f)});
 
         virtual ~NullObject() = default;
 
@@ -30,20 +32,20 @@ namespace Objects {
 
         void set_size(const glm::vec3 &size);
 
-        void set_rotation(float rotation);
+        void set_rotation(float angle, glm::vec3 orientation);
 
 
         [[nodiscard]] glm::vec3 get_position() const { return m_position_; };
 
 		[[nodiscard]] glm::vec3 get_size() const { return m_size_; };
 
-		[[nodiscard]] float get_rotation() const { return m_rotation_; };
+		[[nodiscard]] rotation_t get_rotation() const { return m_rotation_; };
 
 
 	private:
 		glm::vec3 m_position_;
 		glm::vec3 m_size_;
-		float m_rotation_;
+		rotation_t m_rotation_;
 
 		Render::VertexBuffer m_texture_coords_buffer_;
 		Render::VertexBuffer m_vertex_coords_buffer_;

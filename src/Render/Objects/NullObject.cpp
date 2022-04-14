@@ -6,7 +6,7 @@
 
 namespace Objects {
 
-	NullObject::NullObject(glm::vec3 position, glm::vec3 size, float rotation) : m_position_(position),
+	NullObject::NullObject(glm::vec3 position, glm::vec3 size, rotation_t rotation) : m_position_(position),
 																				 m_rotation_(rotation),
 																				 m_size_(size) {
 	}
@@ -19,7 +19,7 @@ namespace Objects {
 		m_size_ = size;
 	}
 
-	void NullObject::set_rotation(float rotation) {
-		m_rotation_ = rotation;
+	void NullObject::set_rotation(float angle, glm::vec3 orientation) {
+		m_rotation_ = {angle, orientation};
 	}
 }
