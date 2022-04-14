@@ -16,19 +16,21 @@ namespace Loader {
 
 		~Window();
 
-		bool init() const;
+		[[nodiscard]] bool init() const;
 
-		void set_key_call_back(GLFWkeyfun callback) const;
+		void set_key_callback(GLFWkeyfun callback) const;
 
-		void set_window_size_call_back(GLFWwindowsizefun callback) const;
+		void set_window_size_callback(GLFWwindowsizefun callback) const;
+
+		void set_mouse_callback(GLFWcursorposfun callback) const;
 
 		void make_context_current() const;
 
-		GLFWwindow *get_window_pointer() const { return m_p_current_window_; };
+		[[nodiscard]] GLFWwindow *get_window_pointer() const { return m_p_current_window_; };
 
-		unsigned width() const { return m_width_; }
+		[[nodiscard]] unsigned width() const { return m_width_; }
 
-		unsigned height() const { return m_height_; }
+		[[nodiscard]] unsigned height() const { return m_height_; }
 
 	private:
 		GLFWwindow *m_p_current_window_;

@@ -26,12 +26,16 @@ namespace Loader {
 		return true;
 	}
 
-	void Window::set_key_call_back(const GLFWkeyfun callback) const {
+	void Window::set_key_callback(const GLFWkeyfun callback) const {
 		glfwSetKeyCallback(m_p_current_window_, callback);
 	}
 
-	void Window::set_window_size_call_back(const GLFWwindowsizefun callback) const {
+	void Window::set_window_size_callback(const GLFWwindowsizefun callback) const {
 		glfwSetWindowSizeCallback(m_p_current_window_, callback);
+	}
+
+	void Window::set_mouse_callback(GLFWcursorposfun callback) const {
+		glfwSetCursorPosCallback(m_p_current_window_, callback);
 	}
 
 	void Window::make_context_current() const {

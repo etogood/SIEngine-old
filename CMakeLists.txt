@@ -30,7 +30,7 @@ add_executable(${PROJECT_NAME}
 	src/Render/Texture2D.h
 	src/Render/Objects/Cube.h
 	src/Render/Objects/Cube.cpp
-		src/Render/Objects/NullObject.cpp src/Render/Objects/NullObject.h)
+		src/Render/Objects/NullObject.cpp src/Render/Objects/NullObject.h src/Render/Camera.cpp src/Render/Camera.h)
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 

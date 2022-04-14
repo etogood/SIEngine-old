@@ -20,6 +20,7 @@ namespace Resources {
 	ResourceManager::textures_2d_map ResourceManager::m_textures_2d_;
 	ResourceManager::scenes_map ResourceManager::m_scenes_;
 	ResourceManager::cubes_map ResourceManager::m_cubes_;
+	ResourceManager::camera_map ResourceManager::m_cameras_;
 
 	std::string ResourceManager::get_file_string(const std::string &relative_file_path) {
 		std::ifstream f;
@@ -132,7 +133,7 @@ namespace Resources {
 								 const std::string &sub_texture_name) {
 		auto p_texture = get_texture_2d(texture_name);
 		if (!p_texture) {
-			std::cerr << "Can't find the texture " << texture_name << "for the sprite " << sprite_name << std::endl;
+			std::cerr << "Can't find the texture: " << texture_name << " for the sprite " << sprite_name << std::endl;
 			return nullptr;
 		}
 		std::shared_ptr<Objects::Sprite> new_sprite = m_sprites_
@@ -199,6 +200,25 @@ namespace Resources {
 		const auto it = m_cubes_.find(cube_name);
 		if (it == m_cubes_.end()) {
 			std::cerr << "Can't find the cube: " << cube_name << std::endl;
+			return nullptr;
+		}
+		return it->second;
+	}
+
+	std::shared_ptr<Render::Camera>
+	ResourceManager::load_camera(const std::string &camera_name, float yaw, float pitch) {
+		std::shared_ptr<Render::Camera> new_camera = m_cameras_
+				.emplace(camera_name, std::make_shared<Render::Camera>(yaw, pitch))
+				.first
+				->second;
+		return new_camera;
+	}
+
+	std::shared_ptr<Render::Camera> ResourceManager::get_camera(const std::string &camera_name) {
+		if (camera_name == "default_setup") return nullptr;
+		const auto it = m_cameras_.find(camera_name);
+		if (it == m_cameras_.end()){
+			std::cerr << "Can't find the camera: " << camera_name << std::endl;
 			return nullptr;
 		}
 		return it->second;
