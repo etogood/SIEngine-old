@@ -16,6 +16,7 @@ float last_frame = 0.0f;
 
 auto p_sprite = Resources::ResourceManager::get_sprite("default_setup");
 auto p_texture = Resources::ResourceManager::get_texture_2d("default_setup");
+auto p_earth_texture = Resources::ResourceManager::get_texture_2d("default_setup");
 auto p_shader_program = Resources::ResourceManager::get_shader_program("default_setup");
 auto p_scene = Resources::ResourceManager::get_scene("default_setup");
 auto p_cube = Resources::ResourceManager::get_cube("default_setup");
@@ -94,13 +95,23 @@ int main(int argc, char **argv) {
 			return EXIT_FAILURE;
 		}
 
-		p_texture = Resources::ResourceManager::load_texture_2d("DefaultTexture", "res/textures_2d/tesak.jpg");
+		p_texture = Resources::ResourceManager::load_texture_2d("DefaultTexture", "res/textures_2d/container.png");
 		if (!p_texture) {
 			std::cerr << "Can't load texture: " << "DefaultTexture" << std::endl;
 			return EXIT_FAILURE;
 		}
 
+		p_earth_texture = Resources::ResourceManager::load_texture_2d("EarthTexture", "res/textures_2d/earth.jpg");
+		if (!p_earth_texture) {
+			std::cerr << "Can't load texture: " << "EarthTexture" << std::endl;
+			return EXIT_FAILURE;
+		}
+
 		p_camera = Resources::ResourceManager::load_camera("DefaultCamera", -90.f, 0.f);
+		if (!p_camera) {
+			std::cerr << "Can't load camera: " << "DefaultCamera" << std::endl;
+			return EXIT_FAILURE;
+		}
 		p_sprite = Resources::ResourceManager::load_sprite("DefaultSprite", "DefaultTexture", glm::uvec2(2U));
 		if (!p_sprite) {
             std::cerr << "Can't load sprite: " << "DefaultSprite" << std::endl;
@@ -113,7 +124,7 @@ int main(int argc, char **argv) {
             return EXIT_FAILURE;
         }
 
-        p_sphere = Resources::ResourceManager::load_sphere("DefaultSphere", "DefaultTexture", 50U, 50U);
+        p_sphere = Resources::ResourceManager::load_sphere("DefaultSphere", "EarthTexture", 25U, 25U);
         if (!p_sphere) {
             std::cerr << "Can't load sphere: " << "DefaultSphere" << std::endl;
             return EXIT_FAILURE;
@@ -130,13 +141,15 @@ int main(int argc, char **argv) {
         };
 
 		p_sprite->set_position(glm::vec3(3.f, 0.f, 0.f));
-		p_cube->set_position(glm::vec3(0.f, 0.f, 0.f));
+		p_cube->set_position(glm::vec3(1.f, 0.f, 0.f));
+		p_sphere->set_position(glm::vec3(-1.f, 0.f, 0.f));
 
 		p_sprite->set_size(glm::vec3(2.f, 2.f, 0.f));
 		p_cube->set_size(glm::vec3(1.f, 1.f, 1.f));
 
 		p_sprite->set_rotation(0.f, glm::vec3(1.f, 1.f, 1.f));
 		p_cube->set_rotation(90.f, glm::vec3(1.f, 0.f, 1.f));
+		p_sphere->set_rotation(180.f, glm::vec3(1.f, 0.f, 0.f));
 
         while (!glfwWindowShouldClose(p_window.get_window_pointer())) {
             auto current_frame = static_cast<float>(glfwGetTime());

@@ -10,7 +10,9 @@ namespace Objects {
                    const unsigned y_segments,
                    const unsigned x_segments) : m_p_texture_2d_(std::move(p_texture)), m_x_segments_(x_segments),
                                                 m_y_segments_(y_segments) {
-        for (size_t y = 0; y <= m_y_segments_; y++) {
+		const auto sub_texture = m_p_texture_2d_->get_sub_texture(initial_sub_texture);
+
+		for (size_t y = 0; y <= m_y_segments_; y++) {
             for (size_t x = 0; x <= m_x_segments_; x++) {
                 float xSegment = (float) x / (float) m_x_segments_;
                 float ySegment = (float) y / (float) m_y_segments_;
@@ -20,23 +22,14 @@ namespace Objects {
                 m_vertex_coords_.push_back(xPos);
                 m_vertex_coords_.push_back(yPos);
                 m_vertex_coords_.push_back(zPos);
+
+				m_texture_coords_.push_back(xSegment);
+				m_texture_coords_.push_back(ySegment);
+				m_texture_coords_.push_back(0);
             }
         }
 
-        const auto sub_texture = m_p_texture_2d_->get_sub_texture(initial_sub_texture);
 
-        //for (size_t y = 0; y <= m_y_segments_; y++){
-        //    for (size_t x = 0; x <= m_x_segments_; x++){
-        //        float xSegment = (float)x / (float)m_x_segments_;
-        //        float ySegment = (float)y / (float)m_y_segments_;
-        //        float xPos = sub_texture.left_bottom_uv.x;
-        //        float yPos = sub_texture.left_bottom_uv.y;
-        //        float zPos = 0;
-        //        m_texture_coords_.push_back(xPos);
-        //        m_texture_coords_.push_back(yPos);
-        //        m_texture_coords_.push_back(zPos);
-        //    }
-        //}
 
         for (size_t i = 0; i <= m_y_segments_; i++) {
             for (size_t j = 0; j <= m_x_segments_; j++) {
@@ -54,10 +47,10 @@ namespace Objects {
         vertex_coords_layout.add_element_layout_float(3, false);
         m_vertex_array_.add_buffer(m_vertex_coords_buffer_, vertex_coords_layout);
 
-        //|m_vertex_coords_buffer_.init(m_texture_coords_.data(), m_texture_coords_.size() * sizeof(GLfloat));
-        //|Render::VertexBufferLayout texture_coords_layout;
-        //|texture_coords_layout.add_element_layout_float(3, false);
-        //|m_vertex_array_.add_buffer(m_texture_coords_buffer_, texture_coords_layout);
+        m_texture_coords_buffer_.init(m_texture_coords_.data(), m_texture_coords_.size() * sizeof(GLfloat));
+        Render::VertexBufferLayout texture_coords_layout;
+        texture_coords_layout.add_element_layout_float(3, false);
+        m_vertex_array_.add_buffer(m_texture_coords_buffer_, texture_coords_layout);
 
         m_index_buffer_.init(m_indices_.data(), m_indices_.size() * sizeof(GLuint));
 
