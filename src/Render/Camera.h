@@ -5,7 +5,7 @@
 #ifndef SIENGINE_CAMERA_H
 #define SIENGINE_CAMERA_H
 
-#include <GL/gl.h>
+
 #include "glm/vec3.hpp"
 #include "glm/ext/matrix_float4x4.hpp"
 
@@ -19,8 +19,8 @@ namespace Render {
 
 	const float YAW = -90.0f;
 	const float PITCH = 0.0f;
-	const float SPEED = 2.5f;
-	const float SENSITIVITY = 0.1f;
+    const float SPEED = 30.f;
+    const float SENSITIVITY = 0.1f;
 	const float ZOOM = 45.0f;
 
 	class Camera {
@@ -39,10 +39,6 @@ namespace Render {
 
 		Camera(float posX, float posY, float posZ, glm::vec3 up, float yaw = YAW, float pitch = PITCH);
 
-
-
-
-
 		// camera Attributes
 		glm::vec3 Position;
 		glm::vec3 Front;
@@ -59,11 +55,11 @@ namespace Render {
 		float MouseSensitivity;
 		float Zoom;
 
-		glm::mat4 GetViewMatrix();
+        [[nodiscard]] glm::mat4 GetViewMatrix() const;
 
 		void ProcessKeyboard(CameraMovement direction, float deltaTime);
 
-		void ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch = true);
+        void ProcessMouseMovement(float xoffset, float yoffset, bool constrainPitch = true);
 
 		void ProcessMouseScroll(float yoffset);
 	private:

@@ -1,9 +1,4 @@
 #include "Sprite.h"
-#include "../ShaderProgram.h"
-#include "../Texture2D.h"
-#include "../VertexBufferLayout.h"
-
-#include <glm/gtc/matrix_transform.hpp>
 
 namespace Objects {
 	Sprite::Sprite(std::shared_ptr<Render::Texture2D> p_texture,
@@ -30,11 +25,11 @@ namespace Objects {
 						sub_texture.right_top_uv.x, sub_texture.left_bottom_uv.y
 				};
 
-		const GLuint indices[] =
-				{
-						0, 1, 2,
-						2, 3, 0
-				};
+		constexpr GLuint indices[] =
+                {
+                        0U, 1U, 2U,
+                        2U, 3U, 0U
+                };
 
 		m_vertex_coords_buffer_.init(vertex_coords, 4 * 2 * sizeof(GLfloat));
 		Render::VertexBufferLayout vertex_coords_layout;

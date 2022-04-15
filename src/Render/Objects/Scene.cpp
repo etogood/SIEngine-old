@@ -21,18 +21,19 @@ namespace Render {
         m_camera_z_ += camera_z;
     }
 
-    void Scene::render(GLFWwindow *p_window, const std::vector<std::shared_ptr<Objects::NullObject>> &objects) const {
+    void Scene::render(GLFWwindow *p_window, Camera *camera,
+                       const std::vector<std::shared_ptr<Objects::NullObject>> &objects) const {
         for (const std::shared_ptr<Objects::NullObject> &current_object: objects) {
-			m_p_shader_program_->use();
+            m_p_shader_program_->use();
             glm::mat4 model(1.f);
-			model = translate(model, current_object->get_position());
-			model = rotate(model, glm::radians(current_object->get_rotation().angle), current_object->get_rotation().orientation);
-			model = scale(model, current_object->get_size());
-			const glm::mat4 view = lookAt(glm::vec3(m_camera_x_, m_camera_y_, m_camera_z_), glm::vec3(0.5f, 0.5f, 0.5f),
-                                          glm::vec3(0.f, 1.f, 0.f));
+            model = translate(model, current_object->get_position());
+            model = rotate(model, glm::radians(current_object->get_rotation().angle),
+                           current_object->get_rotation().orientation);
+            model = scale(model, current_object->get_size());
+            glm::mat4 view = camera->GetViewMatrix();
             int width, height;
             glfwGetWindowSize(p_window, &width, &height);
-            const glm::mat4 projection = glm::perspective(glm::radians(90.f), (float) width / (float) height, 0.1f,
+            const glm::mat4 projection = glm::perspective(glm::radians(45.f), (float) width / (float) height, 0.1f,
                                                           100.f);
             const glm::mat4 mvp = projection * view * model;
 

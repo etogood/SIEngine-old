@@ -5,6 +5,7 @@
 #include "../ShaderProgram.h"
 #include "NullObject.h"
 #include "GLFW/glfw3.h"
+#include "../Camera.h"
 
 namespace Render {
 
@@ -22,7 +23,8 @@ namespace Render {
 
 		explicit Scene(std::shared_ptr<ShaderProgram> p_shader_program);
 
-        void render(GLFWwindow *p_window, const std::vector<std::shared_ptr<Objects::NullObject>> &objects) const;
+        void render(GLFWwindow *p_window, Camera *camera,
+                    const std::vector<std::shared_ptr<Objects::NullObject>> &objects) const;
 
 		void set_camera_x(float camera_x);
 
