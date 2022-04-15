@@ -143,13 +143,10 @@ int main(int argc, char **argv) {
             delta_time = current_frame - last_frame;
             last_frame = current_frame;
 
-            //glEnable(GL_CULL_FACE);
-            //glCullFace(GL_BACK);
-
             /* Render here */
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             p_scene->render(p_window.get_window_pointer(), p_camera.get(), objects);
-
+            //p_scene->remove_backsides();
             /* Swap front and back buffers */
             glfwSwapBuffers(p_window.get_window_pointer());
 

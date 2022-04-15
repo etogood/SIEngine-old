@@ -9,18 +9,6 @@ namespace Render {
             m_p_shader_program_(move(p_shader_program)) {
     }
 
-    void Scene::set_camera_x(const float camera_x) {
-        m_camera_x_ += camera_x;
-    }
-
-    void Scene::set_camera_y(const float camera_y) {
-        m_camera_y_ += camera_y;
-    }
-
-    void Scene::set_camera_z(const float camera_z) {
-        m_camera_z_ += camera_z;
-    }
-
     void Scene::render(GLFWwindow *p_window, Camera *camera,
                        const std::vector<std::shared_ptr<Objects::NullObject>> &objects) const {
         for (const std::shared_ptr<Objects::NullObject> &current_object: objects) {
@@ -41,7 +29,12 @@ namespace Render {
             m_p_shader_program_->set_int("tex", 0);
             m_p_shader_program_->set_matrix4("mvp", mvp);
 
-			current_object->draw();
-		}
+            current_object->draw();
+        }
+    }
+
+    void Scene::remove_backsides() const {
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_BACK);
     }
 }

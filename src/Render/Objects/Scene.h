@@ -26,17 +26,8 @@ namespace Render {
         void render(GLFWwindow *p_window, Camera *camera,
                     const std::vector<std::shared_ptr<Objects::NullObject>> &objects) const;
 
-		void set_camera_x(float camera_x);
-
-		void set_camera_y(float camera_y);
-
-		void set_camera_z(float camera_z);
-
+        void remove_backsides() const;
 	private:
 		std::shared_ptr<ShaderProgram> m_p_shader_program_;
-
-		float m_camera_x_ = 1.f;
-		float m_camera_y_ = 1.f;
-		float m_camera_z_ = 1.f;
 	};
 }
