@@ -33,7 +33,8 @@ namespace Render {
             glm::mat4 view = camera->GetViewMatrix();
             int width, height;
             glfwGetWindowSize(p_window, &width, &height);
-            const glm::mat4 projection = glm::perspective(glm::radians(45.f), (float) width / (float) height, 0.1f,
+            const glm::mat4 projection = glm::perspective(glm::radians(camera->Zoom), (float) width / (float) height,
+                                                          0.1f,
                                                           100.f);
             const glm::mat4 mvp = projection * view * model;
 
