@@ -20,17 +20,22 @@ add_executable(${PROJECT_NAME}
 	src/Render/VertexBuffer.cpp
 	src/Render/IndexBuffer.cpp
 	src/Render/IndexBuffer.h
-	src/Render/VertexBufferLayout.cpp
-	src/Render/VertexBufferLayout.h
-	src/Render/Objects/Scene.cpp
-	src/Render/Objects/Scene.h
-	src/Render/Objects/Sprite.cpp
-	src/Render/Objects/Sprite.h
-	src/Render/Texture2D.cpp
-	src/Render/Texture2D.h
-	src/Render/Objects/Cube.h
-	src/Render/Objects/Cube.cpp
-		src/Render/Objects/NullObject.cpp src/Render/Objects/NullObject.h src/Render/Camera.cpp src/Render/Camera.h)
+        src/Render/VertexBufferLayout.cpp
+        src/Render/VertexBufferLayout.h
+        src/Render/Objects/Scene.cpp
+        src/Render/Objects/Scene.h
+        src/Render/Objects/Sprite.cpp
+        src/Render/Objects/Sprite.h
+        src/Render/Texture2D.cpp
+        src/Render/Texture2D.h
+        src/Render/Objects/Cube.h
+        src/Render/Objects/Cube.cpp
+        src/Render/Objects/NullObject.cpp
+        src/Render/Objects/NullObject.h
+        src/Render/Camera.cpp
+        src/Render/Camera.h
+        src/Render/Objects/Sphere.cpp
+        src/Render/Objects/Sphere.h)
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 

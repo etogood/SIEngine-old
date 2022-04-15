@@ -5,7 +5,6 @@
 #ifndef SIENGINE_CAMERA_H
 #define SIENGINE_CAMERA_H
 
-
 #include "glm/vec3.hpp"
 #include "glm/ext/matrix_float4x4.hpp"
 

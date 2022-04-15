@@ -12,11 +12,16 @@
 #include "../IndexBuffer.h"
 
 namespace Objects {
-	class NullObject {
-	public:
-		typedef struct {float angle; glm::vec3 orientation;} rotation_t;
+    const float PI = 3.14159265f;
 
-		explicit NullObject(glm::vec3 m_position_ = glm::vec3(1.f),
+    class NullObject {
+    public:
+        typedef struct {
+            float angle;
+            glm::vec3 orientation;
+        } rotation_t;
+
+        explicit NullObject(glm::vec3 m_position_ = glm::vec3(1.f),
                             glm::vec3 m_size_ = glm::vec3(1.f),
                             rotation_t m_rotation_ = {0.f, glm::vec3(1.f)});
 

@@ -20,6 +20,7 @@ auto p_shader_program = Resources::ResourceManager::get_shader_program("default_
 auto p_scene = Resources::ResourceManager::get_scene("default_setup");
 auto p_cube = Resources::ResourceManager::get_cube("default_setup");
 auto p_camera = Resources::ResourceManager::get_camera("default_setup");
+auto p_sphere = Resources::ResourceManager::get_sphere("default_setup");
 
 [[maybe_unused]] glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
 [[maybe_unused]] glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
@@ -102,9 +103,9 @@ int main(int argc, char **argv) {
 		p_camera = Resources::ResourceManager::load_camera("DefaultCamera", -90.f, 0.f);
 		p_sprite = Resources::ResourceManager::load_sprite("DefaultSprite", "DefaultTexture", glm::uvec2(2U));
 		if (!p_sprite) {
-			std::cerr << "Can't load sprite: " << "DefaultSprite" << std::endl;
-			return EXIT_FAILURE;
-		}
+            std::cerr << "Can't load sprite: " << "DefaultSprite" << std::endl;
+            return EXIT_FAILURE;
+        }
 
         p_cube = Resources::ResourceManager::load_cube("DefaultCube", "DefaultTexture");
         if (!p_cube) {
@@ -112,14 +113,20 @@ int main(int argc, char **argv) {
             return EXIT_FAILURE;
         }
 
-		p_scene = Resources::ResourceManager::load_scene("DefaultScene", "DefaultShader");
-		if (!p_scene) {
-			std::cerr << "Can't load scene: " << "DefaultScene" << std::endl;
-			return EXIT_FAILURE;
-		}
+        p_sphere = Resources::ResourceManager::load_sphere("DefaultSphere", "DefaultTexture", 50U, 50U);
+        if (!p_sphere) {
+            std::cerr << "Can't load sphere: " << "DefaultSphere" << std::endl;
+            return EXIT_FAILURE;
+        }
+
+        p_scene = Resources::ResourceManager::load_scene("DefaultScene", "DefaultShader");
+        if (!p_scene) {
+            std::cerr << "Can't load scene: " << "DefaultScene" << std::endl;
+            return EXIT_FAILURE;
+        }
 
         std::vector<std::shared_ptr<Objects::NullObject>> objects = {
-				 p_cube, p_sprite
+                p_cube, p_sprite, p_sphere
         };
 
 		p_sprite->set_position(glm::vec3(3.f, 0.f, 0.f));
@@ -135,6 +142,9 @@ int main(int argc, char **argv) {
             auto current_frame = static_cast<float>(glfwGetTime());
             delta_time = current_frame - last_frame;
             last_frame = current_frame;
+
+            //glEnable(GL_CULL_FACE);
+            //glCullFace(GL_BACK);
 
             /* Render here */
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

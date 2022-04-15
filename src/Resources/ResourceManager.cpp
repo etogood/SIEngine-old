@@ -21,6 +21,7 @@ namespace Resources {
 	ResourceManager::scenes_map ResourceManager::m_scenes_;
 	ResourceManager::cubes_map ResourceManager::m_cubes_;
 	ResourceManager::camera_map ResourceManager::m_cameras_;
+    ResourceManager::spheres_map ResourceManager::m_spheres_;
 
 	std::string ResourceManager::get_file_string(const std::string &relative_file_path) {
 		std::ifstream f;
@@ -214,13 +215,40 @@ namespace Resources {
 		return new_camera;
 	}
 
-	std::shared_ptr<Render::Camera> ResourceManager::get_camera(const std::string &camera_name) {
-		if (camera_name == "default_setup") return nullptr;
-		const auto it = m_cameras_.find(camera_name);
-		if (it == m_cameras_.end()){
-			std::cerr << "Can't find the camera: " << camera_name << std::endl;
-			return nullptr;
-		}
-		return it->second;
-	}
+    std::shared_ptr<Render::Camera> ResourceManager::get_camera(const std::string &camera_name) {
+        if (camera_name == "default_setup") return nullptr;
+        const auto it = m_cameras_.find(camera_name);
+        if (it == m_cameras_.end()) {
+            std::cerr << "Can't find the camera: " << camera_name << std::endl;
+            return nullptr;
+        }
+        return it->second;
+    }
+
+    std::shared_ptr<Objects::Sphere>
+    ResourceManager::load_sphere(const std::string &sphere_name, const std::string &texture_name,
+                                 unsigned int y_segments, unsigned int x_segments,
+                                 const std::string &sub_texture_name) {
+        auto p_texture = get_texture_2d(texture_name);
+        if (!p_texture) {
+            std::cerr << "Can't find the texture " << texture_name << "for the sphere " << sphere_name << std::endl;
+            return nullptr;
+        }
+        std::shared_ptr<Objects::Sphere> new_sphere = m_spheres_
+                .emplace(sphere_name,
+                         std::make_shared<Objects::Sphere>(p_texture, sub_texture_name, y_segments, x_segments))
+                .first
+                ->second;
+        return new_sphere;
+    }
+
+    std::shared_ptr<Objects::Sphere> ResourceManager::get_sphere(const std::string &sphere_name) {
+        if (sphere_name == "default_setup") return nullptr;
+        const auto it = m_spheres_.find(sphere_name);
+        if (it == m_spheres_.end()) {
+            std::cerr << "Can't find the sphere: " << sphere_name << std::endl;
+            return nullptr;
+        }
+        return it->second;
+    }
 }
