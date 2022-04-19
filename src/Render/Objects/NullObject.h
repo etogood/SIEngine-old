@@ -51,10 +51,6 @@ namespace Objects {
 		glm::vec3 m_position_;
 		glm::vec3 m_size_;
 		rotation_t m_rotation_;
-
-		Render::VertexBuffer m_texture_coords_buffer_;
-		Render::VertexBuffer m_vertex_coords_buffer_;
-		Render::VertexArray m_vertex_array_;
 	};
 }
 #endif //SIENGINE_NULLOBJECT_H

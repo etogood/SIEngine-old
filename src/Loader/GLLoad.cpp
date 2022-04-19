@@ -7,11 +7,17 @@
 
 namespace Loader {
 	bool GLLoad::glfw_init() {
+
 		if (!glfwInit()) {
 			std::cerr << "glfwInit failed!";
 			return false;
 		}
-		return true;
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        return true;
 	}
 
 	bool GLLoad::glad_init() {

@@ -9,7 +9,7 @@
 #include "Resources/ResourceManager.h"
 #include "Loader/GLLoad.h"
 
-glm::ivec2 default_window_size(1080, 720);
+glm::ivec2 default_window_size(1920, 1080);
 
 float delta_time = 0.0f;
 float last_frame = 0.0f;
@@ -60,7 +60,11 @@ void glfw_window_size_callback(GLFWwindow *pWindow, int width, int height) {
 void glfw_key_callback(GLFWwindow *pWindow, int key, int scancode, int action, int mode) {
     if (key == GLFW_KEY_ESCAPE)
         glfwSetWindowShouldClose(pWindow, GL_TRUE);
-    if (key == GLFW_KEY_W)
+	if (key == GLFW_KEY_V)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	if (key == GLFW_KEY_B)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	if (key == GLFW_KEY_W)
         p_camera->ProcessKeyboard(Render::FORWARD, delta_time);
     if (key == GLFW_KEY_S)
         p_camera->ProcessKeyboard(Render::BACKWARD, delta_time);
