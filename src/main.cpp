@@ -9,6 +9,8 @@
 #include "Resources/ResourceManager.h"
 #include "Loader/GLLoad.h"
 
+std::string current_coords = " ";
+
 glm::ivec2 default_window_size(1920, 1080);
 
 float delta_time = 0.0f;
@@ -76,7 +78,7 @@ void glfw_key_callback(GLFWwindow *pWindow, int key, int scancode, int action, i
 
 int main(int argc, char **argv) {
 	Loader::GLLoad::glfw_init();
-	const auto p_window = Loader::Window(default_window_size, "SIEngine", nullptr, nullptr);
+	const auto p_window = Loader::Window(default_window_size, current_coords.c_str(), nullptr, nullptr);
 
 	if (!p_window.init())
 		return EXIT_FAILURE;
@@ -111,7 +113,7 @@ int main(int argc, char **argv) {
 			return EXIT_FAILURE;
 		}
 
-		p_camera = Resources::ResourceManager::load_camera("DefaultCamera", -90.f, 0.f);
+		p_camera = Resources::ResourceManager::load_camera("DefaultCamera", yaw, pitch);
 		if (!p_camera) {
 			std::cerr << "Can't load camera: " << "DefaultCamera" << std::endl;
 			return EXIT_FAILURE;
@@ -147,6 +149,7 @@ int main(int argc, char **argv) {
 		p_sprite->set_position(glm::vec3(3.f, 0.f, 0.f));
 		p_cube->set_position(glm::vec3(1.f, 0.f, 0.f));
 		p_sphere->set_position(glm::vec3(-1.f, 0.f, 0.f));
+		p_camera->Position = glm::vec3(1.7f, 0.8f, -5.4f);
 
 		p_sprite->set_size(glm::vec3(2.f, 2.f, 0.f));
 		p_cube->set_size(glm::vec3(1.f, 1.f, 1.f));
@@ -159,6 +162,9 @@ int main(int argc, char **argv) {
             auto current_frame = static_cast<float>(glfwGetTime());
             delta_time = current_frame - last_frame;
             last_frame = current_frame;
+
+			current_coords = std::to_string(p_camera->Position.x) + " " + std::to_string(p_camera->Position.y) + " " + std::to_string(p_camera->Position.z);
+			glfwSetWindowTitle(p_window.get_window_pointer(), current_coords.c_str());
 
 			p_sphere->set_rotation(current_frame, glm::vec3(0.f, 1.f, -0.3f));
 
