@@ -160,6 +160,8 @@ int main(int argc, char **argv) {
             delta_time = current_frame - last_frame;
             last_frame = current_frame;
 
+			p_sphere->set_rotation(current_frame, glm::vec3(0.f, 1.f, -0.3f));
+
             /* Render here */
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             p_scene->render(p_window.get_window_pointer(), p_camera.get(), objects);
