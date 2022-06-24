@@ -189,7 +189,7 @@ namespace Resources {
 			return nullptr;
 		}
 		std::shared_ptr<Objects::Cube> new_cube = m_cubes_
-				.emplace(texture_name, std::make_shared<Objects::Cube>(p_texture, sub_texture_name))
+				.emplace(cube_name, std::make_shared<Objects::Cube>(p_texture, sub_texture_name))
 				.first
 				->second;
 		new_cube->set_size(glm::vec3(xyz));

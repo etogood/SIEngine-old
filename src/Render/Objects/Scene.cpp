@@ -25,7 +25,8 @@ namespace Render {
                                                           0.1f,
                                                           100.f);
             const glm::mat4 mvp = projection * view * model;
-
+            m_p_shader_program_->set_vec3("object_color", glm::vec3(1.0f, 0.5f, 0.31f));
+            m_p_shader_program_->set_vec3("light_color", glm::vec3(1.0f, 1.0f, 1.0f));
             m_p_shader_program_->set_int("tex", 0);
             m_p_shader_program_->set_matrix4("mvp", mvp);
 

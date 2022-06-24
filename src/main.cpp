@@ -13,6 +13,8 @@ std::string current_coords = " ";
 
 glm::ivec2 default_window_size(1920, 1080);
 
+glm::vec3 default_light_pos(1.2f, 1.0f, 2.0f);
+
 float delta_time = 0.0f;
 float last_frame = 0.0f;
 
@@ -20,10 +22,13 @@ auto p_sprite = Resources::ResourceManager::get_sprite("default_setup");
 auto p_texture = Resources::ResourceManager::get_texture_2d("default_setup");
 auto p_earth_texture = Resources::ResourceManager::get_texture_2d("default_setup");
 auto p_shader_program = Resources::ResourceManager::get_shader_program("default_setup");
+auto p_colorfill_shader_program = Resources::ResourceManager::get_shader_program("default_setup");
 auto p_scene = Resources::ResourceManager::get_scene("default_setup");
 auto p_cube = Resources::ResourceManager::get_cube("default_setup");
+auto p_light_cube = Resources::ResourceManager::get_cube("default_setup");
 auto p_camera = Resources::ResourceManager::get_camera("default_setup");
 auto p_sphere = Resources::ResourceManager::get_sphere("default_setup");
+
 
 [[maybe_unused]] glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
 [[maybe_unused]] glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
@@ -101,6 +106,13 @@ int main(int argc, char **argv) {
 			return EXIT_FAILURE;
 		}
 
+        p_colorfill_shader_program = Resources::ResourceManager::load_shaders("ColorfillShader", "res/shaders/v_shader.vs",
+                                                                    "res/shaders/colorfill_fshader.fs");
+        if (!p_colorfill_shader_program) {
+            std::cerr << "Can't load shader program: " << "ColorfillShader" << std::endl;
+            return EXIT_FAILURE;
+        }
+
 		p_texture = Resources::ResourceManager::load_texture_2d("DefaultTexture", "res/textures_2d/container.png");
 		if (!p_texture) {
 			std::cerr << "Can't load texture: " << "DefaultTexture" << std::endl;
@@ -130,29 +142,37 @@ int main(int argc, char **argv) {
             return EXIT_FAILURE;
         }
 
+        p_light_cube = Resources::ResourceManager::load_cube("LightCube", "DefaultTexture");
+        if (!p_light_cube) {
+            std::cerr << "Can't load cube: " << "LightCube" << std::endl;
+            return EXIT_FAILURE;
+        }
+
         p_sphere = Resources::ResourceManager::load_sphere("DefaultSphere", "EarthTexture", 25U, 25U);
         if (!p_sphere) {
             std::cerr << "Can't load sphere: " << "DefaultSphere" << std::endl;
             return EXIT_FAILURE;
         }
 
-        p_scene = Resources::ResourceManager::load_scene("DefaultScene", "DefaultShader");
+        p_scene = Resources::ResourceManager::load_scene("DefaultScene", "ColorfillShader");        //Can change shaders from above
         if (!p_scene) {
             std::cerr << "Can't load scene: " << "DefaultScene" << std::endl;
             return EXIT_FAILURE;
         }
 
         std::vector<std::shared_ptr<Objects::NullObject>> objects = {
-                p_cube, p_sprite, p_sphere
+                p_cube, p_sprite, p_sphere, p_light_cube
         };
 
 		p_sprite->set_position(glm::vec3(3.f, 0.f, 0.f));
 		p_cube->set_position(glm::vec3(1.f, 0.f, 0.f));
 		p_sphere->set_position(glm::vec3(-1.f, 0.f, 0.f));
 		p_camera->Position = glm::vec3(1.7f, 0.8f, -5.4f);
+        p_light_cube->set_position(default_light_pos);
 
 		p_sprite->set_size(glm::vec3(2.f, 2.f, 0.f));
 		p_cube->set_size(glm::vec3(1.f, 1.f, 1.f));
+        p_light_cube->set_size(glm::vec3(0.2f));
 
 		p_sprite->set_rotation(0.f, glm::vec3(1.f, 1.f, 1.f));
 		p_cube->set_rotation(90.f, glm::vec3(1.f, 0.f, 1.f));
@@ -171,7 +191,7 @@ int main(int argc, char **argv) {
             /* Render here */
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             p_scene->render(p_window.get_window_pointer(), p_camera.get(), objects);
-            //p_scene->remove_backsides();
+
             /* Swap front and back buffers */
             glfwSwapBuffers(p_window.get_window_pointer());
 

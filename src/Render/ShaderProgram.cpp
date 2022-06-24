@@ -68,6 +68,10 @@ namespace Render {
 		glUniformMatrix4fv(glGetUniformLocation(m_id_, name.c_str()), 1, GL_FALSE, value_ptr(matrix));
 	}
 
+    void ShaderProgram::set_vec3(const std::string &name, glm::vec3 vector) const {
+        glUniform3f(glGetUniformLocation(m_id_, name.c_str()), vector.x, vector.y, vector.z);
+    }
+
 	ShaderProgram::~ShaderProgram() {
 		glDeleteProgram(m_id_);
 	}
@@ -88,4 +92,6 @@ namespace Render {
 		shader_program.m_id_ = 0;
 		shader_program.m_is_compiled_ = false;
 	}
+
+
 }
