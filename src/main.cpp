@@ -99,6 +99,7 @@ int main(int argc, char **argv) {
 
 	glClearColor(0.2f, 0.2f, 1.f, 0.5f);
 	{
+
 		Resources::ResourceManager::set_executable_path(argv[0]);
 
 		p_shader_program = Resources::ResourceManager::load_shaders("DefaultShader", "res/shaders/v_shader.vs",
@@ -169,24 +170,35 @@ int main(int argc, char **argv) {
             return EXIT_FAILURE;
         }
 
+        //                          position
+
 		p_sprite->set_position(glm::vec3(3.f, 0.f, 0.f));
 		p_cube->set_position(glm::vec3(1.f, 0.f, 0.f));
 		p_sphere->set_position(glm::vec3(-1.f, 0.f, 0.f));
 		p_camera->Position = glm::vec3(1.7f, 0.8f, -5.4f);
         p_light_cube->set_position(default_light_pos);
 
+        //                          size
+
 		p_sprite->set_size(glm::vec3(2.f, 2.f, 0.f));
 		p_cube->set_size(glm::vec3(1.f, 1.f, 1.f));
         p_light_cube->set_size(glm::vec3(0.2f));
+
+        //                          rotation
 
 		p_sprite->set_rotation(0.f, glm::vec3(1.f, 1.f, 1.f));
 		p_cube->set_rotation(90.f, glm::vec3(1.f, 0.f, 1.f));
 		p_sphere->set_rotation(180.f, glm::vec3(1.f, 0.f, 0.f));
 
+        //                           object           shader
+        //                             |                 |
+
         global_objects_map.emplace(p_sprite, p_shader_program);
         global_objects_map.emplace(p_cube, p_colorfill_shader_program);
         global_objects_map.emplace(p_sphere, p_shader_program);
         global_objects_map.emplace(p_light_cube, p_lightobject_shader_program);
+
+
 
         while (!glfwWindowShouldClose(p_window.get_window_pointer())) {
             auto current_frame = static_cast<float>(glfwGetTime());
