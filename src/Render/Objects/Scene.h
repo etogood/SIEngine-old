@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <vector>
+#include <map>
 #include "../ShaderProgram.h"
 #include "NullObject.h"
 #include "GLFW/glfw3.h"
@@ -13,21 +14,17 @@ namespace Render {
 
 	class Scene {
 	public:
-		Scene() = delete;
+        Scene() = default;
 
-		Scene(const Scene &) = delete;
+        Scene(const Scene &) = delete;
 
 		Scene &operator=(const Scene &) = delete;
 
 		~Scene() = default;
 
-		explicit Scene(std::shared_ptr<ShaderProgram> p_shader_program);
-
         void render(GLFWwindow *p_window, Camera *camera,
-                    const std::vector<std::shared_ptr<Objects::NullObject>> &objects) const;
+                    std::map<std::shared_ptr<Objects::NullObject>, std::shared_ptr<Render::ShaderProgram>> global_objects_map) const;
 
         void remove_backsides() const;
-	private:
-		std::shared_ptr<ShaderProgram> m_p_shader_program_;
 	};
 }

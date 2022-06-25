@@ -156,16 +156,9 @@ namespace Resources {
 	}
 
 	std::shared_ptr<Render::Scene>
-	ResourceManager::load_scene(const std::string &scene_name, const std::string &shader_name) {
-		auto p_shader_program = get_shader_program(shader_name);
-		if (!p_shader_program) {
-			std::cerr << "Can't find the shader program " << shader_name << "for the scene " << scene_name << std::endl;
-			return nullptr;
-		}
+	ResourceManager::load_scene(const std::string &scene_name) {
 		std::shared_ptr<Render::Scene> new_scene = m_scenes_.emplace(scene_name,
-																	 std::make_shared<Render::Scene>(p_shader_program))
-				.first
-				->second;
+																	 std::make_shared<Render::Scene>()).first->second;
 		return new_scene;
 	}
 

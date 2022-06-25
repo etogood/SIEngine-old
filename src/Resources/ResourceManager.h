@@ -52,7 +52,7 @@ namespace Resources {
 
         static std::shared_ptr<Render::Texture2D> get_texture_2d(const std::string &texture_name);
 
-        static std::shared_ptr<Render::Scene> load_scene(const std::string &scene_name, const std::string &shader_name);
+        static std::shared_ptr<Render::Scene> load_scene(const std::string &scene_name);
 
         static std::shared_ptr<Render::Scene> get_scene(const std::string &scene_name);
 

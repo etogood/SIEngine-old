@@ -5,19 +5,19 @@
 
 
 namespace Render {
-    Scene::Scene(std::shared_ptr<ShaderProgram> p_shader_program) :
-            m_p_shader_program_(move(p_shader_program)) {
-    }
 
     void Scene::render(GLFWwindow *p_window, Camera *camera,
-                       const std::vector<std::shared_ptr<Objects::NullObject>> &objects) const {
-        for (const std::shared_ptr<Objects::NullObject> &current_object: objects) {
-            m_p_shader_program_->use();
+                       std::map<std::shared_ptr<Objects::NullObject>, std::shared_ptr<Render::ShaderProgram>> global_objects_map) const {
+        for (std::pair<const std::shared_ptr<Objects::NullObject>, std::shared_ptr<ShaderProgram>> &current_object: global_objects_map) {
+            
+            current_object.second->use();
+            
+
             glm::mat4 model(1.f);
-            model = translate(model, current_object->get_position());
-            model = rotate(model, glm::radians(current_object->get_rotation().angle),
-                           current_object->get_rotation().orientation);
-            model = scale(model, current_object->get_size());
+            model = translate(model, current_object.first->get_position());
+            model = rotate(model, glm::radians(current_object.first->get_rotation().angle),
+                           current_object.first->get_rotation().orientation);
+            model = scale(model, current_object.first->get_size());
             glm::mat4 view = camera->GetViewMatrix();
             int width, height;
             glfwGetWindowSize(p_window, &width, &height);
@@ -25,12 +25,12 @@ namespace Render {
                                                           0.1f,
                                                           100.f);
             const glm::mat4 mvp = projection * view * model;
-            m_p_shader_program_->set_vec3("object_color", glm::vec3(1.0f, 0.5f, 0.31f));
-            m_p_shader_program_->set_vec3("light_color", glm::vec3(1.0f, 1.0f, 1.0f));
-            m_p_shader_program_->set_int("tex", 0);
-            m_p_shader_program_->set_matrix4("mvp", mvp);
+            current_object.second->set_vec3("object_color", glm::vec3(1.0f, 0.5f, 0.31f));
+            current_object.second->set_vec3("light_color", glm::vec3(1.0f, 1.0f, 1.0f));
+            current_object.second->set_int("tex", 0);
+            current_object.second->set_matrix4("mvp", mvp);
 
-            current_object->draw();
+            current_object.first->draw();
         }
     }
 
@@ -38,4 +38,5 @@ namespace Render {
         glEnable(GL_CULL_FACE);
         glCullFace(GL_BACK);
     }
+
 }
