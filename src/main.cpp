@@ -30,7 +30,7 @@ auto p_light_cube = Resources::ResourceManager::get_cube("default_setup");
 auto p_camera = Resources::ResourceManager::get_camera("default_setup");
 auto p_sphere = Resources::ResourceManager::get_sphere("default_setup");
 
-std::map<std::shared_ptr<Objects::NullObject>, std::shared_ptr<Render::ShaderProgram>> global_objects_map;
+std::map<std::shared_ptr<Objects::NullObject>, std::tuple<std::shared_ptr<Render::ShaderProgram>>> global_objects_map;
 
 [[maybe_unused]] glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
 [[maybe_unused]] glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
@@ -137,9 +137,10 @@ int main(int argc, char **argv) {
 
 		p_camera = Resources::ResourceManager::load_camera("DefaultCamera", yaw, pitch);
 		if (!p_camera) {
-			std::cerr << "Can't load camera: " << "DefaultCamera" << std::endl;
-			return EXIT_FAILURE;
-		}
+            std::cerr << "Can't load camera: " << "DefaultCamera" << std::endl;
+            return EXIT_FAILURE;
+        }
+
 		p_sprite = Resources::ResourceManager::load_sprite("DefaultSprite", "DefaultTexture", glm::uvec2(2U));
 		if (!p_sprite) {
             std::cerr << "Can't load sprite: " << "DefaultSprite" << std::endl;
@@ -190,15 +191,22 @@ int main(int argc, char **argv) {
 		p_cube->set_rotation(90.f, glm::vec3(1.f, 0.f, 1.f));
 		p_sphere->set_rotation(180.f, glm::vec3(1.f, 0.f, 0.f));
 
-        //                           object           shader
-        //                             |                 |
-
-        global_objects_map.emplace(p_sprite, p_shader_program);
-        global_objects_map.emplace(p_cube, p_colorfill_shader_program);
-        global_objects_map.emplace(p_sphere, p_shader_program);
-        global_objects_map.emplace(p_light_cube, p_lightobject_shader_program);
 
 
+        //                          parameters
+
+        std::tuple<std::shared_ptr<Render::ShaderProgram>> sprite_params = {p_shader_program};
+        std::tuple<std::shared_ptr<Render::ShaderProgram>> cube_params = {p_colorfill_shader_program};
+        std::tuple<std::shared_ptr<Render::ShaderProgram>> sphere_params = {p_colorfill_shader_program};
+        std::tuple<std::shared_ptr<Render::ShaderProgram>> lightcube_params = {p_lightobject_shader_program};
+
+        //                           object   parameters (shader)
+        //                             |            |
+
+        global_objects_map.emplace(p_sprite, sprite_params);
+        global_objects_map.emplace(p_cube, cube_params);
+        global_objects_map.emplace(p_sphere, sphere_params);
+        global_objects_map.emplace(p_light_cube, lightcube_params);
 
         while (!glfwWindowShouldClose(p_window.get_window_pointer())) {
             auto current_frame = static_cast<float>(glfwGetTime());

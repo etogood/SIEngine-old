@@ -7,11 +7,10 @@
 namespace Render {
 
     void Scene::render(GLFWwindow *p_window, Camera *camera,
-                       std::map<std::shared_ptr<Objects::NullObject>, std::shared_ptr<Render::ShaderProgram>> global_objects_map) const {
-        for (std::pair<const std::shared_ptr<Objects::NullObject>, std::shared_ptr<ShaderProgram>> &current_object: global_objects_map) {
-            
-            current_object.second->use();
-            
+                       const std::map<std::shared_ptr<Objects::NullObject>, std::tuple<std::shared_ptr<Render::ShaderProgram>>> &global_objects_map) const {
+        for (std::pair<const std::shared_ptr<Objects::NullObject>, std::tuple<std::shared_ptr<Render::ShaderProgram>>> current_object: global_objects_map) {
+            auto shader_program = std::get<0>(current_object.second);
+            shader_program->use();
 
             glm::mat4 model(1.f);
             model = translate(model, current_object.first->get_position());
@@ -25,10 +24,10 @@ namespace Render {
                                                           0.1f,
                                                           100.f);
             const glm::mat4 mvp = projection * view * model;
-            current_object.second->set_vec3("object_color", glm::vec3(1.0f, 0.5f, 0.31f));
-            current_object.second->set_vec3("light_color", glm::vec3(1.0f, 1.0f, 1.0f));
-            current_object.second->set_int("tex", 0);
-            current_object.second->set_matrix4("mvp", mvp);
+            shader_program->set_vec3("object_color", glm::vec3(1.0f, 0.5f, 0.31f));
+            shader_program->set_vec3("light_color", glm::vec3(1.0f, 1.0f, 1.0f));
+            shader_program->set_int("tex", 0);
+            shader_program->set_matrix4("mvp", mvp);
 
             current_object.first->draw();
         }

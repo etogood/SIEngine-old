@@ -23,7 +23,7 @@ namespace Render {
 		~Scene() = default;
 
         void render(GLFWwindow *p_window, Camera *camera,
-                    std::map<std::shared_ptr<Objects::NullObject>, std::shared_ptr<Render::ShaderProgram>> global_objects_map) const;
+                    const std::map<std::shared_ptr<Objects::NullObject>, std::tuple<std::shared_ptr<Render::ShaderProgram>>>& global_objects_map) const;
 
         void remove_backsides() const;
 	};
