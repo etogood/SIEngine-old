@@ -9,14 +9,21 @@
 #include "Resources/ResourceManager.h"
 #include "Loader/GLLoad.h"
 
+typedef std::tuple<std::shared_ptr<Render::ShaderProgram>> params_t;
+typedef std::map<std::shared_ptr<Objects::NullObject>, params_t> params_map_t;
+params_map_t global_objects_map;
+
+
 std::string current_coords = " ";
 
 glm::ivec2 default_window_size(1920, 1080);
 
 glm::vec3 default_light_pos(1.2f, 1.0f, 2.0f);
 
+
 float delta_time = 0.0f;
 float last_frame = 0.0f;
+
 
 auto p_sprite = Resources::ResourceManager::get_sprite("default_setup");
 auto p_texture = Resources::ResourceManager::get_texture_2d("default_setup");
@@ -30,11 +37,11 @@ auto p_light_cube = Resources::ResourceManager::get_cube("default_setup");
 auto p_camera = Resources::ResourceManager::get_camera("default_setup");
 auto p_sphere = Resources::ResourceManager::get_sphere("default_setup");
 
-std::map<std::shared_ptr<Objects::NullObject>, std::tuple<std::shared_ptr<Render::ShaderProgram>>> global_objects_map;
 
 [[maybe_unused]] glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
 [[maybe_unused]] glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 [[maybe_unused]] glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+
 
 bool firstMouse = true;
 float yaw = -90.f;
@@ -42,6 +49,7 @@ float pitch = 0.f;
 float lastX = 800.f / 2.f;
 float lastY = 600.f / 2.f;
 float fov = 45.f;
+
 
 void glfw_mouse_callback(GLFWwindow *window, double xpos, double ypos) {
     if (firstMouse) {
@@ -191,14 +199,12 @@ int main(int argc, char **argv) {
 		p_cube->set_rotation(90.f, glm::vec3(1.f, 0.f, 1.f));
 		p_sphere->set_rotation(180.f, glm::vec3(1.f, 0.f, 0.f));
 
-
-
         //                          parameters
 
-        std::tuple<std::shared_ptr<Render::ShaderProgram>> sprite_params = {p_shader_program};
-        std::tuple<std::shared_ptr<Render::ShaderProgram>> cube_params = {p_colorfill_shader_program};
-        std::tuple<std::shared_ptr<Render::ShaderProgram>> sphere_params = {p_colorfill_shader_program};
-        std::tuple<std::shared_ptr<Render::ShaderProgram>> lightcube_params = {p_lightobject_shader_program};
+        params_t sprite_params = {p_shader_program};
+        params_t cube_params = {p_colorfill_shader_program};
+        params_t sphere_params = {p_colorfill_shader_program};
+        params_t lightcube_params = {p_lightobject_shader_program};
 
         //                           object   parameters (shader)
         //                             |            |
