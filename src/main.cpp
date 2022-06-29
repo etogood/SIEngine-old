@@ -201,7 +201,7 @@ int main(int argc, char **argv) {
 
         //                          parameters
 
-        params_t sprite_params = {p_shader_program};
+        params_t sprite_params = {p_colorfill_shader_program};
         params_t cube_params = {p_colorfill_shader_program};
         params_t sphere_params = {p_colorfill_shader_program};
         params_t lightcube_params = {p_lightobject_shader_program};
