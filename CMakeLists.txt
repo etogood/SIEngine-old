@@ -22,8 +22,8 @@ add_executable(${PROJECT_NAME}
 	src/Render/IndexBuffer.h
     src/Render/VertexBufferLayout.cpp
     src/Render/VertexBufferLayout.h
-    src/Render/Objects/Scene.cpp
-    src/Render/Objects/Scene.h
+        src/Render/Scene.cpp
+		src/Render/Scene.h
     src/Render/Objects/Sprite.cpp
     src/Render/Objects/Sprite.h
     src/Render/Texture2D.cpp

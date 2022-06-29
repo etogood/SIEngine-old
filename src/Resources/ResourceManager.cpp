@@ -10,7 +10,7 @@
 
 #include "../Render/ShaderProgram.h"
 #include "../Render/Objects/Sprite.h"
-#include "../Render/Objects/Scene.h"
+#include "../Render/Scene.h"
 #include "../Render/Objects/Cube.h"
 
 namespace Resources {

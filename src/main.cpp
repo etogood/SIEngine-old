@@ -5,7 +5,7 @@
 #include "Loader/Window.h"
 #include "Render/Objects/Cube.h"
 #include "Render/Objects/Sprite.h"
-#include "Render/Objects/Scene.h"
+#include "Render/Scene.h"
 #include "Resources/ResourceManager.h"
 #include "Loader/GLLoad.h"
 
@@ -77,10 +77,10 @@ void glfw_window_size_callback(GLFWwindow *pWindow, int width, int height) {
 void glfw_key_callback(GLFWwindow *pWindow, int key, int scancode, int action, int mode) {
     if (key == GLFW_KEY_ESCAPE)
         glfwSetWindowShouldClose(pWindow, GL_TRUE);
-	if (key == GLFW_KEY_V)
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	if (key == GLFW_KEY_B)
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	if (key == GLFW_KEY_M and action == GLFW_PRESS)
+		p_scene->show_mesh();
+    if (key == GLFW_KEY_B and action == GLFW_PRESS)
+        p_scene->remove_backsides();
 	if (key == GLFW_KEY_W)
         p_camera->ProcessKeyboard(Render::FORWARD, delta_time);
     if (key == GLFW_KEY_S)
@@ -181,8 +181,8 @@ int main(int argc, char **argv) {
 
         //                          position
 
-		p_sprite->set_position(glm::vec3(3.f, 0.f, 0.f));
-		p_cube->set_position(glm::vec3(1.f, 0.f, 0.f));
+		p_sprite->set_position(glm::vec3(3.f, 0.f, 2.f));
+		p_cube->set_position(glm::vec3(3.f, 0.f, 2.f));
 		p_sphere->set_position(glm::vec3(-1.f, 0.f, 0.f));
 		p_camera->Position = glm::vec3(1.7f, 0.8f, -5.4f);
         p_light_cube->set_position(default_light_pos);
@@ -201,7 +201,7 @@ int main(int argc, char **argv) {
 
         //                          parameters
 
-        params_t sprite_params = {p_colorfill_shader_program};
+        params_t sprite_params = {p_shader_program};
         params_t cube_params = {p_colorfill_shader_program};
         params_t sphere_params = {p_colorfill_shader_program};
         params_t lightcube_params = {p_lightobject_shader_program};

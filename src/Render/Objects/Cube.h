@@ -26,6 +26,7 @@ namespace Objects {
 
 		Render::VertexBuffer m_texture_coords_buffer_;
 		Render::VertexBuffer m_vertex_coords_buffer_;
+        Render::VertexBuffer m_normal_vectors_buffer_;
 		Render::VertexArray m_vertex_array_;
 		Render::IndexBuffer m_index_buffer_;
 	};

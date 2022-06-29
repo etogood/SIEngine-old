@@ -22,11 +22,13 @@ namespace Render {
 
 		~ShaderProgram();
 
-		bool is_compiled() const;
+		[[nodiscard]] bool is_compiled() const;
 
 		void use() const;
 
 		void set_int(const std::string &name, GLint value) const;
+
+        void set_float(const std::string &name, GLfloat value) const;
 
 		void set_matrix4(const std::string &name, glm::mat4 matrix) const;
 

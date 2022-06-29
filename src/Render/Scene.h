@@ -3,10 +3,10 @@
 #include <memory>
 #include <vector>
 #include <map>
-#include "../ShaderProgram.h"
-#include "NullObject.h"
+#include "ShaderProgram.h"
+#include "Objects/NullObject.h"
 #include "GLFW/glfw3.h"
-#include "../Camera.h"
+#include "Camera.h"
 
 namespace Render {
 
@@ -26,5 +26,10 @@ namespace Render {
                     const std::map<std::shared_ptr<Objects::NullObject>, std::tuple<std::shared_ptr<Render::ShaderProgram>>>& global_objects_map) const;
 
         void remove_backsides() const;
+
+        void show_mesh();
+
+    private:
+        bool m_mesh_controller_ = true;
 	};
 }

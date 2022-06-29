@@ -11,7 +11,7 @@ namespace Objects {
 		constexpr GLfloat vertex_coords[] = {
 				//	 X	  Y	   Z
 
-				0.f, 0.f, 0.f, //near side
+				0.f, 0.f, 0.f,     //near side
 				0.f, 1.f, 0.f,
 				1.f, 1.f, 0.f,
 				1.f, 0.f, 0.f,
@@ -26,7 +26,7 @@ namespace Objects {
 				0.f, 1.f, 1.f,
 				1.f, 1.f, 1.f,
 
-				0.f, 0.f, 1.f, //left side
+				0.f, 0.f, 1.f,  //left side
 				0.f, 1.f, 1.f,
 				0.f, 1.f, 0.f,
 				0.f, 0.f, 0.f,
@@ -36,7 +36,7 @@ namespace Objects {
 				0.f, 1.f, 1.f,
 				0.f, 0.f, 1.f,
 
-				0.f, 0.f, 1.f, //bottom side
+				0.f, 0.f, 1.f,  //bottom side
 				0.f, 0.f, 0.f,
 				1.f, 0.f, 0.f,
 				1.f, 0.f, 1.f
@@ -97,12 +97,12 @@ namespace Objects {
 				22U, 23U, 20U
 		};
 
-		m_vertex_coords_buffer_.init(vertex_coords, 3 * 6 * 6 * sizeof(GLfloat));
+		m_vertex_coords_buffer_.init(vertex_coords, 3 * 6 * 6 * 6 * sizeof(GLfloat));
 		Render::VertexBufferLayout vertex_coords_layout;
 		vertex_coords_layout.add_element_layout_float(3, false);
 		m_vertex_array_.add_buffer(m_vertex_coords_buffer_, vertex_coords_layout);
 
-		m_texture_coords_buffer_.init(texture_coords, 3 * 6 * 6 * sizeof(GLfloat));
+		m_texture_coords_buffer_.init(texture_coords, 3 * 6 * 6 * 6 * sizeof(GLfloat));
 		Render::VertexBufferLayout texture_coords_layout;
 		texture_coords_layout.add_element_layout_float(3, false);
 		m_vertex_array_.add_buffer(m_texture_coords_buffer_, texture_coords_layout);
