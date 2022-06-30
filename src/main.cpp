@@ -77,9 +77,9 @@ void glfw_window_size_callback(GLFWwindow *pWindow, int width, int height) {
 void glfw_key_callback(GLFWwindow *pWindow, int key, int scancode, int action, int mode) {
     if (key == GLFW_KEY_ESCAPE)
         glfwSetWindowShouldClose(pWindow, GL_TRUE);
-	if (key == GLFW_KEY_M and action == GLFW_PRESS)
+	if (key == GLFW_KEY_M && action == GLFW_PRESS)
 		p_scene->show_mesh();
-    if (key == GLFW_KEY_B and action == GLFW_PRESS)
+    if (key == GLFW_KEY_B && action == GLFW_PRESS)
         p_scene->remove_backsides();
 	if (key == GLFW_KEY_W)
         p_camera->ProcessKeyboard(Render::FORWARD, delta_time);

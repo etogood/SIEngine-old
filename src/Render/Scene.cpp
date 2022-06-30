@@ -30,7 +30,7 @@ namespace Render {
             shader_program->set_float("ambient_strength", 0.5f);
             shader_program->set_vec3("light_pos", glm::vec3(1.2f, 1.0f, 2.0f));
             shader_program->set_vec3("object_color", glm::vec3(1.0f, 0.5f, 0.31f));
-            shader_program->set_vec3("light_color", glm::vec3(0.f, 1.f, 1.f));
+            shader_program->set_vec3("light_color", glm::vec3(0.75f, 0.5f, 1.f));
             shader_program->set_int("tex", 0);
             shader_program->set_matrix4("model", model);
             shader_program->set_matrix4("mvp", mvp);

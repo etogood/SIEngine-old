@@ -16,9 +16,9 @@ namespace Objects {
             for (size_t x = 0; x <= m_x_segments_; x++) {
                 float xSegment = (float) x / (float) m_x_segments_;
                 float ySegment = (float) y / (float) m_y_segments_;
-                float xPos = std::cos(xSegment * 2.0f * PI) * std::sin(ySegment * PI);
-                float yPos = std::cos(ySegment * PI);
-                float zPos = std::sin(xSegment * 2.0f * PI) * std::sin(ySegment * PI);
+                float xPos = -std::cos(xSegment * 2.0f * PI) * std::sin(ySegment * PI);
+                float yPos = -std::cos(ySegment * PI);
+                float zPos = -std::sin(xSegment * 2.0f * PI) * std::sin(ySegment * PI);
                 m_vertex_coords_.push_back(xPos);
                 m_vertex_coords_.push_back(yPos);
                 m_vertex_coords_.push_back(zPos);
@@ -28,7 +28,6 @@ namespace Objects {
 				m_texture_coords_.push_back(0);
             }
         }
-
 
 
         for (size_t i = 0; i <= m_y_segments_; i++) {
@@ -63,7 +62,7 @@ namespace Objects {
 
         glActiveTexture(GL_TEXTURE0);
         m_p_texture_2d_->bind();
-        glDrawElements(GL_TRIANGLES, static_cast<GLint>(m_indices_.size() - m_indices_.size() / m_x_segments_), GL_UNSIGNED_INT, nullptr);
+        glDrawElements(GL_TRIANGLES, static_cast<GLint>(size - size / m_x_segments_), GL_UNSIGNED_INT, nullptr);
 
         Render::VertexArray::unbind();
     }
