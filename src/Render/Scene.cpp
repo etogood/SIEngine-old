@@ -29,15 +29,13 @@ namespace Render {
             shader_program->set_vec3("light.position", glm::vec3(1.2f, 1.f, 2.f));
 
             shader_program->set_vec3("light.diffuse", glm::vec3(.5f, .5f, .5f));
-            shader_program->set_vec3("light.ambient", glm::vec3(.2f, .2f, .2f));
+            shader_program->set_vec3("light.ambient", glm::vec3(.3f, .3f, .3f));
             shader_program->set_vec3("light.specular", glm::vec3(1.f, 1.f, 1.f));
 
-            shader_program->set_vec3("material.diffuse", glm::vec3(1.f, .5f, .31f));
-            shader_program->set_vec3("material.ambient", glm::vec3(1.f, .5f, .31f));
-            shader_program->set_vec3("material.specular", glm::vec3(.5f, .5f, .5f));
+            shader_program->set_int("material.diffuse", 0);
+            shader_program->set_int("material.specular", 1);
             shader_program->set_float("material.shininess", 32.f);
 
-            shader_program->set_int("tex", 0);
             shader_program->set_matrix4("model", model);
             shader_program->set_matrix4("mvp", mvp);
 

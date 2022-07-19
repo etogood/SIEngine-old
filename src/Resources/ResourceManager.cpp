@@ -174,6 +174,7 @@ namespace Resources {
 
 	std::shared_ptr<Objects::Cube> ResourceManager::load_cube(const std::string &cube_name,
 															  const std::string &texture_name,
+                                                              const std::string &specular_map_name,
 															  glm::vec3 xyz,
 															  const std::string &sub_texture_name) {
 		auto p_texture = get_texture_2d(texture_name);
@@ -181,8 +182,13 @@ namespace Resources {
 			std::cerr << "Can't find the texture " << texture_name << "for the sprite " << cube_name << std::endl;
 			return nullptr;
 		}
+        auto p_specular_map = get_texture_2d(specular_map_name);
+        if (!p_specular_map){
+            std::cerr << "Can't find the specular map " << texture_name << "for the sprite " << cube_name << std::endl;
+            return nullptr;
+        }
 		std::shared_ptr<Objects::Cube> new_cube = m_cubes_
-				.emplace(cube_name, std::make_shared<Objects::Cube>(p_texture, sub_texture_name))
+				.emplace(cube_name, std::make_shared<Objects::Cube>(p_texture,  sub_texture_name, p_specular_map))
 				.first
 				->second;
 		new_cube->set_size(glm::vec3(xyz));

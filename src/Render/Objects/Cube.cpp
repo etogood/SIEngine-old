@@ -5,8 +5,10 @@
 
 namespace Objects {
     Cube::Cube(std::shared_ptr<Render::Texture2D> p_texture,
-               const std::string &initial_sub_texture) :
-            m_p_texture_2d_(std::move(p_texture)) {
+               const std::string &initial_sub_texture,
+               const std::shared_ptr<Render::Texture2D>& p_specular_map) :
+            m_p_texture_2d_(std::move(p_texture)),
+            m_p_specular_map_(std::move(p_specular_map)){
 
 		constexpr GLfloat vertex_coords[] = {
 				//	 X	  Y	   Z
@@ -77,6 +79,40 @@ namespace Objects {
 
 		};
 
+        const auto specular_map_sub_texture = m_p_specular_map_->get_sub_texture("default");
+
+        const GLfloat specular_map_coords[] = {
+                specular_map_sub_texture.right_top_uv.x, specular_map_sub_texture.left_bottom_uv.y, 0,
+                specular_map_sub_texture.right_top_uv.x, specular_map_sub_texture.right_top_uv.y, 0,
+                specular_map_sub_texture.left_bottom_uv.x, specular_map_sub_texture.right_top_uv.y, 0,
+                specular_map_sub_texture.left_bottom_uv.x, specular_map_sub_texture.left_bottom_uv.y, 0,
+
+                specular_map_sub_texture.right_top_uv.x, specular_map_sub_texture.left_bottom_uv.y, 0,
+                specular_map_sub_texture.right_top_uv.x, specular_map_sub_texture.right_top_uv.y, 0,
+                specular_map_sub_texture.left_bottom_uv.x, specular_map_sub_texture.right_top_uv.y, 0,
+                specular_map_sub_texture.left_bottom_uv.x, specular_map_sub_texture.left_bottom_uv.y, 0,
+
+                specular_map_sub_texture.right_top_uv.x, specular_map_sub_texture.left_bottom_uv.y, 0,
+                specular_map_sub_texture.right_top_uv.x, specular_map_sub_texture.right_top_uv.y, 0,
+                specular_map_sub_texture.left_bottom_uv.x, specular_map_sub_texture.right_top_uv.y, 0,
+                specular_map_sub_texture.left_bottom_uv.x, specular_map_sub_texture.left_bottom_uv.y, 0,
+
+                specular_map_sub_texture.right_top_uv.x, specular_map_sub_texture.left_bottom_uv.y, 0,
+                specular_map_sub_texture.right_top_uv.x, specular_map_sub_texture.right_top_uv.y, 0,
+                specular_map_sub_texture.left_bottom_uv.x, specular_map_sub_texture.right_top_uv.y, 0,
+                specular_map_sub_texture.left_bottom_uv.x, specular_map_sub_texture.left_bottom_uv.y, 0,
+
+                specular_map_sub_texture.right_top_uv.x, specular_map_sub_texture.left_bottom_uv.y, 0,
+                specular_map_sub_texture.right_top_uv.x, specular_map_sub_texture.right_top_uv.y, 0,
+                specular_map_sub_texture.left_bottom_uv.x, specular_map_sub_texture.right_top_uv.y, 0,
+                specular_map_sub_texture.left_bottom_uv.x, specular_map_sub_texture.left_bottom_uv.y, 0,
+
+                specular_map_sub_texture.right_top_uv.x, specular_map_sub_texture.left_bottom_uv.y, 0,
+                specular_map_sub_texture.right_top_uv.x, specular_map_sub_texture.right_top_uv.y, 0,
+                specular_map_sub_texture.left_bottom_uv.x, specular_map_sub_texture.right_top_uv.y, 0,
+                specular_map_sub_texture.left_bottom_uv.x, specular_map_sub_texture.left_bottom_uv.y, 0,
+        };
+
 		constexpr GLuint indices[] = {
 				0U, 1U, 2U,
 				2U, 3U, 0U,
@@ -107,6 +143,11 @@ namespace Objects {
 		texture_coords_layout.add_element_layout_float(3, false);
 		m_vertex_array_.add_buffer(m_texture_coords_buffer_, texture_coords_layout);
 
+        m_specular_map_coords_buffer_.init(specular_map_coords, 3 * 6 * 6 * 6 * sizeof(GLfloat));
+        Render::VertexBufferLayout specular_map_coords_layout;
+        specular_map_coords_layout.add_element_layout_float(3, false);
+        m_vertex_array_.add_buffer(m_specular_map_coords_buffer_, specular_map_coords_layout);
+
 		m_index_buffer_.init(indices, 36 * sizeof(GLuint));
 
 		Render::VertexArray::unbind();
@@ -118,6 +159,8 @@ namespace Objects {
 
         glActiveTexture(GL_TEXTURE0);
         m_p_texture_2d_->bind();
+        glActiveTexture(GL_TEXTURE1);
+        m_p_specular_map_->bind();
         glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);
 
         Render::VertexArray::unbind();

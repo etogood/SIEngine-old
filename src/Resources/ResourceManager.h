@@ -61,7 +61,7 @@ namespace Resources {
         static std::shared_ptr<Render::Camera> get_camera(const std::string &camera_name);
 
         static std::shared_ptr<Objects::Cube>
-        load_cube(const std::string &cube_name, const std::string &texture_name,
+        load_cube(const std::string &cube_name, const std::string &texture_name, const std::string &specular_map_name,
                   glm::vec3 xyz = glm::vec3(1.f),
                   const std::string &sub_texture_name = "default");
 

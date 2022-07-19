@@ -28,6 +28,7 @@ float last_frame = 0.0f;
 auto p_sprite = Resources::ResourceManager::get_sprite("default_setup");
 auto p_texture = Resources::ResourceManager::get_texture_2d("default_setup");
 auto p_earth_texture = Resources::ResourceManager::get_texture_2d("default_setup");
+auto p_container_specular_map = Resources::ResourceManager::get_texture_2d("default_setup");
 auto p_shader_program = Resources::ResourceManager::get_shader_program("default_setup");
 auto p_colorfill_shader_program = Resources::ResourceManager::get_shader_program("default_setup");
 auto p_lightobject_shader_program = Resources::ResourceManager::get_shader_program("default_setup");
@@ -111,7 +112,7 @@ int main(int argc, char **argv) {
 		Resources::ResourceManager::set_executable_path(argv[0]);
 
 		p_shader_program = Resources::ResourceManager::load_shaders("DefaultShader", "res/shaders/default.vert",
-																	"res/shaders/texture.frag");
+																	"res/shaders/default.frag");
 		if (!p_shader_program) {
 			std::cerr << "Can't load shader program: " << "DefaultShader" << std::endl;
 			return EXIT_FAILURE;
@@ -131,7 +132,7 @@ int main(int argc, char **argv) {
             return EXIT_FAILURE;
         }
 
-		p_texture = Resources::ResourceManager::load_texture_2d("DefaultTexture", "res/textures_2d/container.png");
+		p_texture = Resources::ResourceManager::load_texture_2d("DefaultTexture", "res/textures_2d/container2.png");
 		if (!p_texture) {
 			std::cerr << "Can't load texture: " << "DefaultTexture" << std::endl;
 			return EXIT_FAILURE;
@@ -142,6 +143,12 @@ int main(int argc, char **argv) {
 			std::cerr << "Can't load texture: " << "EarthTexture" << std::endl;
 			return EXIT_FAILURE;
 		}
+
+        p_container_specular_map = Resources::ResourceManager::load_texture_2d("ContainerSpecularMap", "res/textures_2d/container2_specular.png");
+        if (!p_container_specular_map) {
+            std::cerr << "Can't load specular map: " << "ContainerSpecularMap" << std::endl;
+            return EXIT_FAILURE;
+        }
 
 		p_camera = Resources::ResourceManager::load_camera("DefaultCamera", yaw, pitch);
 		if (!p_camera) {
@@ -155,13 +162,13 @@ int main(int argc, char **argv) {
             return EXIT_FAILURE;
         }
 
-        p_cube = Resources::ResourceManager::load_cube("DefaultCube", "DefaultTexture");
+        p_cube = Resources::ResourceManager::load_cube("DefaultCube", "DefaultTexture", "ContainerSpecularMap");
         if (!p_cube) {
             std::cerr << "Can't load cube: " << "DefaultCube" << std::endl;
             return EXIT_FAILURE;
         }
 
-        p_light_cube = Resources::ResourceManager::load_cube("LightCube", "DefaultTexture");
+        p_light_cube = Resources::ResourceManager::load_cube("LightCube", "DefaultTexture", "ContainerSpecularMap");
         if (!p_light_cube) {
             std::cerr << "Can't load cube: " << "LightCube" << std::endl;
             return EXIT_FAILURE;
@@ -182,7 +189,7 @@ int main(int argc, char **argv) {
         //                          position
 
 		p_sprite->set_position(glm::vec3(3.f, 0.f, 2.f));
-		p_cube->set_position(glm::vec3(3.f, 0.f, 2.f));
+		p_cube->set_position(glm::vec3(1.2f, 1.2f, 0.1f));
 		p_sphere->set_position(glm::vec3(-1.f, 0.f, 0.f));
 		p_camera->Position = glm::vec3(1.7f, 0.8f, -5.4f);
         p_light_cube->set_position(default_light_pos);
@@ -209,7 +216,7 @@ int main(int argc, char **argv) {
         //                           object   parameters (shader)
         //                             |            |
 
-        global_objects_map.emplace(p_sprite, sprite_params);
+    //  global_objects_map.emplace(p_sprite, sprite_params);
         global_objects_map.emplace(p_cube, cube_params);
         global_objects_map.emplace(p_sphere, sphere_params);
         global_objects_map.emplace(p_light_cube, lightcube_params);
