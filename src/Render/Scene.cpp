@@ -26,11 +26,17 @@ namespace Render {
             const glm::mat4 mvp = projection * view * model;
 
             shader_program->set_vec3("view_pos", camera->Position);
-            shader_program->set_float("specular_strength", 2.f);
-            shader_program->set_float("ambient_strength", 0.5f);
-            shader_program->set_vec3("light_pos", glm::vec3(1.2f, 1.0f, 2.0f));
-            shader_program->set_vec3("object_color", glm::vec3(1.0f, 0.5f, 0.31f));
-            shader_program->set_vec3("light_color", glm::vec3(0.75f, 0.5f, 1.f));
+            shader_program->set_vec3("light.position", glm::vec3(1.2f, 1.f, 2.f));
+
+            shader_program->set_vec3("light.diffuse", glm::vec3(.5f, .5f, .5f));
+            shader_program->set_vec3("light.ambient", glm::vec3(.2f, .2f, .2f));
+            shader_program->set_vec3("light.specular", glm::vec3(1.f, 1.f, 1.f));
+
+            shader_program->set_vec3("material.diffuse", glm::vec3(1.f, .5f, .31f));
+            shader_program->set_vec3("material.ambient", glm::vec3(1.f, .5f, .31f));
+            shader_program->set_vec3("material.specular", glm::vec3(.5f, .5f, .5f));
+            shader_program->set_float("material.shininess", 32.f);
+
             shader_program->set_int("tex", 0);
             shader_program->set_matrix4("model", model);
             shader_program->set_matrix4("mvp", mvp);

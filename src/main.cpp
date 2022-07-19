@@ -110,22 +110,22 @@ int main(int argc, char **argv) {
 
 		Resources::ResourceManager::set_executable_path(argv[0]);
 
-		p_shader_program = Resources::ResourceManager::load_shaders("DefaultShader", "res/shaders/v_shader.vs",
-																	"res/shaders/f_shader.fs");
+		p_shader_program = Resources::ResourceManager::load_shaders("DefaultShader", "res/shaders/default.vert",
+																	"res/shaders/texture.frag");
 		if (!p_shader_program) {
 			std::cerr << "Can't load shader program: " << "DefaultShader" << std::endl;
 			return EXIT_FAILURE;
 		}
 
-        p_colorfill_shader_program = Resources::ResourceManager::load_shaders("ColorfillShader", "res/shaders/v_shader.vs",
-                                                                    "res/shaders/colorfill_fshader.fs");
+        p_colorfill_shader_program = Resources::ResourceManager::load_shaders("ColorfillShader", "res/shaders/default.vert",
+                                                                    "res/shaders/default.frag");
         if (!p_colorfill_shader_program) {
             std::cerr << "Can't load shader program: " << "ColorfillShader" << std::endl;
             return EXIT_FAILURE;
         }
 
-        p_lightobject_shader_program = Resources::ResourceManager::load_shaders("LightobjectShader", "res/shaders/v_shader.vs",
-                                                                              "res/shaders/lightobject_fshader.fs");
+        p_lightobject_shader_program = Resources::ResourceManager::load_shaders("LightobjectShader", "res/shaders/default.vert",
+                                                                              "res/shaders/lightobject.frag");
         if (!p_lightobject_shader_program) {
             std::cerr << "Can't load shader program: " << "LightobjectShader" << std::endl;
             return EXIT_FAILURE;
