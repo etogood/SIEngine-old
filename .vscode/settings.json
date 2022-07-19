@@ -49,12 +49,7 @@
         "xstring": "cpp",
         "xtr1common": "cpp",
         "xtree": "cpp",
-        "xutility": "cpp",
-        "array": "cpp",
-        "format": "cpp",
-        "list": "cpp",
-        "random": "cpp",
-        "xhash": "cpp"
+        "xutility": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled",
     "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"
