@@ -62,7 +62,7 @@ namespace Objects {
 
         glActiveTexture(GL_TEXTURE0);
         m_p_texture_2d_->bind();
-        glDrawElements(GL_TRIANGLES, static_cast<GLint>(size - size / m_x_segments_), GL_UNSIGNED_INT, nullptr);
+        glDrawElements(GL_TRIANGLES, static_cast<GLint>(m_indices_.size() - m_indices_.size() / m_x_segments_), GL_UNSIGNED_INT, nullptr);
 
         Render::VertexArray::unbind();
     }
