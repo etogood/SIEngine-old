@@ -22,12 +22,13 @@ namespace Render {
 
 		~Scene() = default;
 
-        void render(GLFWwindow *p_window, Camera *camera,
-                    const std::map<std::shared_ptr<Objects::NullObject>, std::tuple<std::shared_ptr<Render::ShaderProgram>>>& global_objects_map) const;
-
+        static void render(GLFWwindow *p_window, Camera *camera,
+                    const std::map<std::shared_ptr<Objects::NullObject>, std::tuple<std::shared_ptr<Render::ShaderProgram>>>& global_objects_map) ;
         void remove_backsides() const;
-
         void show_mesh();
+
+        typedef std::tuple<std::shared_ptr<Render::ShaderProgram>> params_t;
+        typedef std::map<std::shared_ptr<Objects::NullObject>, params_t> params_map_t;
 
     private:
         bool m_mesh_controller_ = true;

@@ -8,7 +8,6 @@ struct Material{
 
 struct Light{
         vec3 position;
-
         vec3 ambient;
         vec3 diffuse;
         vec3 specular;
@@ -29,9 +28,10 @@ uniform vec3 view_pos;
 void main(){
     vec3 norm = normalize(normal);
     vec3 light_dir = normalize(light.position - frag_pos);
-    float diff = max(dot(norm, light_dir), 0.0);
     vec3 view_dir = normalize(view_pos - frag_pos);
     vec3 reflect_dir = reflect(-light_dir, norm);
+    
+    float diff = max(dot(norm, light_dir), 0.0);
     float spec = pow(max(dot(view_dir, reflect_dir), 0.0), material.shininess);
 
     vec3 ambient  = light.ambient  * vec3(texture(material.diffuse, tex_coords));

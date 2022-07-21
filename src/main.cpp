@@ -9,10 +9,8 @@
 #include "Resources/ResourceManager.h"
 #include "Loader/GLLoad.h"
 
-typedef std::tuple<std::shared_ptr<Render::ShaderProgram>> params_t;
-typedef std::map<std::shared_ptr<Objects::NullObject>, params_t> params_map_t;
-params_map_t global_objects_map;
 
+Render::Scene::params_map_t global_objects_map;
 
 std::string current_coords = " ";
 
@@ -207,10 +205,10 @@ int main(int argc, char **argv) {
 
         //                          parameters
 
-        params_t sprite_params = {p_shader_program};
-        params_t cube_params = {p_colorfill_shader_program};
-        params_t sphere_params = {p_colorfill_shader_program};
-        params_t lightcube_params = {p_lightobject_shader_program};
+        Render::Scene::params_t sprite_params = {p_shader_program};
+        Render::Scene::params_t cube_params = {p_colorfill_shader_program};
+        Render::Scene::params_t sphere_params = {p_colorfill_shader_program};
+        Render::Scene::params_t lightcube_params = {p_lightobject_shader_program};
 
         //                           object   parameters (shader)
         //                             |            |
