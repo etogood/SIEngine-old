@@ -18,6 +18,7 @@ namespace Objects {
 
         Sphere(std::shared_ptr<Render::Texture2D> p_texture,
                const std::string &initial_sub_texture,
+               std::shared_ptr<Render::Texture2D> p_specular_map,
                unsigned y_segments,
                unsigned x_segments);
 
@@ -28,6 +29,7 @@ namespace Objects {
         unsigned m_y_segments_;
         unsigned m_x_segments_;
 
+        std::shared_ptr<Render::Texture2D> m_p_specular_map_;
         std::shared_ptr<Render::Texture2D> m_p_texture_2d_;
 
         std::vector<GLfloat> m_vertex_coords_;
@@ -35,6 +37,7 @@ namespace Objects {
         std::vector<GLuint> m_indices_;
 
         Render::VertexBuffer m_texture_coords_buffer_;
+        Render::VertexBuffer m_specular_map_coords_buffer_;
         Render::VertexBuffer m_vertex_coords_buffer_;
         Render::VertexArray m_vertex_array_;
         Render::IndexBuffer m_index_buffer_;

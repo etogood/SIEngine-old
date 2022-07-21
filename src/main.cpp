@@ -174,7 +174,7 @@ int main(int argc, char **argv) {
             return EXIT_FAILURE;
         }
 
-        p_sphere = Resources::ResourceManager::load_sphere("DefaultSphere", "EarthTexture", 25U, 25U);
+        p_sphere = Resources::ResourceManager::load_sphere("DefaultSphere", "EarthTexture", "EarthTexture", 25U, 25U);
         if (!p_sphere) {
             std::cerr << "Can't load sphere: " << "DefaultSphere" << std::endl;
             return EXIT_FAILURE;
@@ -204,7 +204,6 @@ int main(int argc, char **argv) {
 
 		p_sprite->set_rotation(0.f, glm::vec3(1.f, 1.f, 1.f));
 		p_cube->set_rotation(90.f, glm::vec3(1.f, 0.f, 1.f));
-		p_sphere->set_rotation(180.f, glm::vec3(1.f, 0.f, 0.f));
 
         //                          parameters
 

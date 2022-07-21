@@ -74,7 +74,7 @@ namespace Resources {
         static std::shared_ptr<Objects::Sprite> get_sprite(const std::string &sprite_name);
 
         static std::shared_ptr<Objects::Sphere>
-        load_sphere(const std::string &sphere_name, const std::string &texture_name,
+        load_sphere(const std::string &sphere_name, const std::string &texture_name, const std::string &specular_map_name,
                     unsigned y_segments, unsigned x_segments, const std::string &sub_texture_name = "default");
 
         static std::shared_ptr<Objects::Sphere> get_sphere(const std::string &sphere_name);

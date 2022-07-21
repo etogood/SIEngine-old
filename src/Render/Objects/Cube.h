@@ -18,7 +18,7 @@ namespace Objects {
 
 		Cube(std::shared_ptr<Render::Texture2D> p_texture,
              const std::string &initial_sub_texture,
-             const std::shared_ptr<Render::Texture2D>& p_specular_map);
+             std::shared_ptr<Render::Texture2D> p_specular_map);
 
 		void draw() const override;
 

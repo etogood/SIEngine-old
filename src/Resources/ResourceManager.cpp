@@ -225,7 +225,7 @@ namespace Resources {
     }
 
     std::shared_ptr<Objects::Sphere>
-    ResourceManager::load_sphere(const std::string &sphere_name, const std::string &texture_name,
+    ResourceManager::load_sphere(const std::string &sphere_name, const std::string &texture_name, const std::string &specular_map_name,
                                  unsigned int y_segments, unsigned int x_segments,
                                  const std::string &sub_texture_name) {
         auto p_texture = get_texture_2d(texture_name);
@@ -233,9 +233,14 @@ namespace Resources {
             std::cerr << "Can't find the texture " << texture_name << "for the sphere " << sphere_name << std::endl;
             return nullptr;
         }
+        auto p_specular_map = get_texture_2d(specular_map_name);
+        if (!p_specular_map) {
+            std::cerr << "Can't find the specular map " << p_specular_map << "for the sphere " << sphere_name << std::endl;
+            return nullptr;
+        }
         std::shared_ptr<Objects::Sphere> new_sphere = m_spheres_
                 .emplace(sphere_name,
-                         std::make_shared<Objects::Sphere>(p_texture, sub_texture_name, y_segments, x_segments))
+                         std::make_shared<Objects::Sphere>(p_texture, sub_texture_name, p_specular_map, y_segments, x_segments))
                 .first
                 ->second;
         return new_sphere;
