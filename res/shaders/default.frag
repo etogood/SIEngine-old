@@ -1,16 +1,21 @@
 #version 330
 
 struct Material{
-        sampler2D diffuse;
-        sampler2D specular;
-        float shininess;
+    sampler2D diffuse;
+    sampler2D specular;
+    float shininess;
 };
 
 struct Light{
-        vec3 position;
-        vec3 ambient;
-        vec3 diffuse;
-        vec3 specular;
+    vec3 position;
+
+    vec3 ambient;
+    vec3 diffuse;
+    vec3 specular;
+
+    float constant;
+    float linear;
+    float quadratic;
 };
 
 uniform Material material;
@@ -37,6 +42,13 @@ void main(){
     vec3 ambient  = light.ambient  * vec3(texture(material.diffuse, tex_coords));
     vec3 diffuse  = light.diffuse  * vec3(texture(material.diffuse, tex_coords))       * diff;
     vec3 specular = light.specular * vec3(texture(material.specular, spec_map_coords)) * spec;
+
+    float distance = length(light.position - frag_pos);
+    float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
+
+    ambient *= attenuation;
+    diffuse *= attenuation;
+    specular *= attenuation;
 
     frag_color = vec4(ambient + diffuse + specular, 1.0);
 }

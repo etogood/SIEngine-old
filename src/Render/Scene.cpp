@@ -35,6 +35,10 @@ namespace Render {
             shader_program->set_int("material.specular", 1);
             shader_program->set_float("material.shininess", 32.f);
 
+            shader_program->set_float("light.constant", 1.f);
+            shader_program->set_float("light.linear", 0.09f);
+            shader_program->set_float("light.quadratic", 0.032f);
+
             shader_program->set_matrix4("model", model);
             shader_program->set_matrix4("mvp", mvp);
 
