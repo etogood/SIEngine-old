@@ -20,7 +20,7 @@ glm::vec3 default_light_pos(1.2f, 1.0f, 2.0f);
 
 
 float delta_time = 0.0f;
-float last_frame = 0.0f;
+float current_time = 0.0f;
 
 
 auto p_sprite = Resources::ResourceManager::get_sprite("default_setup");
@@ -81,13 +81,23 @@ void glfw_key_callback(GLFWwindow *pWindow, int key, int scancode, int action, i
     if (key == GLFW_KEY_B && action == GLFW_PRESS)
         p_scene->remove_backsides();
 	if (key == GLFW_KEY_W)
-        p_camera->ProcessKeyboard(Render::FORWARD, delta_time);
+        p_camera->ProcessKeyboard(Render::FORWARD, 0.002f);
     if (key == GLFW_KEY_S)
-        p_camera->ProcessKeyboard(Render::BACKWARD, delta_time);
+        p_camera->ProcessKeyboard(Render::BACKWARD, 0.002f);
     if (key == GLFW_KEY_A)
-        p_camera->ProcessKeyboard(Render::LEFT, delta_time);
+        p_camera->ProcessKeyboard(Render::LEFT, 0.002f);
     if (key == GLFW_KEY_D)
-        p_camera->ProcessKeyboard(Render::RIGHT, delta_time);
+        p_camera->ProcessKeyboard(Render::RIGHT, 0.002f);
+}
+
+void set_frame_limit(float fps) {
+    static float next_time = 0.f;
+    static float last_time = 0.f;
+    while(glfwGetTime() < next_time) { }
+    current_time = static_cast<float>(glfwGetTime());
+    next_time = current_time + 1 / fps;
+    delta_time = current_time - last_time;
+    last_time = current_time;
 }
 
 int main(int argc, char **argv) {
@@ -172,7 +182,7 @@ int main(int argc, char **argv) {
             return EXIT_FAILURE;
         }
 
-        p_sphere = Resources::ResourceManager::load_sphere("DefaultSphere", "EarthTexture", "EarthTexture", 25U, 25U);
+        p_sphere = Resources::ResourceManager::load_sphere("DefaultSphere", "EarthTexture", "EarthTexture", 50U, 50U);
         if (!p_sphere) {
             std::cerr << "Can't load sphere: " << "DefaultSphere" << std::endl;
             return EXIT_FAILURE;
@@ -219,17 +229,14 @@ int main(int argc, char **argv) {
         global_objects_map.emplace(p_light_cube, lightcube_params);
 
         while (!glfwWindowShouldClose(p_window.get_window_pointer())) {
-            auto current_frame = static_cast<float>(glfwGetTime());
-            delta_time = current_frame - last_frame;
-            last_frame = current_frame;
+			//current_coords = std::to_string(p_camera->Position.x) + " " + std::to_string(p_camera->Position.y) + " " + std::to_string(p_camera->Position.z);
+			glfwSetWindowTitle(p_window.get_window_pointer(), ("FPS: " + std::to_string(1 / delta_time )).c_str());
 
-			current_coords = std::to_string(p_camera->Position.x) + " " + std::to_string(p_camera->Position.y) + " " + std::to_string(p_camera->Position.z);
-			glfwSetWindowTitle(p_window.get_window_pointer(), current_coords.c_str());
-
-			p_sphere->set_rotation(current_frame, glm::vec3(0.f, 1.f, -0.3f));
+			p_sphere->set_rotation(current_time, glm::vec3(0.f, 1.f, -0.3f));
 
             /* Render here */
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
             p_scene->render(p_window.get_window_pointer(), p_camera.get(), global_objects_map);
 
             /* Swap front and back buffers */
@@ -237,6 +244,7 @@ int main(int argc, char **argv) {
 
             /* Poll for and process events */
             glfwPollEvents();
+            set_frame_limit(60.f);
 		}
 		Resources::ResourceManager::unload_all_resources();
 	}

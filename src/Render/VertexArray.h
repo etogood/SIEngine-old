@@ -37,4 +37,4 @@ namespace Render {
 	};
 }
 
-#endif SIENGINE_VERTEXARRAY_H
+#endif //SIENGINE_VERTEXARRAY_H

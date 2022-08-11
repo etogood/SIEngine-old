@@ -31,4 +31,4 @@ namespace Render {
 	};
 }
 
-#endif SIENGINE_VERTEXBUFFERLAYOUT_H
+#endif //SIENGINE_VERTEXBUFFERLAYOUT_H
