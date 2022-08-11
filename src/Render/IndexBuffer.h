@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SIENGINE_INDEXBUFFER_H
+#define SIENGINE_INDEXBUFFER_H
 
 #include "glad/glad.h"
 
@@ -27,3 +28,5 @@ namespace Render {
 		GLuint m_id_;
 	};
 }
+
+#endif //SIENGINE_INDEXBUFFER_H

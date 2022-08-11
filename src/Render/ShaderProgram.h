@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SIENGINE_SHADERPROGRAM_H
+#define SIENGINE_SHADERPROGRAM_H
 
 #include <string>
 #include <glad/glad.h>
@@ -40,3 +41,5 @@ namespace Render {
 		GLuint m_id_ = 0;
 	};
 }
+
+#endif //SIENGINE_SHADERPROGRAM_H

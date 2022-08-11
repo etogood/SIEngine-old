@@ -17,9 +17,9 @@ namespace Objects {
             for (size_t x = 0; x <= m_x_segments_; x++) {
                 float xSegment = (float) x / (float) m_x_segments_;
                 float ySegment = (float) y / (float) m_y_segments_;
-                float xPos = -std::cos(xSegment * 2.0f * PI) * std::sin(ySegment * PI);
+                float xPos = std::cos(xSegment * 2.0f * PI) * std::sin(ySegment * PI);
                 float yPos = std::cos(ySegment * PI);
-                float zPos = -std::sin(xSegment * 2.0f * PI) * std::sin(ySegment * PI);
+                float zPos = std::sin(xSegment * 2.0f * PI) * std::sin(ySegment * PI);
                 m_vertex_coords_.push_back(xPos);
                 m_vertex_coords_.push_back(yPos);
                 m_vertex_coords_.push_back(zPos);

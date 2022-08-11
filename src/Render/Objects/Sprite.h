@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SIENGINE_SPRITE_H
+#define SIENGINE_SPRITE_H
 
 #include <string>
 #include <memory>
@@ -38,3 +39,5 @@ namespace Objects {
 		Render::VertexBuffer m_vertex_coords_buffer_;
 	};
 }
+
+#endif //SIENGINE_SPRITE_H

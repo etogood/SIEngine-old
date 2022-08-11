@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SIENGINE_VERTEXARRAY_H
+#define SIENGINE_VERTEXARRAY_H
 
 #include "glad/glad.h"
 
@@ -35,3 +36,5 @@ namespace Render {
 		size_t m_elements_count_ = 0;
 	};
 }
+
+#endif SIENGINE_VERTEXARRAY_H

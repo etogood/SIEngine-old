@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SIENGINE_VERTEXBUFFERLAYOUT_H
+#define SIENGINE_VERTEXBUFFERLAYOUT_H
 
 #include <vector>
 
@@ -29,3 +30,5 @@ namespace Render {
 		unsigned m_stride_;
 	};
 }
+
+#endif SIENGINE_VERTEXBUFFERLAYOUT_H

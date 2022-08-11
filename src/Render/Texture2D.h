@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SIENGINE_TEXTURE2D_H
+#define SIENGINE_TEXTURE2D_H
 
 #include <map>
 #include <string>
@@ -57,3 +58,5 @@ namespace Render {
 		unsigned m_height_;
 	};
 }
+
+#endif //SIENGINE_TEXTURE2D_H

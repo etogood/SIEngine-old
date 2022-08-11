@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SIENGINE_SCENE_H
+#define SIENGINE_SCENE_H
 
 #include <memory>
 #include <vector>
@@ -34,3 +35,5 @@ namespace Render {
         bool m_mesh_controller_ = true;
 	};
 }
+
+#endif //SIENGINE_SCENE_H

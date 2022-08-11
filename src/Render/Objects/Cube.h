@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SIENGINE_CUBE_H
+#define SIENGINE_CUBE_H
 
 #include <memory>
 #include <string>
@@ -33,3 +34,5 @@ namespace Objects {
 		Render::IndexBuffer m_index_buffer_;
 	};
 }
+
+#endif //SIENGINE_CUBE_H

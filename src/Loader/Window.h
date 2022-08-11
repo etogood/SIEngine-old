@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SIENGINE_WINDOW_H
+#define SIENGINE_WINDOW_H
 
 #include <GLFW/glfw3.h>
 #include <glm/vec2.hpp>
@@ -40,3 +41,5 @@ namespace Loader {
 		unsigned m_height_ = 720;
 	};
 }
+
+#endif //SIENGINE_WINDOW_H

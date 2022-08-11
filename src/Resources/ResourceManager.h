@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SIENGINE_RESOURCEMANAGER_H
+#define SIENGINE_RESOURCEMANAGER_H
 
 #include <map>
 #include <memory>
@@ -106,3 +107,5 @@ namespace Resources {
         static spheres_map m_spheres_;
     };
 }
+
+#endif //SIENGINE_RESOURCEMANAGER_H

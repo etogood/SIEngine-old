@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SIENGINE_VERTEXBUFFER_H
+#define SIENGINE_VERTEXBUFFER_H
 
 #include "glad/glad.h"
 
@@ -29,3 +30,5 @@ namespace Render {
 		GLuint m_id_;
 	};
 }
+
+#endif //SIENGINE_VERTEXBUFFER_H
