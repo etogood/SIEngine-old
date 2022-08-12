@@ -1,6 +1,10 @@
 #ifndef SIENGINE_VERTEXARRAY_H
 #define SIENGINE_VERTEXARRAY_H
 
+#ifdef __GNUC__
+#include <cstdlib>
+#endif
+
 #include "glad/glad.h"
 
 #include "VertexBuffer.h"

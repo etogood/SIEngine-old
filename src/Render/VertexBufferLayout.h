@@ -1,8 +1,11 @@
 #ifndef SIENGINE_VERTEXBUFFERLAYOUT_H
 #define SIENGINE_VERTEXBUFFERLAYOUT_H
 
-#include <vector>
+#ifdef __GNUC__
+#include <cstdlib>
+#endif
 
+#include <vector>
 #include "glad/glad.h"
 
 namespace Render {
