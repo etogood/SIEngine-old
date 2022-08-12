@@ -8,6 +8,10 @@ struct Material{
 
 struct Light{
     vec3 position;
+    vec3 direction;
+
+    float outer_cut_off;
+    float cut_off;
 
     vec3 ambient;
     vec3 diffuse;
@@ -43,6 +47,12 @@ void main(){
     vec3 diffuse  = light.diffuse  * vec3(texture(material.diffuse, tex_coords))       * diff;
     vec3 specular = light.specular * vec3(texture(material.specular, spec_map_coords)) * spec;
 
+    float theta = dot(light_dir, normalize(-light.direction));
+    float epsilon = light.cut_off - light.outer_cut_off;
+    float intensity = clamp((theta - light.outer_cut_off) / epsilon, 0.0, 1.0);
+    diffuse *= intensity;
+    specular *= intensity;
+
     float distance = length(light.position - frag_pos);
     float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
 
@@ -50,5 +60,6 @@ void main(){
     diffuse *= attenuation;
     specular *= attenuation;
 
-    frag_color = vec4(ambient + diffuse + specular, 1.0);
+    vec3 result = ambient + diffuse + specular;
+    frag_color = vec4(result, 1.0);
 }

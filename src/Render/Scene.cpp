@@ -25,7 +25,11 @@ namespace Render {
             const glm::mat4 mvp = projection * view * model;
 
             shader_program->set_vec3("view_pos", camera->Position);
-            shader_program->set_vec3("light.position", glm::vec3(1.2f, 1.f, 2.f));
+            shader_program->set_vec3("light.position", camera->Position);
+            shader_program->set_vec3("light.direction", camera->Front);
+
+            shader_program->set_float("light.cut_off", glm::cos(glm::radians(12.5f)));
+            shader_program->set_float("light.outer_cut_off", glm::cos(glm::radians(17.5f)));
 
             shader_program->set_vec3("light.diffuse", glm::vec3(.5f, .5f, .5f));
             shader_program->set_vec3("light.ambient", glm::vec3(.3f, .3f, .3f));
