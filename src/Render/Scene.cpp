@@ -16,7 +16,7 @@ namespace Render {
             model = rotate(model, glm::radians(current_object.first->get_rotation().angle),
                            current_object.first->get_rotation().orientation);
             model = scale(model, current_object.first->get_size());
-            glm::mat4 view = camera->GetViewMatrix();
+            glm::mat4 view = camera->get_view_matrix();
             int width, height;
             glfwGetWindowSize(p_window, &width, &height);
             const glm::mat4 projection = glm::perspective(glm::radians(camera->Zoom), (float) width / (float) height,

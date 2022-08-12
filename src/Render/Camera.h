@@ -54,15 +54,15 @@ namespace Render {
 		float MouseSensitivity;
 		float Zoom;
 
-        [[nodiscard]] glm::mat4 GetViewMatrix() const;
+        [[nodiscard]] glm::mat4 get_view_matrix() const;
 
-		void ProcessKeyboard(CameraMovement direction, float deltaTime);
+		void process_keyboard(CameraMovement direction, float deltaTime);
 
-        void ProcessMouseMovement(float xoffset, float yoffset, bool constrainPitch = true);
+        void process_mouse_movement(float xoffset, float yoffset, bool constrainPitch = true);
 
-		void ProcessMouseScroll(float yoffset);
+		void process_mouse_scroll(float yoffset);
 	private:
-		void updateCameraVectors();
+		void update_camera_vectors();
 	};
 }
 #endif //SIENGINE_CAMERA_H

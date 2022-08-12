@@ -14,7 +14,7 @@ namespace Render {
 		WorldUp = up;
 		Yaw = yaw;
 		Pitch = pitch;
-		updateCameraVectors();
+        update_camera_vectors();
 	}
 
 	Camera::Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch) : Front(
@@ -23,7 +23,7 @@ namespace Render {
         WorldUp = glm::vec3(upX, upY, upZ);
         Yaw = yaw;
 		Pitch = pitch;
-		updateCameraVectors();
+        update_camera_vectors();
 	}
 
 	Camera::Camera(float posX, float posY, float posZ, glm::vec3 up, float yaw, float pitch) : Front(
@@ -32,7 +32,7 @@ namespace Render {
 		WorldUp = up;
 		Yaw = yaw;
 		Pitch = pitch;
-		updateCameraVectors();
+        update_camera_vectors();
 	}
 
 	Camera::Camera(glm::vec3 position, float upX, float upY, float upZ, float yaw, float pitch) : Front(
@@ -41,14 +41,14 @@ namespace Render {
         WorldUp = glm::vec3(upX, upY, upZ);
         Yaw = yaw;
 		Pitch = pitch;
-		updateCameraVectors();
+        update_camera_vectors();
 	}
 
-    glm::mat4 Camera::GetViewMatrix() const {
+    glm::mat4 Camera::get_view_matrix() const {
         return glm::lookAt(Position, Position + Front, Up);
     }
 
-	void Camera::ProcessKeyboard(CameraMovement direction, float deltaTime) {
+	void Camera::process_keyboard(CameraMovement direction, float deltaTime) {
 		float velocity = MovementSpeed * deltaTime;
 		if (direction == FORWARD)
 			Position += Front * velocity;
@@ -60,7 +60,7 @@ namespace Render {
 			Position += Right * velocity;
 	}
 
-    void Camera::ProcessMouseMovement(float xoffset, float yoffset, bool constrainPitch) {
+    void Camera::process_mouse_movement(float xoffset, float yoffset, bool constrainPitch) {
         xoffset *= MouseSensitivity;
         yoffset *= MouseSensitivity;
 
@@ -73,10 +73,10 @@ namespace Render {
             if (Pitch < -89.0f)
 				Pitch = -89.0f;
 		}
-		updateCameraVectors();
+        update_camera_vectors();
 	}
 
-	void Camera::ProcessMouseScroll(float yoffset) {
+	void Camera::process_mouse_scroll(float yoffset) {
 		Zoom -= (float) yoffset;
 		if (Zoom < 1.0f)
 			Zoom = 1.0f;
@@ -84,7 +84,7 @@ namespace Render {
 			Zoom = 45.0f;
 	}
 
-	void Camera::updateCameraVectors() {
+	void Camera::update_camera_vectors() {
 		glm::vec3 front;
 		front.x = cos(glm::radians(Yaw)) * cos(glm::radians(Pitch));
 		front.y = sin(glm::radians(Pitch));

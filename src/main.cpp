@@ -62,11 +62,11 @@ void glfw_mouse_callback(GLFWwindow *window, double xpos, double ypos) {
     lastX = xpos;
     lastY = ypos;
 
-    p_camera->ProcessMouseMovement(xoffset, yoffset);
+    p_camera->process_mouse_movement(xoffset, yoffset);
 }
 
 void glfw_scroll_callback(GLFWwindow *window, double xoffset, double yoffset) {
-    p_camera->ProcessMouseScroll(static_cast<float>(yoffset));
+    p_camera->process_mouse_scroll(static_cast<float>(yoffset));
 }
 
 void glfw_window_size_callback(GLFWwindow *pWindow, int width, int height) {
@@ -81,13 +81,13 @@ void glfw_key_callback(GLFWwindow *pWindow, int key, int scancode, int action, i
     if (key == GLFW_KEY_B && action == GLFW_PRESS)
         p_scene->remove_backsides();
 	if (key == GLFW_KEY_W)
-        p_camera->ProcessKeyboard(Render::FORWARD, 0.002f);
+        p_camera->process_keyboard(Render::FORWARD, 0.002f);
     if (key == GLFW_KEY_S)
-        p_camera->ProcessKeyboard(Render::BACKWARD, 0.002f);
+        p_camera->process_keyboard(Render::BACKWARD, 0.002f);
     if (key == GLFW_KEY_A)
-        p_camera->ProcessKeyboard(Render::LEFT, 0.002f);
+        p_camera->process_keyboard(Render::LEFT, 0.002f);
     if (key == GLFW_KEY_D)
-        p_camera->ProcessKeyboard(Render::RIGHT, 0.002f);
+        p_camera->process_keyboard(Render::RIGHT, 0.002f);
 }
 
 void set_frame_limit(float fps) {
