@@ -126,10 +126,10 @@ int main(int argc, char **argv) {
 			return EXIT_FAILURE;
 		}
 
-        p_colorfill_shader_program = Resources::ResourceManager::load_shaders("ColorfillShader", "res/shaders/default.vert",
+        p_colorfill_shader_program = Resources::ResourceManager::load_shaders("LightCastersShader", "res/shaders/default.vert",
                                                                     "res/shaders/default.frag");
         if (!p_colorfill_shader_program) {
-            std::cerr << "Can't load shader program: " << "ColorfillShader" << std::endl;
+            std::cerr << "Can't load shader program: " << "LightCastersShader" << std::endl;
             return EXIT_FAILURE;
         }
 
@@ -197,7 +197,7 @@ int main(int argc, char **argv) {
         //                          position
 
 		p_sprite->set_position(glm::vec3(3.f, 0.f, 2.f));
-		p_cube->set_position(glm::vec3(1.2f, 1.2f, 0.1f));
+		p_cube->set_position(glm::vec3(3.2f, 3.2f, .1f));
 		p_sphere->set_position(glm::vec3(-1.f, 0.f, 0.f));
 		p_camera->Position = glm::vec3(1.7f, 0.8f, -5.4f);
         p_light_cube->set_position(default_light_pos);
@@ -211,7 +211,7 @@ int main(int argc, char **argv) {
         //                          rotation
 
 		p_sprite->set_rotation(0.f, glm::vec3(1.f, 1.f, 1.f));
-		p_cube->set_rotation(90.f, glm::vec3(1.f, 0.f, 1.f));
+		p_cube->set_rotation(0.f, glm::vec3(1.f, 0.f, 1.f));
 
         //                          parameters
 
@@ -223,7 +223,7 @@ int main(int argc, char **argv) {
         //                           object   parameters (shader)
         //                             |            |
 
-    //  global_objects_map.emplace(p_sprite, sprite_params);
+        global_objects_map.emplace(p_sprite, sprite_params);
         global_objects_map.emplace(p_cube, cube_params);
         global_objects_map.emplace(p_sphere, sphere_params);
         global_objects_map.emplace(p_light_cube, lightcube_params);

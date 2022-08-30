@@ -25,19 +25,38 @@ namespace Render {
             const glm::mat4 mvp = projection * view * model;
 
             shader_program->set_vec3("view_pos", camera->Position);
-            shader_program->set_vec3("light.position", camera->Position);
-            shader_program->set_vec3("light.direction", camera->Front);
-
-            shader_program->set_float("light.cut_off", glm::cos(glm::radians(12.5f)));
-            shader_program->set_float("light.outer_cut_off", glm::cos(glm::radians(17.5f)));
-
-            shader_program->set_vec3("light.diffuse", glm::vec3(.5f, .5f, .5f));
-            shader_program->set_vec3("light.ambient", glm::vec3(.3f, .3f, .3f));
-            shader_program->set_vec3("light.specular", glm::vec3(1.f, 1.f, 1.f));
 
             shader_program->set_int("material.diffuse", 0);
             shader_program->set_int("material.specular", 1);
             shader_program->set_float("material.shininess", 32.f);
+
+            shader_program->set_vec3("dir_light.direction", glm::vec3(-0.2f, -1.0f, -0.3f));
+            shader_program->set_vec3("dir_light.ambient", glm::vec3(.3f, .3f, .3f));
+            shader_program->set_vec3("dir_light.diffuse", glm::vec3(.6f, .6f, .6f));
+            shader_program->set_vec3("dir_light.specular", glm::vec3(1.f, 1.f, 1.f));
+
+            glm::vec3 pointLightPositions[] = {
+                    glm::vec3( 0.7f,  0.2f,  2.0f),
+                    glm::vec3( 2.3f, -3.3f, -4.0f),
+                    glm::vec3(-4.0f,  2.0f, -12.0f),
+                    glm::vec3( 0.0f,  0.0f, -3.0f)
+            };
+
+            shader_program->set_vec3("point_lights[0].position", pointLightPositions[0]);
+            shader_program->set_vec3("point_lights[0].ambient", glm::vec3(0.05f, 0.05f, 0.05f));
+            shader_program->set_vec3("point_lights[0].diffuse", glm::vec3(0.8f, 0.8f, 0.8f));
+            shader_program->set_vec3("point_lights[0].specular", glm::vec3(1.0f, 1.0f, 1.0f));
+            shader_program->set_float("point_lights[0].constant", 1.0f);
+            shader_program->set_float("point_lights[0].linear", 0.09f);
+            shader_program->set_float("point_lights[0].quadratic", 0.032f);
+
+            shader_program->set_vec3("point_lights[1].position", pointLightPositions[1]);
+            shader_program->set_vec3("point_lights[1].ambient", glm::vec3(0.05f, 0.05f, 0.05f));
+            shader_program->set_vec3("point_lights[1].diffuse", glm::vec3(0.8f, 0.8f, 0.8f));
+            shader_program->set_vec3("point_lights[1].specular", glm::vec3(1.0f, 1.0f, 1.0f));
+            shader_program->set_float("point_lights[1].constant", 1.0f);
+            shader_program->set_float("point_lights[1].linear", 0.09f);
+            shader_program->set_float("point_lights[1].quadratic", 0.032f);
 
             shader_program->set_float("light.constant", 1.f);
             shader_program->set_float("light.linear", 0.09f);
