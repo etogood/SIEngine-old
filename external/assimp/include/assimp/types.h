@@ -132,7 +132,7 @@ struct aiPlane {
     aiPlane(ai_real _a, ai_real _b, ai_real _c, ai_real _d) :
             a(_a), b(_b), c(_c), d(_d) {}
 
-    aiPlane(int o) :
+    aiPlane(const aiPlane &o) :
             a(o.a), b(o.b), c(o.c), d(o.d) {}
 
 #endif // !__cplusplus
