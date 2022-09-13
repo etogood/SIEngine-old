@@ -8,6 +8,7 @@
 #include "Render/Scene.h"
 #include "Resources/ResourceManager.h"
 #include "Loader/GLLoad.h"
+#include <assimp/types.h>
 
 
 Render::Scene::params_map_t global_objects_map;
@@ -103,7 +104,7 @@ void set_frame_limit(float fps) {
 int main(int argc, char **argv) {
 	Loader::GLLoad::glfw_init();
 	const auto p_window = Loader::Window(default_window_size, current_coords.c_str(), nullptr, nullptr);
-
+    auto a = aiPlane();
 	if (!p_window.init())
 		return EXIT_FAILURE;
 	glfwSetInputMode(p_window.get_window_pointer(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);

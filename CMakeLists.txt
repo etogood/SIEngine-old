@@ -53,6 +53,9 @@ target_link_libraries(${PROJECT_NAME} glad)
 add_subdirectory(external/glm)
 target_link_libraries(${PROJECT_NAME} glm)
 
+add_subdirectory(external/assimp)
+target_link_libraries(${PROJECT_NAME} assimp)
+
 set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/)
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
