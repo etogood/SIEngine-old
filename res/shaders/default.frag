@@ -99,7 +99,7 @@ vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 frag_pos, vec3 view_dir){
     vec3 reflect_dir = reflect(-light_dir, normal);
     float spec       = pow(max(dot(view_dir, reflect_dir), 0.0), material.shininess);
 
-    float distance    = legth(light.position - frag_pos);
+    float distance    = length(light.position - frag_pos);
     float attenuation = 1.0 / light.constant + light.linear * distance + light.quadratic * (distance * distance);
 
     float theta     = dot(light_dir, normalize(-light.direction));
