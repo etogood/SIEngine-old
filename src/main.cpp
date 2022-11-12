@@ -4,11 +4,9 @@
 #include <iostream>
 #include "Loader/Window.h"
 #include "Render/Objects/Cube.h"
-#include "Render/Objects/Sprite.h"
 #include "Render/Scene.h"
 #include "Resources/ResourceManager.h"
 #include "Loader/GLLoad.h"
-#include <assimp/Importer.hpp>
 
 
 Render::Scene::params_map_t global_objects_map;
@@ -24,7 +22,6 @@ float delta_time = 0.0f;
 float current_time = 0.0f;
 
 
-auto p_sprite = Resources::ResourceManager::get_sprite("default_setup");
 auto p_texture = Resources::ResourceManager::get_texture_2d("default_setup");
 auto p_earth_texture = Resources::ResourceManager::get_texture_2d("default_setup");
 auto p_container_specular_map = Resources::ResourceManager::get_texture_2d("default_setup");
@@ -36,6 +33,7 @@ auto p_cube = Resources::ResourceManager::get_cube("default_setup");
 auto p_light_cube = Resources::ResourceManager::get_cube("default_setup");
 auto p_camera = Resources::ResourceManager::get_camera("default_setup");
 auto p_sphere = Resources::ResourceManager::get_sphere("default_setup");
+auto p_model = Resources::ResourceManager::get_model("default_setup");
 
 
 [[maybe_unused]] glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
@@ -104,7 +102,6 @@ void set_frame_limit(float fps) {
 int main(int argc, char **argv) {
 	Loader::GLLoad::glfw_init();
 	const auto p_window = Loader::Window(default_window_size, current_coords.c_str(), nullptr, nullptr);
-    auto a = Assimp::Importer();
 	if (!p_window.init())
 		return EXIT_FAILURE;
 	glfwSetInputMode(p_window.get_window_pointer(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -165,12 +162,6 @@ int main(int argc, char **argv) {
             return EXIT_FAILURE;
         }
 
-		p_sprite = Resources::ResourceManager::load_sprite("DefaultSprite", "DefaultTexture", glm::uvec2(2U));
-		if (!p_sprite) {
-            std::cerr << "Can't load sprite: " << "DefaultSprite" << std::endl;
-            return EXIT_FAILURE;
-        }
-
         p_cube = Resources::ResourceManager::load_cube("DefaultCube", "DefaultTexture", "ContainerSpecularMap");
         if (!p_cube) {
             std::cerr << "Can't load cube: " << "DefaultCube" << std::endl;
@@ -189,6 +180,12 @@ int main(int argc, char **argv) {
             return EXIT_FAILURE;
         }
 
+        p_model = Resources::ResourceManager::load_model("Backpack",  "res/Models/backpack/backpack.obj");
+        if (!p_model) {
+            std::cerr << "Can't load model: " << "Backpack" << std::endl;
+            return EXIT_FAILURE;
+        }
+
         p_scene = Resources::ResourceManager::load_scene("DefaultScene");
         if (!p_scene) {
             std::cerr << "Can't load scene: " << "DefaultScene" << std::endl;
@@ -197,7 +194,6 @@ int main(int argc, char **argv) {
 
         //                          position
 
-		p_sprite->set_position(glm::vec3(3.f, 0.f, 2.f));
 		p_cube->set_position(glm::vec3(3.2f, 3.2f, .1f));
 		p_sphere->set_position(glm::vec3(-1.f, 0.f, 0.f));
 		p_camera->Position = glm::vec3(1.7f, 0.8f, -5.4f);
@@ -205,27 +201,25 @@ int main(int argc, char **argv) {
 
         //                          size
 
-		p_sprite->set_size(glm::vec3(2.f, 2.f, 0.f));
 		p_cube->set_size(glm::vec3(1.f, 1.f, 1.f));
         p_light_cube->set_size(glm::vec3(0.2f));
 
         //                          rotation
 
-		p_sprite->set_rotation(0.f, glm::vec3(1.f, 1.f, 1.f));
 		p_cube->set_rotation(0.f, glm::vec3(1.f, 0.f, 1.f));
 
         //                          parameters
 
-        Render::Scene::params_t sprite_params = {p_shader_program};
         Render::Scene::params_t cube_params = {p_colorfill_shader_program};
+        Render::Scene::params_t model_params = {p_colorfill_shader_program};
         Render::Scene::params_t sphere_params = {p_colorfill_shader_program};
         Render::Scene::params_t lightcube_params = {p_lightobject_shader_program};
 
         //                           object   parameters (shader)
         //                             |            |
 
-        global_objects_map.emplace(p_sprite, sprite_params);
         global_objects_map.emplace(p_cube, cube_params);
+        global_objects_map.emplace(p_model, model_params);
         global_objects_map.emplace(p_sphere, sphere_params);
         global_objects_map.emplace(p_light_cube, lightcube_params);
 

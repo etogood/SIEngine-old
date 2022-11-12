@@ -34,6 +34,8 @@ namespace Render {
 		void set_matrix4(const std::string &name, glm::mat4 matrix) const;
 
         void set_vec3(const std::string &name, glm::vec3 vector) const;
+
+        GLuint get_id() {return m_id_;}
 	private:
 		static bool create_shader(const std::string &source, GLenum shader_type, GLuint &shader_id);
 

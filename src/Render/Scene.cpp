@@ -6,9 +6,9 @@
 namespace Render {
 
     void Scene::render(GLFWwindow *p_window, Camera *camera,
-                       const std::map<std::shared_ptr<Objects::NullObject>, std::tuple<std::shared_ptr<Render::ShaderProgram>>> &global_objects_map) {
-        for (std::pair<const std::shared_ptr<Objects::NullObject>, std::tuple<std::shared_ptr<Render::ShaderProgram>>> current_object: global_objects_map) {
-            auto shader_program = std::get<0>(current_object.second);
+                       const std::map<std::shared_ptr<Objects::NullObject>, std::tuple<std::shared_ptr<ShaderProgram>>> &global_objects_map) {
+        for (std::pair<const std::shared_ptr<Objects::NullObject>, std::tuple<std::shared_ptr<ShaderProgram>>> current_object: global_objects_map) {
+            std::shared_ptr<ShaderProgram> shader_program = std::get<0>(current_object.second);
             shader_program->use();
 
             glm::mat4 model(1.f);
@@ -65,7 +65,7 @@ namespace Render {
             shader_program->set_matrix4("model", model);
             shader_program->set_matrix4("mvp", mvp);
 
-            current_object.first->draw();
+            current_object.first->draw(shader_program);
         }
     }
 

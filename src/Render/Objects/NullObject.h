@@ -5,11 +5,13 @@
 #ifndef SIENGINE_NULLOBJECT_H
 #define SIENGINE_NULLOBJECT_H
 
+#include <memory>
 #include "glm/vec3.hpp"
 
 #include "../VertexBuffer.h"
 #include "../VertexArray.h"
 #include "../IndexBuffer.h"
+#include "../ShaderProgram.h"
 
 namespace Objects {
     const float PI = 3.14159265f;
@@ -31,7 +33,7 @@ namespace Objects {
 
         NullObject &operator=(const NullObject &) = delete;
 
-        virtual void draw() const {};
+        virtual void draw(std::shared_ptr<Render::ShaderProgram> shader) const {};
 
         void set_position(const glm::vec3 &position);
 

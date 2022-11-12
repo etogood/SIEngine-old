@@ -62,7 +62,7 @@ namespace Objects {
         Render::IndexBuffer::unbind();
     }
 
-    void Sphere::draw() const {
+    void Sphere::draw(std::shared_ptr<Render::ShaderProgram> shader) const {
         m_vertex_array_.bind();
 
         glActiveTexture(GL_TEXTURE0);
