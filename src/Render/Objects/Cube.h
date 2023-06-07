@@ -21,7 +21,7 @@ namespace Objects {
              const std::string &initial_sub_texture,
              std::shared_ptr<Render::Texture2D> p_specular_map);
 
-		void draw(std::shared_ptr<Render::ShaderProgram> shader) const override;
+		void draw() const override;
 
 	private:
         std::shared_ptr<Render::Texture2D> m_p_texture_2d_;

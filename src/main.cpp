@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Loader/Window.h"
 #include "Render/Objects/Cube.h"
+#include "Render/Objects/Sprite.h"
 #include "Render/Scene.h"
 #include "Resources/ResourceManager.h"
 #include "Loader/GLLoad.h"
@@ -22,6 +23,7 @@ float delta_time = 0.0f;
 float current_time = 0.0f;
 
 
+auto p_sprite = Resources::ResourceManager::get_sprite("default_setup");
 auto p_texture = Resources::ResourceManager::get_texture_2d("default_setup");
 auto p_earth_texture = Resources::ResourceManager::get_texture_2d("default_setup");
 auto p_container_specular_map = Resources::ResourceManager::get_texture_2d("default_setup");
@@ -33,7 +35,6 @@ auto p_cube = Resources::ResourceManager::get_cube("default_setup");
 auto p_light_cube = Resources::ResourceManager::get_cube("default_setup");
 auto p_camera = Resources::ResourceManager::get_camera("default_setup");
 auto p_sphere = Resources::ResourceManager::get_sphere("default_setup");
-auto p_model = Resources::ResourceManager::get_model("default_setup");
 
 
 [[maybe_unused]] glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
@@ -61,11 +62,11 @@ void glfw_mouse_callback(GLFWwindow *window, double xpos, double ypos) {
     lastX = xpos;
     lastY = ypos;
 
-    p_camera->process_mouse_movement(xoffset, yoffset);
+    p_camera->ProcessMouseMovement(xoffset, yoffset);
 }
 
 void glfw_scroll_callback(GLFWwindow *window, double xoffset, double yoffset) {
-    p_camera->process_mouse_scroll(static_cast<float>(yoffset));
+    p_camera->ProcessMouseScroll(static_cast<float>(yoffset));
 }
 
 void glfw_window_size_callback(GLFWwindow *pWindow, int width, int height) {
@@ -80,13 +81,13 @@ void glfw_key_callback(GLFWwindow *pWindow, int key, int scancode, int action, i
     if (key == GLFW_KEY_B && action == GLFW_PRESS)
         p_scene->remove_backsides();
 	if (key == GLFW_KEY_W)
-        p_camera->process_keyboard(Render::FORWARD, 0.002f);
+        p_camera->ProcessKeyboard(Render::FORWARD, 0.002f);
     if (key == GLFW_KEY_S)
-        p_camera->process_keyboard(Render::BACKWARD, 0.002f);
+        p_camera->ProcessKeyboard(Render::BACKWARD, 0.002f);
     if (key == GLFW_KEY_A)
-        p_camera->process_keyboard(Render::LEFT, 0.002f);
+        p_camera->ProcessKeyboard(Render::LEFT, 0.002f);
     if (key == GLFW_KEY_D)
-        p_camera->process_keyboard(Render::RIGHT, 0.002f);
+        p_camera->ProcessKeyboard(Render::RIGHT, 0.002f);
 }
 
 void set_frame_limit(float fps) {
@@ -102,6 +103,7 @@ void set_frame_limit(float fps) {
 int main(int argc, char **argv) {
 	Loader::GLLoad::glfw_init();
 	const auto p_window = Loader::Window(default_window_size, current_coords.c_str(), nullptr, nullptr);
+
 	if (!p_window.init())
 		return EXIT_FAILURE;
 	glfwSetInputMode(p_window.get_window_pointer(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -124,10 +126,10 @@ int main(int argc, char **argv) {
 			return EXIT_FAILURE;
 		}
 
-        p_colorfill_shader_program = Resources::ResourceManager::load_shaders("LightCastersShader", "res/shaders/default.vert",
+        p_colorfill_shader_program = Resources::ResourceManager::load_shaders("ColorfillShader", "res/shaders/default.vert",
                                                                     "res/shaders/default.frag");
         if (!p_colorfill_shader_program) {
-            std::cerr << "Can't load shader program: " << "LightCastersShader" << std::endl;
+            std::cerr << "Can't load shader program: " << "ColorfillShader" << std::endl;
             return EXIT_FAILURE;
         }
 
@@ -162,6 +164,12 @@ int main(int argc, char **argv) {
             return EXIT_FAILURE;
         }
 
+		p_sprite = Resources::ResourceManager::load_sprite("DefaultSprite", "DefaultTexture", glm::uvec2(2U));
+		if (!p_sprite) {
+            std::cerr << "Can't load sprite: " << "DefaultSprite" << std::endl;
+            return EXIT_FAILURE;
+        }
+
         p_cube = Resources::ResourceManager::load_cube("DefaultCube", "DefaultTexture", "ContainerSpecularMap");
         if (!p_cube) {
             std::cerr << "Can't load cube: " << "DefaultCube" << std::endl;
@@ -180,12 +188,6 @@ int main(int argc, char **argv) {
             return EXIT_FAILURE;
         }
 
-        p_model = Resources::ResourceManager::load_model("Backpack",  "res/Models/backpack/backpack.obj");
-        if (!p_model) {
-            std::cerr << "Can't load model: " << "Backpack" << std::endl;
-            return EXIT_FAILURE;
-        }
-
         p_scene = Resources::ResourceManager::load_scene("DefaultScene");
         if (!p_scene) {
             std::cerr << "Can't load scene: " << "DefaultScene" << std::endl;
@@ -194,32 +196,35 @@ int main(int argc, char **argv) {
 
         //                          position
 
-		p_cube->set_position(glm::vec3(3.2f, 3.2f, .1f));
+		p_sprite->set_position(glm::vec3(3.f, 0.f, 2.f));
+		p_cube->set_position(glm::vec3(1.2f, 1.2f, 0.1f));
 		p_sphere->set_position(glm::vec3(-1.f, 0.f, 0.f));
 		p_camera->Position = glm::vec3(1.7f, 0.8f, -5.4f);
         p_light_cube->set_position(default_light_pos);
 
         //                          size
 
+		p_sprite->set_size(glm::vec3(2.f, 2.f, 0.f));
 		p_cube->set_size(glm::vec3(1.f, 1.f, 1.f));
         p_light_cube->set_size(glm::vec3(0.2f));
 
         //                          rotation
 
-		p_cube->set_rotation(0.f, glm::vec3(1.f, 0.f, 1.f));
+		p_sprite->set_rotation(0.f, glm::vec3(1.f, 1.f, 1.f));
+		p_cube->set_rotation(90.f, glm::vec3(1.f, 0.f, 1.f));
 
         //                          parameters
 
+        Render::Scene::params_t sprite_params = {p_shader_program};
         Render::Scene::params_t cube_params = {p_colorfill_shader_program};
-        Render::Scene::params_t model_params = {p_colorfill_shader_program};
         Render::Scene::params_t sphere_params = {p_colorfill_shader_program};
         Render::Scene::params_t lightcube_params = {p_lightobject_shader_program};
 
         //                           object   parameters (shader)
         //                             |            |
 
+    //  global_objects_map.emplace(p_sprite, sprite_params);
         global_objects_map.emplace(p_cube, cube_params);
-        global_objects_map.emplace(p_model, model_params);
         global_objects_map.emplace(p_sphere, sphere_params);
         global_objects_map.emplace(p_light_cube, lightcube_params);
 

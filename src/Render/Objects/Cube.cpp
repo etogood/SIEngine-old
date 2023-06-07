@@ -120,7 +120,7 @@ namespace Objects {
 		Render::IndexBuffer::unbind();
 	}
 
-	void Cube::draw(std::shared_ptr<Render::ShaderProgram> shader) const {
+	void Cube::draw() const {
         m_vertex_array_.bind();
 
         glActiveTexture(GL_TEXTURE0);

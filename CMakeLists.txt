@@ -24,7 +24,9 @@ add_executable(${PROJECT_NAME}
     src/Render/VertexBufferLayout.h
         src/Render/Scene.cpp
 		src/Render/Scene.h
-		src/Render/Texture2D.cpp
+    src/Render/Objects/Sprite.cpp
+    src/Render/Objects/Sprite.h
+    src/Render/Texture2D.cpp
     src/Render/Texture2D.h
     src/Render/Objects/Cube.h
     src/Render/Objects/Cube.cpp
@@ -33,11 +35,7 @@ add_executable(${PROJECT_NAME}
     src/Render/Camera.cpp
     src/Render/Camera.h
     src/Render/Objects/Sphere.cpp
-    src/Render/Objects/Sphere.h
-	src/Render/Objects/Mesh.cpp
-	src/Render/Objects/Mesh.h
-	src/Render/Objects/Model.cpp
-	src/Render/Objects/Model.h)
+    src/Render/Objects/Sphere.h)
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 
@@ -54,9 +52,6 @@ target_link_libraries(${PROJECT_NAME} glad)
 
 add_subdirectory(external/glm)
 target_link_libraries(${PROJECT_NAME} glm)
-
-add_subdirectory(external/assimp)
-target_link_libraries(${PROJECT_NAME} assimp)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/)
 

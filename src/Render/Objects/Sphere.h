@@ -22,7 +22,7 @@ namespace Objects {
                unsigned y_segments,
                unsigned x_segments);
 
-        void draw(std::shared_ptr<Render::ShaderProgram> shader) const override;
+        void draw() const override;
 
     private:
 
